@@ -83,6 +83,13 @@ class Signal<Result(Args ...)>
             SlotItem<Result(Args...)> *prev, *next;
             prev = current->prev();
             next = current->next();
+            if (prev == next)
+            {
+                delete pRoot;
+                pRoot = pLastItem = nullptr;
+                return;
+            }
+
             if (prev != nullptr)
             {
                 prev->setNext(next);

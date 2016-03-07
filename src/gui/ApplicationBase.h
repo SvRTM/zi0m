@@ -23,11 +23,7 @@ class ApplicationBase
         ApplicationBase(Widget *mainWidget);
         virtual ~ApplicationBase();
 
-        // virtual void paint(MonitorDevice *w) = 0;
         void init(MonitorDevice *pMonitorDevice);
-
-        //void add(Widget *w);
-        //Widget *find(int x, int y);
 
         void addDevice(InputDevice *device);
         std::vector<InputDevice *> getDevices();
@@ -36,10 +32,9 @@ class ApplicationBase
     private:
         Widget *pMainWidget;
         EventCtrl *pEventCtrl;
-        //std::vector<Widget*> widgets;
+
         std::vector<InputDevice *> devices;
         MonitorDevice *pMonitorDevice;
-        //bool refresh;
 };
 
 #endif /* SRC_GUI_APPLICATIONBASE_H_ */

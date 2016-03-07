@@ -20,6 +20,8 @@ class MonitorDevice
         virtual void fillRect(const Rect &rect, const u_color &color) = 0;
         virtual uint16_t getWidth() = 0;
         virtual uint16_t getHight() = 0;
+
+        u_color RemoveAlpha(u_color foreground, u_color background);
 };
 
 #endif /* GUI_MONITORDEVICE_H_ */

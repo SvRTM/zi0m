@@ -7,15 +7,18 @@
 
 #include "Widget.h"
 #include<iostream>
+
+const ONE_BIT_COLOR Terminus_11;
+
 Widget::Widget()
 {
-    // this->pMonitorDevice = pMonitorDevice;
     visible = true;
     type = EventType::None;
     _refresh = true;
     pEventCtrl = new EventCtrl();
     parent = nullptr;
 
+    font = &Terminus_11;
 }
 Widget::Widget(Widget* parent)
         : Widget()
@@ -28,31 +31,43 @@ Widget::~Widget()
         delete pWidget;
 }
 
-void Widget::paint(MonitorDevice *pMonitorDevice)
+void Widget::eventPaint(MonitorDevice *pMonitorDevice)
 {
-    for (Widget *w : widgets)
+    if (_refresh)
     {
-        w->paint(pMonitorDevice);
+        paint(pMonitorDevice);
+        _refresh = false;
     }
+    for (Widget *w : widgets)
+        w->eventPaint(pMonitorDevice);
 }
 
 Rect *Widget::geometry()
 {
     return &rect;
 }
+
 void Widget::setGeometry(Rect rect)
 {
     this->rect = rect;
     screenRect = frameGeometry();
-    std::cout << "geometry: " << rect.x << ":" << screenRect.x << "    "
-            << rect.y << ":" << screenRect.y << std::endl << std::endl;
+    updateGeometry();
+
+}
+
+void Widget::updateGeometry()
+{
+    screenRect = frameGeometry();
+    for (Widget *w : widgets)
+        w->updateGeometry();
 }
 
 Rect Widget::frameGeometry()
 {
     if (parent == nullptr)
         return rect;
-    return parent->frameGeometry() + rect;
+    //return parent->frameGeometry() + rect;
+    return parent->screenRect + rect;
 }
 
 bool Widget::isVisible() const

@@ -6,21 +6,34 @@
  */
 
 #include "Button.h"
+
 #include <iostream>
 
 Button::Button()
         : Widget()
 {
     borderWidth = 1;
+    label = new Label(this);
+    label->setGeometry(Rect(1, 1, 10, 20));
+    add(label);
 }
 Button::Button(Widget *parent)
         : Widget(parent)
 {
     borderWidth = 1;
+    label = new Label(this);
+    label->setGeometry(Rect(1, 1, 55, 20));
+    add(label);
 }
 
 Button::~Button()
 {
+}
+
+void Button::setText(const std::u16string text)
+{
+    m_text = text;
+    label->setText(m_text);
 }
 
 void Button::pressed()
@@ -37,12 +50,8 @@ void Button::released()
 
 void Button::paint(MonitorDevice *pMonitorDevice)
 {
-    if (!_refresh)
-    {
-        Widget::paint(pMonitorDevice);
-        return;
-    }
-    refresh(false);
+    //Rect screenRect = frameGeometry();
+    pMonitorDevice->fillRect(screenRect, u_color { 0x00D6D2D0U });
 
     u_color colorTL, colorBR;
 
@@ -84,8 +93,4 @@ void Button::paint(MonitorDevice *pMonitorDevice)
     pMonitorDevice->fillRect(
             Rect(screenRect.x, screenRect.y, screenRect.width - 1, borderWidth),
             colorTL);
-
-    // std::cout << "Button paint" << std::endl;
-
-    Widget::paint(pMonitorDevice);
 }

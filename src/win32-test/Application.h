@@ -20,12 +20,9 @@ class Application: public ApplicationBase
         Application();
         virtual ~Application();
 
-        //virtual void paint(MonitorDevice *w);
-
         void mainCycle();
         void init(HWND _hWnd);
         void setMessage(_MSG msg);
-        //void setupUi();
 
     private:
 

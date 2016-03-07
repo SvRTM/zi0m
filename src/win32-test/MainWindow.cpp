@@ -7,6 +7,7 @@
 
 #include "MainWindow.h"
 #include "../gui/Button.h"
+#include "AnotherWindow.h"
 
 MainWindow::MainWindow()
         : Widget()
@@ -20,24 +21,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupUi()
 {
+    setBackground(u_color { 0x00E8F6FAU });
+    //setBackground(u_color { 0x00D6D2D0U });
+
     Button *bt = new Button(this);
     bt->setGeometry(Rect(15, 15, 60, 30));
+    bt->setText(u"1234 Артём");
     add(bt);
 
-    setBackground(u_color { 0x00C8F6FAU });
-}
+    Widget *aw = new AnotherWindow(this);
+    add(aw);
+ }
 
 void MainWindow::paint(MonitorDevice *pMonitorDevice)
 {
-    if (_refresh)
-    {
-        pMonitorDevice->fillRect(
-                Rect(geometry()->x, geometry()->y, geometry()->width,
-                        geometry()->height), background);
-        _refresh = false;
-    }
-
-    Widget::paint(pMonitorDevice);
+    pMonitorDevice->fillRect(screenRect, background);
 }
 
 void MainWindow::setBackground(u_color bg)

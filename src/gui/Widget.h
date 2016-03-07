@@ -11,6 +11,7 @@
 #include "common.h"
 #include "MonitorDevice.h"
 #include "system/EventCtrl.h"
+#include "font/Terminus.h"
 
 #include <vector>
 
@@ -22,11 +23,13 @@ class Widget
         virtual ~Widget();
 
     public:
-        virtual void paint(MonitorDevice *pMonitorDevice);
+        virtual void paint(MonitorDevice *pMonitorDevice) = 0;
+        void eventPaint(MonitorDevice *pMonitorDevice);
 
         // Returns current position in parent. It is either position in view or frame coordinates.
         Rect *geometry();
         void setGeometry(Rect rect);
+        void updateGeometry();
         // Returns current position in absolute screen coordinates.
         Rect frameGeometry();
 
@@ -34,8 +37,6 @@ class Widget
         {
             _refresh = r;
         }
-
-        //void event();
 
         bool isVisible() const;
         void setVisible(bool visible);
@@ -47,7 +48,6 @@ class Widget
         Widget* find(int x, int y);
 
     protected:
-        //MonitorDevice *pMonitorDevice;
         Rect rect;
         Rect screenRect;
 
@@ -57,6 +57,9 @@ class Widget
         EventType type;
 
         std::vector<Widget *> widgets;
+
+        const ONE_BIT_COLOR *font;
+
     public:
         EventCtrl *pEventCtrl;
 

@@ -18,9 +18,8 @@ EmuLcd::EmuLcd(HWND hWnd)
 {
     this->hWnd = hWnd;
 }
-
 EmuLcd::~EmuLcd()
-{    // TODO Auto-generated destructor stub
+{
 }
 
 void EmuLcd::setPoint(int x, int y, const u_color &color)
@@ -62,19 +61,3 @@ uint16_t EmuLcd::getHight()
 {
     return 240;
 }
-
-/*
- public static Color RemoveAlpha(Color foreground, Color background)
- {
- if (foreground.A == 255)
- return foreground;
-
- var alpha = foreground.A / 255.0;
- var diff = 1.0 - alpha;
- return Color.FromArgb(255,
- (byte)(foreground.R * alpha + background.R * diff),
- (byte)(foreground.G * alpha + background.G * diff),
- (byte)(foreground.B * alpha + background.B * diff));
- }
-
- */
