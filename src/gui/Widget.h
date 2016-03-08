@@ -19,15 +19,15 @@ class Widget
 {
     public:
         Widget();
-        Widget(Widget *parent);
+        Widget(Widget * const parent);
         virtual ~Widget();
 
     public:
-        virtual void paint(MonitorDevice *pMonitorDevice) = 0;
-        void eventPaint(MonitorDevice *pMonitorDevice);
+        virtual void paint(MonitorDevice * const pMonitorDevice) = 0;
+        void eventPaint(MonitorDevice * const pMonitorDevice);
 
         // Returns current position in parent. It is either position in view or frame coordinates.
-        Rect *geometry();
+        const Rect *geometry() const;
         void setGeometry(Rect rect);
         void updateGeometry();
         // Returns current position in absolute screen coordinates.
@@ -35,7 +35,7 @@ class Widget
 
         void refresh(bool r = true)
         {
-            _refresh = r;
+            m_refresh = r;
         }
 
         bool isVisible() const;
@@ -52,7 +52,7 @@ class Widget
         Rect screenRect;
 
         bool visible;
-        bool _refresh;
+        bool m_refresh;
 
         EventType type;
 
@@ -64,7 +64,7 @@ class Widget
         EventCtrl *pEventCtrl;
 
     private:
-        Widget *parent;
+        Widget * parent;
 };
 
 #endif /* GUI_WIDGET_H_ */

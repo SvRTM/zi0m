@@ -16,7 +16,7 @@ class MainWindow: public Widget
         MainWindow();
         virtual ~MainWindow();
 
-        void paint(MonitorDevice *pMonitorDevice) override;
+        void paint(MonitorDevice * const pMonitorDevice) override;
         void setupUi();
 
         void setBackground(u_color bg);

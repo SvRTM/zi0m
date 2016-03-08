@@ -16,23 +16,30 @@
 class Button: public Widget
 {
     public:
-        Button();
-        Button(Widget *parent);
+        Button(Widget *parent, Alignment align = Alignment::Center);
         virtual ~Button();
 
+        void setGeometry(Rect rect);
         void setText(const std::u16string text);
 
-        void paint(MonitorDevice *pMonitorDevice) override;
+        void paint(MonitorDevice * const pMonitorDevice) override;
         //virtual Rect geometry() const = 0;
         //virtual void clicked() const = 0;
         void pressed();
         void released();
 
     private:
-        uint16_t borderWidth;
+        const uint16_t borderWidth;
+
+        Alignment align;
         Label *label;
 
         std::u16string m_text;
+
+        struct {
+                Rect rect;
+
+        } sPressed;
 };
 
 #endif /* GUI_BUTTON_H_ */

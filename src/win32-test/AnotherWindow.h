@@ -16,7 +16,7 @@ class AnotherWindow: public Widget
         AnotherWindow(Widget *parent);
         virtual ~AnotherWindow();
 
-        void paint(MonitorDevice *pMonitorDevice) override;
+        void paint(MonitorDevice * const pMonitorDevice) override;
         void setupUi();
 
         void setBackground(u_color bg);

@@ -26,14 +26,14 @@ void MainWindow::setupUi()
 
     Button *bt = new Button(this);
     bt->setGeometry(Rect(15, 15, 60, 30));
-    bt->setText(u"1234 Артём");
+    bt->setText(u"Артём @#");
     add(bt);
 
     Widget *aw = new AnotherWindow(this);
     add(aw);
- }
+}
 
-void MainWindow::paint(MonitorDevice *pMonitorDevice)
+void MainWindow::paint(MonitorDevice * const pMonitorDevice)
 {
     pMonitorDevice->fillRect(screenRect, background);
 }

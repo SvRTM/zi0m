@@ -23,7 +23,7 @@ void Label::setText(const std::u16string &str)
     refresh();
 }
 
-void Label::paint(MonitorDevice *pMonitorDevice)
+void Label::paint(MonitorDevice * const pMonitorDevice)
 {
     if (m_pText == nullptr)
         return;
@@ -32,27 +32,19 @@ void Label::paint(MonitorDevice *pMonitorDevice)
     u_color blkColor;
     blkColor.i_color = COLOR_24B_BLACK;
 
-    for (unsigned i = 0; i < m_pText->length(); i++)
+    int16_t yy = screenRect.y + ((screenRect.height - font->height) / 2);
+
+    for (size_t i = 0; i < m_pText->length(); i++)
     {
-        const ONE_BIT_COLOR::CHAR_INFO *pDescriptor = nullptr;
-        for (unsigned n = 0; n < sizeof(font->blocks) / sizeof(font->blocks[0]);
-                ++n)
-        {
-            const wchar_t ch = m_pText->at(i);
-            const ONE_BIT_COLOR::BLOCK *block = &font->blocks[n];
-            if (ch >= block->startChar && ch <= block->endChar)
-            {
-                pDescriptor = &block->descriptors[ch - block->startChar];
-                break;
-            }
-        }
+        const ONE_BIT_COLOR::CHAR_INFO *pDescriptor = descriptor(
+                m_pText->at(i));
         if (pDescriptor == nullptr)
             // TODO: unknown symbol, draw a rectangle '⛿'
             continue;
 
         const uint8_t *pBitmaps = &font->bitmaps[pDescriptor->position];
 
-        int16_t y = screenRect.y + pDescriptor->fstRow;
+        int16_t y = /*screenRect.y*/yy + pDescriptor->fstRow;
         for (uint8_t nRow = 0;
                 nRow <= pDescriptor->lstRow - pDescriptor->fstRow; nRow++)
         {
@@ -77,3 +69,4 @@ void Label::paint(MonitorDevice *pMonitorDevice)
         scrX += pDescriptor->width;
     }
 }
+

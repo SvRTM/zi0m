@@ -11,16 +11,16 @@
 const ONE_BIT_COLOR Terminus_11;
 
 Widget::Widget()
+        : parent(nullptr)
 {
     visible = true;
     type = EventType::None;
-    _refresh = true;
+    m_refresh = true;
     pEventCtrl = new EventCtrl();
-    parent = nullptr;
 
     font = &Terminus_11;
 }
-Widget::Widget(Widget* parent)
+Widget::Widget(Widget* const parent)
         : Widget()
 {
     this->parent = parent;
@@ -31,18 +31,18 @@ Widget::~Widget()
         delete pWidget;
 }
 
-void Widget::eventPaint(MonitorDevice *pMonitorDevice)
+void Widget::eventPaint(MonitorDevice * const pMonitorDevice)
 {
-    if (_refresh)
+    if (m_refresh)
     {
         paint(pMonitorDevice);
-        _refresh = false;
+        m_refresh = false;
     }
     for (Widget *w : widgets)
         w->eventPaint(pMonitorDevice);
 }
 
-Rect *Widget::geometry()
+const Rect *Widget::geometry() const
 {
     return &rect;
 }
@@ -50,9 +50,8 @@ Rect *Widget::geometry()
 void Widget::setGeometry(Rect rect)
 {
     this->rect = rect;
-    screenRect = frameGeometry();
     updateGeometry();
-
+    refresh();
 }
 
 void Widget::updateGeometry()

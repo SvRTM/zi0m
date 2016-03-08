@@ -20,10 +20,25 @@ class Label: public Widget
 
         void setText(const std::u16string &str);
 
-        void paint(MonitorDevice *pMonitorDevice) override;
+        void paint(MonitorDevice * const pMonitorDevice) override;
 
     private:
-         const std::u16string *m_pText;
+        const ONE_BIT_COLOR::CHAR_INFO *descriptor(const wchar_t ch) const
+        {
+            for (size_t n = 0;
+                    n < sizeof(font->blocks) / sizeof(font->blocks[0]); ++n)
+            {
+                const ONE_BIT_COLOR::BLOCK *block = &font->blocks[n];
+                if (ch >= block->startChar && ch <= block->endChar)
+                    return &block->descriptors[ch - block->startChar];
+            }
+
+            return nullptr;
+        }
+
+    private:
+        const std::u16string *m_pText;
+
 };
 
 #endif /* SRC_GUI_LABEL_H_ */

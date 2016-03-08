@@ -22,13 +22,14 @@ void AnotherWindow::setupUi()
 {
     Button *bt = new Button(this);
     bt->setGeometry(Rect(15, 15, 60, 30));
+    bt->setText(u"Смирнов @#");
     add(bt);
 
     setBackground(u_color { 0x008886FAU });
     //setBackground(u_color { 0x00D6D2D0U });
 }
 
-void AnotherWindow::paint(MonitorDevice *pMonitorDevice)
+void AnotherWindow::paint(MonitorDevice * const pMonitorDevice)
 {
     pMonitorDevice->fillRect(screenRect, background);
 }

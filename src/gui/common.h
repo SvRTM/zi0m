@@ -75,6 +75,10 @@ struct Rect
         {
             return Rect(x + rect.x, y + rect.y, rect.width, rect.height);
         }
+        Rect operator+(Point &pt)
+        {
+            return Rect(x + pt.x, y + pt.y, width, height);
+        }
 };
 
 enum class EventType
@@ -103,6 +107,17 @@ union u_color
                 uint8_t R;
                 uint8_t A;
         } uc_color;
+};
+
+enum Alignment
+{
+    Left = 1,
+    Right = 2,
+    HCenter = 4,
+    Top = 20,
+    Bottom = 40,
+    VCenter = 80,
+    Center = HCenter | VCenter
 };
 
 //////////
