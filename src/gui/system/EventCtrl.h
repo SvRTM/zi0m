@@ -5,8 +5,8 @@
  *      Author: Artem.Smirnov
  */
 
-//#ifndef SRC_GUI_SYSTEM_EVENTCTRL_H_
-//#define SRC_GUI_SYSTEM_EVENTCTRL_H_
+#ifndef SRC_GUI_SYSTEM_EVENTCTRL_H_
+#define SRC_GUI_SYSTEM_EVENTCTRL_H_
 #pragma once
 
 #include "../common.h"
@@ -22,4 +22,4 @@ class EventCtrl
         void process(_MSG msg, Widget *widget);
 };
 
-//#endif /* SRC_GUI_SYSTEM_EVENTCTRL_H_ */
+#endif /* SRC_GUI_SYSTEM_EVENTCTRL_H_ */

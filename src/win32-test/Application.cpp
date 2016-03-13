@@ -18,14 +18,28 @@ Application::Application()
 {
     addDevice(new EmuTouch());
 }
+
+Application::Application(const x11 *x)
+        : ApplicationBase(new MainWindow())
+{
+    _x11 = x;
+    addDevice(new EmuTouch());
+}
 Application::~Application()
 {
 }
 
+#ifdef WIN32
 void Application::init(HWND _hWnd)
 {
     ApplicationBase::init(new EmuLcd(_hWnd));
 }
+#elif LINUX
+void Application::init()
+{
+    ApplicationBase::init(new EmuLcd(_x11->display,_x11->window,_x11->gc,_x11->colormap));
+}
+#endif
 
 void Application::mainCycle()
 {

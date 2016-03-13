@@ -9,11 +9,10 @@
 
 #include <iostream>
 
-Button::Button(Widget *parent, Alignment align)
+Button::Button(Widget *parent)
         : Widget(parent), borderWidth(1)
 {
-    this->align = align;
-    label = new Label(this);
+    label = new Label(this, Alignment::Center);
     add(label);
 }
 Button::~Button()
@@ -22,9 +21,6 @@ Button::~Button()
 
 void Button::setGeometry(Rect rect)
 {
-    //label->setGeometry(
-    //        Rect(2 * borderWidth, 2 * borderWidth, rect.width - 2 * borderWidth,
-    //                rect.height - 2 * borderWidth));
     sPressed.rect = Rect(2 * borderWidth, 2 * borderWidth,
             rect.width - 4 * borderWidth, rect.height - 4 * borderWidth);
     Widget::setGeometry(rect);

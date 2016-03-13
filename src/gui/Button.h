@@ -16,7 +16,7 @@
 class Button: public Widget
 {
     public:
-        Button(Widget *parent, Alignment align = Alignment::Center);
+        Button(Widget *parent);
         virtual ~Button();
 
         void setGeometry(Rect rect);
@@ -31,12 +31,12 @@ class Button: public Widget
     private:
         const uint16_t borderWidth;
 
-        Alignment align;
         Label *label;
 
         std::u16string m_text;
 
-        struct {
+        struct
+        {
                 Rect rect;
 
         } sPressed;

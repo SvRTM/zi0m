@@ -83,12 +83,12 @@ struct Rect
 
 enum class EventType
 {
-    None, TouchButtonPress, TouchButtonRelease
+    _None, TouchButtonPress, TouchButtonRelease
 };
 
 enum class Message
 {
-    None, TouchUp, TouchDown
+    _None, TouchUp, TouchDown
 };
 struct _MSG
 {
@@ -111,12 +111,8 @@ union u_color
 
 enum Alignment
 {
-    Left = 1,
-    Right = 2,
-    HCenter = 4,
-    Top = 20,
-    Bottom = 40,
-    VCenter = 80,
+    Left = 1, Right = 2, HCenter = 4, Top = 16, Bottom = 32, VCenter = 64,
+
     Center = HCenter | VCenter
 };
 
@@ -155,5 +151,25 @@ enum Alignment
 #define COLOR_24B_RED           0x00FF0000U
 #define COLOR_24B_REDD          0x00800000U
 #define COLOR_24B_BLACK         0x00000000U
+
+/* some RGB color definitions                                                 */
+#define COLOR_16B_BLACK           0x0000      /*   0,   0,   0 */
+#define COLOR_16B_NAVY            0x000F      /*   0,   0, 128 */
+#define COLOR_16B_DARKGREEN       0x03E0      /*   0, 128,   0 */
+#define COLOR_16B_DARKCYAN        0x03EF      /*   0, 128, 128 */
+#define COLOR_16B_MAROON          0x7800      /* 128,   0,   0 */
+#define COLOR_16B_PURPLE          0x780F      /* 128,   0, 128 */
+#define COLOR_16B_OLIVE           0x7BE0      /* 128, 128,   0 */
+#define COLOR_16B_LIGHTGREY       0xC618      /* 192, 192, 192 */
+#define COLOR_16B_DARKGREY        0x7BEF      /* 128, 128, 128 */
+#define COLOR_16B_BLUE            0x001F      /*   0,   0, 255 */
+#define COLOR_16B_GREEN           0x07E0      /*   0, 255,   0 */
+#define COLOR_16B_CYAN            0x07FF      /*   0, 255, 255 */
+#define COLOR_16B_RED             0xF800      /* 255,   0,   0 */
+#define COLOR_16B_MAGENTA         0xF81F      /* 255,   0, 255 */
+#define COLOR_16B_YELLOW          0xFFE0      /* 255, 255,   0 */
+#define COLOR_16B_WHITE           0xFFFF      /* 255, 255, 255 */
+#define COLOR_16B_ORANGE          0xFD20      /* 255, 165,   0 */
+#define COLOR_16B_GREENYELLOW     0xAFE5      /* 173, 255,  47 */
 
 #endif /* GUI_COMMON_H_ */

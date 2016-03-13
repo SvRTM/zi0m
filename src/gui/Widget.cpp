@@ -8,17 +8,20 @@
 #include "Widget.h"
 #include<iostream>
 
-const ONE_BIT_COLOR Terminus_11;
+//const ONE_BIT_COLOR Terminus_11;
 
 Widget::Widget()
         : parent(nullptr)
 {
+    // ONE_BIT_COLOR one;
+
+    font = &Singleton<ONE_BIT_COLOR>::GetInstance(); //&Terminus_11;
+
     visible = true;
-    type = EventType::None;
+    type = EventType::_None;
     m_refresh = true;
     pEventCtrl = new EventCtrl();
 
-    font = &Terminus_11;
 }
 Widget::Widget(Widget* const parent)
         : Widget()

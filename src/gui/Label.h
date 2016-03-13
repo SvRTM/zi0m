@@ -11,14 +11,16 @@
 #include "Widget.h"
 
 #include <string>
+#include <iostream>
 
 class Label: public Widget
 {
     public:
-        Label(Widget *parent);
+        Label(Widget *parent,
+                uint8_t align = Alignment::VCenter | Alignment::Left);
         virtual ~Label();
 
-        void setText(const std::u16string &str);
+        void setText(const std::u16string str);
 
         void paint(MonitorDevice * const pMonitorDevice) override;
 
@@ -33,12 +35,28 @@ class Label: public Widget
                     return &block->descriptors[ch - block->startChar];
             }
 
-            return nullptr;
+            const ONE_BIT_COLOR::BLOCK *block =
+                    &font->blocks[sizeof(font->blocks) / sizeof(font->blocks[0])
+                            - 1];
+            return &block->descriptors[0];
+        }
+
+        uint16_t textWidth()
+        {
+            uint16_t width = 0;
+            for (size_t i = 0; i < m_pText.length(); i++)
+            {
+                const ONE_BIT_COLOR::CHAR_INFO *pDescriptor = descriptor(
+                        m_pText.at(i));
+                width += pDescriptor->width;
+            }
+            return width;
         }
 
     private:
-        const std::u16string *m_pText;
-
+        uint8_t align;
+        std::u16string m_pText;
+        uint32_t m_textWidth;
 };
 
 #endif /* SRC_GUI_LABEL_H_ */

@@ -36,7 +36,7 @@ void Ctrl::quantum()
     for (InputDevice *device : devices)
     {
         _MSG msg = device->getMessage();
-        if (Message::None == msg.message)
+        if (Message::_None == msg.message)
             continue;
         callback(msg);
     }

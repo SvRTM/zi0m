@@ -9,12 +9,20 @@
 #define WIN32_TEST_EMULCD_H_
 
 #include "../gui/MonitorDevice.h"
-#include <windows.h>
 
+#ifdef WIN32
+#include <windows.h>
+#elif LINUX
+#include <X11/Xlib.h>
+#endif
 class EmuLcd: public MonitorDevice
 {
     public:
+#ifdef WIN32
         EmuLcd(HWND hWnd);
+#else
+        EmuLcd(Display *display, Drawable window, GC gc, Colormap cmap);
+#endif
         virtual ~EmuLcd();
 
         void onPaint();
@@ -26,7 +34,14 @@ class EmuLcd: public MonitorDevice
         inline uint16_t getHight() override;
 
     private:
+#ifdef WIN32
         HWND hWnd;
+#else
+        Display *display;
+        Drawable window;
+        GC gc;
+        Colormap cmap;
+#endif
 };
 
 #endif /* WIN32_TEST_EMULCD_H_ */

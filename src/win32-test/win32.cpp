@@ -9,6 +9,8 @@
  *                                                                          *
  ****************************************************************************/
 
+#ifdef WIN32
+
 #define WIN32_LEAN_AND_MEAN  /* speed up compilations */
 #include <windows.h>
 #include <windowsx.h>
@@ -76,7 +78,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
      */
     // InitNetworkAddressControl();
     /* Register the main window class */
-    wc.lpszClassName = _T("testwinaClass");
+    wc.lpszClassName = _T("zi0mClass");
     wc.lpfnWndProc = MainWndProc;
     wc.style = CS_OWNDC | CS_VREDRAW | CS_HREDRAW;
     wc.hInstance = ghInstance;
@@ -90,8 +92,8 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         return 1;
 
     /* Create the main window */
-    hwnd = CreateWindow(_T("testwinaClass"),
-            _T("testwinapp Program"),
+    hwnd = CreateWindow(_T("zi0mClass"),
+            _T("zi0m"),
             WS_OVERLAPPEDWINDOW,    //|WS_HSCROLL|WS_VSCROLL,
             CW_USEDEFAULT,
             CW_USEDEFAULT,
@@ -277,3 +279,5 @@ void init_for_win32()
 {
     WinMain(GetModuleHandle(NULL), NULL, NULL, SW_SHOW);
 }
+
+#endif

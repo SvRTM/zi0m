@@ -43,7 +43,7 @@ void ApplicationBase::quantum()
     for (InputDevice *device : devices)
     {
         msg = device->getMessage();
-        if (Message::None != msg.message)
+        if (Message::_None != msg.message)
             break;
     }
     pEventCtrl->process(msg, pMainWidget);

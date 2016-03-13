@@ -26,7 +26,7 @@ void MainWindow::setupUi()
 
     Button *bt = new Button(this);
     bt->setGeometry(Rect(15, 15, 60, 30));
-    bt->setText(u"Артём @#");
+    //bt->setText(u"Артём @#");
     add(bt);
 
     Widget *aw = new AnotherWindow(this);
