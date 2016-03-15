@@ -6,6 +6,7 @@ set( SOURCES
 
 set(HEADERS
     ${HEADERS}
+    "${CMAKE_CURRENT_SOURCE_DIR}/singleton.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/EventCtrl.h"
     PARENT_SCOPE
 )

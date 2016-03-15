@@ -17,16 +17,17 @@ EventCtrl::~EventCtrl()
 {
 }
 
-void EventCtrl::process(_MSG msg, Widget *widget)
+void EventCtrl::process(const _MSG msg, Widget *const widget) const
 {
-    Button *btn = dynamic_cast<Button *>(widget);
+    Button *const btn = dynamic_cast<Button *const>(widget);
     if (btn == nullptr)
     {
-        Widget *w = widget->find(msg.pt.x, msg.pt.y);
+        Widget *w = widget->findChild(msg.pt.x, msg.pt.y);
         if (w != nullptr)
-            w->pEventCtrl->process(msg, w);
+            w->event()->process(msg, w);
         return;
     }
+
     switch (msg.message)
     {
         case Message::TouchDown:

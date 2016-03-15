@@ -16,6 +16,7 @@ class EmuTouch final : public InputDevice
         EmuTouch();
         virtual ~EmuTouch();
 
+    public:
         void setMessage(_MSG msg);
         bool isPressed();
         _MSG getMessage() const override;

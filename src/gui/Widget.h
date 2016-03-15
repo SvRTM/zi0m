@@ -8,10 +8,10 @@
 #ifndef GUI_WIDGET_H_
 #define GUI_WIDGET_H_
 
-#include "common.h"
 #include "MonitorDevice.h"
 #include "system/EventCtrl.h"
 #include "font/Terminus.h"
+#include "common.h"
 
 #include <vector>
 
@@ -19,19 +19,24 @@ class Widget
 {
     public:
         Widget();
-        Widget(Widget * const parent);
+        explicit Widget(Widget *const parent);
         virtual ~Widget();
 
     public:
-        virtual void paint(MonitorDevice * const pMonitorDevice) = 0;
-        void eventPaint(MonitorDevice * const pMonitorDevice);
+        virtual void paint(MonitorDevice *const pMonitorDevice) = 0;
+        void eventPaint(MonitorDevice *const pMonitorDevice);
+
+        const EventCtrl  *event() const
+        {
+            return pEventCtrl;
+        }
 
         // Returns current position in parent. It is either position in view or frame coordinates.
         const Rect *geometry() const;
         void setGeometry(Rect rect);
         void updateGeometry();
         // Returns current position in absolute screen coordinates.
-        Rect frameGeometry();
+        const Rect frameGeometry();
 
         void refresh(bool r = true)
         {
@@ -44,10 +49,12 @@ class Widget
         void setEventType(EventType type);
         EventType eventType() const;
 
-        void add(Widget *w);
-        Widget* find(int x, int y);
+        void addWidget(Widget *const w) ;
+        Widget *findChild(int16_t x, int16_t y) const;
 
     protected:
+        const ONE_BIT_COLOR *font;
+
         Rect rect;
         Rect screenRect;
 
@@ -58,13 +65,9 @@ class Widget
 
         std::vector<Widget *> widgets;
 
-        const ONE_BIT_COLOR *font;
-
-    public:
-        EventCtrl *pEventCtrl;
-
     private:
-        Widget * parent;
+        const Widget *parent;
+        const EventCtrl *pEventCtrl;
 };
 
 #endif /* GUI_WIDGET_H_ */

@@ -6,45 +6,42 @@
  */
 
 #include "Application.h"
+
 #include "EmuTouch.h"
 #include "EmuLcd.h"
 #include "../gui/Button.h"
 #include "MainWindow.h"
 
-#include <iostream>
-
+#ifdef PLATFORM_WIN32
 Application::Application()
-        : ApplicationBase(new MainWindow())
+    : ApplicationBase(new MainWindow())
 {
     addDevice(new EmuTouch());
 }
-
+#elif PLATFORM_LINUX
 Application::Application(const x11 *x)
-        : ApplicationBase(new MainWindow())
+    : ApplicationBase(new MainWindow())
 {
-    _x11 = x;
+    m_pX11 = x;
     addDevice(new EmuTouch());
 }
+#endif
 Application::~Application()
 {
 }
 
-#ifdef WIN32
+#ifdef PLATFORM_WIN32
 void Application::init(HWND _hWnd)
 {
     ApplicationBase::init(new EmuLcd(_hWnd));
 }
-#elif LINUX
+#elif PLATFORM_LINUX
 void Application::init()
 {
-    ApplicationBase::init(new EmuLcd(_x11->display,_x11->window,_x11->gc,_x11->colormap));
+    ApplicationBase::init(new EmuLcd(&m_pX11->param));
 }
 #endif
 
-void Application::mainCycle()
-{
-    quantum();
-}
 void Application::setMessage(_MSG msg)
 {
     for (InputDevice *device : getDevices())

@@ -11,18 +11,19 @@
 #include "Widget.h"
 
 #include <string>
-#include <iostream>
 
 class Label: public Widget
 {
     public:
-        Label(Widget *parent,
-                uint8_t align = Alignment::VCenter | Alignment::Left);
+        explicit Label(Widget *parent,
+                       uint8_t align = Alignment::VCenter | Alignment::Left);
         virtual ~Label();
 
-        void setText(const std::u16string str);
+    public:
+        void setText(const std::u16string text);
+        void setAlignment(uint8_t align);
 
-        void paint(MonitorDevice * const pMonitorDevice) override;
+        void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:
         const ONE_BIT_COLOR::CHAR_INFO *descriptor(const wchar_t ch) const
@@ -36,18 +37,16 @@ class Label: public Widget
             }
 
             const ONE_BIT_COLOR::BLOCK *block =
-                    &font->blocks[sizeof(font->blocks) / sizeof(font->blocks[0])
-                            - 1];
+                &font->blocks[sizeof(font->blocks) / sizeof(font->blocks[0]) - 1];
             return &block->descriptors[0];
         }
 
-        uint16_t textWidth()
+        const uint16_t textWidth() const
         {
             uint16_t width = 0;
-            for (size_t i = 0; i < m_pText.length(); i++)
+            for (size_t n = 0; n < m_text.length(); n++)
             {
-                const ONE_BIT_COLOR::CHAR_INFO *pDescriptor = descriptor(
-                        m_pText.at(i));
+                const ONE_BIT_COLOR::CHAR_INFO *pDescriptor = descriptor(m_text.at(n));
                 width += pDescriptor->width;
             }
             return width;
@@ -55,7 +54,7 @@ class Label: public Widget
 
     private:
         uint8_t align;
-        std::u16string m_pText;
+        std::u16string m_text;
         uint32_t m_textWidth;
 };
 

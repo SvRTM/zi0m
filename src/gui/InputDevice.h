@@ -18,7 +18,6 @@ class InputDevice
 
     public:
         virtual _MSG getMessage() const = 0;
-
 };
 
 #endif /* GUI_INPUTDEVICE_H_ */

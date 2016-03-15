@@ -8,7 +8,6 @@
 #ifndef SRC_GUI_APPLICATIONBASE_H_
 #define SRC_GUI_APPLICATIONBASE_H_
 
-#include "system/Signal.h"
 #include "system/EventCtrl.h"
 
 #include "Widget.h"
@@ -20,13 +19,13 @@
 class ApplicationBase
 {
     public:
-        ApplicationBase(Widget *mainWidget);
+        explicit ApplicationBase(Widget *const mainWidget);
         virtual ~ApplicationBase();
 
         void init(MonitorDevice *pMonitorDevice);
 
         void addDevice(InputDevice *device);
-        std::vector<InputDevice *> getDevices();
+        const std::vector<InputDevice *> getDevices();
         void quantum();
 
     private:

@@ -6,25 +6,24 @@
  */
 
 #include "Widget.h"
-#include<iostream>
 
-//const ONE_BIT_COLOR Terminus_11;
 
 Widget::Widget()
-        : parent(nullptr)
+    : parent(nullptr)
 {
-    // ONE_BIT_COLOR one;
-
-    font = &Singleton<ONE_BIT_COLOR>::GetInstance(); //&Terminus_11;
-
-    visible = true;
-    type = EventType::_None;
-    m_refresh = true;
+    font = &Singleton<ONE_BIT_COLOR>::instance();
     pEventCtrl = new EventCtrl();
 
+    rect = {};
+    screenRect = {};
+
+    visible = true;
+    m_refresh = true;
+
+    type = EventType::_None;
 }
-Widget::Widget(Widget* const parent)
-        : Widget()
+Widget::Widget(Widget *const parent)
+    : Widget()
 {
     this->parent = parent;
 }
@@ -34,7 +33,7 @@ Widget::~Widget()
         delete pWidget;
 }
 
-void Widget::eventPaint(MonitorDevice * const pMonitorDevice)
+void Widget::eventPaint(MonitorDevice *const pMonitorDevice)
 {
     if (m_refresh)
     {
@@ -64,12 +63,12 @@ void Widget::updateGeometry()
         w->updateGeometry();
 }
 
-Rect Widget::frameGeometry()
+const Rect Widget::frameGeometry()
 {
     if (parent == nullptr)
         return rect;
-    //return parent->frameGeometry() + rect;
-    return parent->screenRect + rect;
+    Rect parentRect = parent->screenRect;
+    return parentRect + rect;
 }
 
 bool Widget::isVisible() const
@@ -91,11 +90,11 @@ EventType Widget::eventType() const
     return type;
 }
 
-void Widget::add(Widget *w)
+void Widget::addWidget(Widget *const w)
 {
     widgets.push_back(w);
 }
-Widget *Widget::find(int x, int y)
+Widget *Widget::findChild(int16_t x, int16_t y) const
 {
     for (Widget *w : widgets)
         if (w->screenRect.contains(x, y))

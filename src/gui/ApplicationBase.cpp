@@ -6,17 +6,19 @@
  */
 
 #include "ApplicationBase.h"
-#include "../win32-test/EmuTouch.h"
+#include "win32-test/EmuTouch.h"
 
-ApplicationBase::ApplicationBase(Widget *mainWidget)
-        : pMainWidget(mainWidget), pMonitorDevice(nullptr)
+
+ApplicationBase::ApplicationBase( Widget *const mainWidget)
+    : pMainWidget(mainWidget), pMonitorDevice(nullptr)
 {
     pEventCtrl = new EventCtrl();
 }
 
 ApplicationBase::~ApplicationBase()
 {
-    delete pMainWidget;
+    if (pMainWidget)
+        delete pMainWidget;
     for (InputDevice *device : devices)
         delete device;
     delete pEventCtrl;
@@ -32,7 +34,7 @@ void ApplicationBase::addDevice(InputDevice *device)
     devices.push_back(device);
 }
 
-std::vector<InputDevice *> ApplicationBase::getDevices()
+const std::vector<InputDevice *> ApplicationBase::getDevices()
 {
     return devices;
 }

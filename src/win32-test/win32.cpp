@@ -51,7 +51,7 @@ static _MSG _msg;
  *                                                                          *
  ****************************************************************************/
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-        LPSTR lpszCmdLine, int nCmdShow)
+                   LPSTR lpszCmdLine, int nCmdShow)
 {
     //INITCOMMONCONTROLSEX icc;
     WNDCLASS wc;
@@ -93,17 +93,17 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     /* Create the main window */
     hwnd = CreateWindow(_T("zi0mClass"),
-            _T("zi0m"),
-            WS_OVERLAPPEDWINDOW,    //|WS_HSCROLL|WS_VSCROLL,
-            CW_USEDEFAULT,
-            CW_USEDEFAULT,
-            320,
-            240,
-            NULL,
-            NULL,
-            ghInstance,
-            NULL
-    );
+                        _T("zi0m"),
+                        WS_OVERLAPPEDWINDOW,    //|WS_HSCROLL|WS_VSCROLL,
+                        CW_USEDEFAULT,
+                        CW_USEDEFAULT,
+                        320,
+                        240,
+                        NULL,
+                        NULL,
+                        ghInstance,
+                        NULL
+                       );
     if (!hwnd)
         return 1;
     app.init(hwnd);
@@ -126,9 +126,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
             return -1;
         }
         else if (fRet == 0) /* WM_QUIT */
-        {
             break;
-        }
         else /* Not error or WM_QUIT */
         {
             TranslateMessage(&msg);
@@ -159,7 +157,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
  ****************************************************************************/
 
 static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam,
-        LPARAM lParam)
+                                    LPARAM lParam)
 {
     switch (msg)
     {
@@ -169,41 +167,42 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam,
             break;
         case WM_LBUTTONDOWN:
             Main_OnLButtonDown(hwnd, false, (int) (short) (LOWORD(lParam)),
-                    (int) (short) (HIWORD(lParam)), (UINT) (wParam));
+                               (int) (short) (HIWORD(lParam)), (UINT) (wParam));
             //HANDLE_MSG(hwnd, WM_LBUTTONDOWN, Main_OnLButtonDown);
             break;
         case WM_LBUTTONUP:
             Main_OnLButtonUp(hwnd, (int) (short) (LOWORD(lParam)),
-                    (int) (short) (HIWORD(lParam)), (UINT) wParam);
+                             (int) (short) (HIWORD(lParam)), (UINT) wParam);
             //HANDLE_MSG(hwnd, WM_LBUTTONUP, Main_OnLButtonUp);
             break;
-        HANDLE_MSG(hwnd, WM_COMMAND, Main_OnCommand)
-;            HANDLE_MSG(hwnd, WM_DESTROY, Main_OnDestroy);
-            /* TODO: enter more messages here */
-            default:
+            HANDLE_MSG(hwnd, WM_COMMAND, Main_OnCommand)
+            ;
+            HANDLE_MSG(hwnd, WM_DESTROY, Main_OnDestroy);
+        /* TODO: enter more messages here */
+        default:
             return DefWindowProc(hwnd, msg, wParam, lParam);
-        }
-        app.setMessage(_msg);
-        app.mainCycle();
-
-        _msg.pt.x = -1;
-        _msg.pt.y = -1;
-        _msg.message = Message::None;
-        app.setMessage(_msg);
-
-        return 0L;
     }
+    app.setMessage(_msg);
+    app.mainCycle();
 
-    /****************************************************************************
-     *                                                                          *
-     * Function: Main_OnPaint                                                   *
-     *                                                                          *
-     * Purpose : Process a WM_PAINT message.                                    *
-     *                                                                          *
-     * History : Date      Reason                                               *
-     *           00/00/00  Created                                              *
-     *                                                                          *
-     ****************************************************************************/
+    _msg.pt.x = -1;
+    _msg.pt.y = -1;
+    _msg.message = Message::None;
+    app.setMessage(_msg);
+
+    return 0L;
+}
+
+/****************************************************************************
+ *                                                                          *
+ * Function: Main_OnPaint                                                   *
+ *                                                                          *
+ * Purpose : Process a WM_PAINT message.                                    *
+ *                                                                          *
+ * History : Date      Reason                                               *
+ *           00/00/00  Created                                              *
+ *                                                                          *
+ ****************************************************************************/
 
 static void Main_OnPaint(HWND hwnd)
 {
@@ -213,12 +212,12 @@ static void Main_OnPaint(HWND hwnd)
     BeginPaint(hwnd, &ps);
     GetClientRect(hwnd, &rc);
     DrawText(ps.hdc, _T("Hello, Windows!"), -1, &rc,
-    DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+             DT_SINGLELINE | DT_CENTER | DT_VCENTER);
     EndPaint(hwnd, &ps);
 }
 
 static void Main_OnLButtonDown(HWND hwnd, BOOL fDoubleClick, int x, int y,
-        UINT keyFlags)
+                               UINT keyFlags)
 {
     _msg.pt.x = x;
     _msg.pt.y = y;
@@ -253,9 +252,9 @@ static void Main_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 {
     switch (id)
     {
-        //case IDM_ABOUT:
-        ;
-        /* TODO: Enter more commands here */
+            //case IDM_ABOUT:
+            ;
+            /* TODO: Enter more commands here */
     }
 }
 

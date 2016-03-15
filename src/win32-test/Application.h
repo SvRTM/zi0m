@@ -10,34 +10,38 @@
 
 #include "../gui/ApplicationBase.h"
 #include "MainWindow.h"
+#include "config.h"
 
-#ifdef WIN32
-#include <windows.h>
-#undef min
-#elif LINUX
-#include "x11.h"
+#ifdef PLATFORM_WIN32
+    #include <windows.h>
+    #undef min
+#elif PLATFORM_LINUX
+    #include "x11.h"
 #endif
 
 class Application: public ApplicationBase
 {
     public:
+#ifdef PLATFORM_WIN32
         Application();
+#elif PLATFORM_LINUX
         Application(const x11 *x);
+#endif
         virtual ~Application();
 
-        void mainCycle();
-
-#ifdef WIN32
+    public:
+#ifdef PLATFORM_WIN32
         void init(HWND _hWnd);
-#elif LINUX
+#elif PLATFORM_LINUX
         void init();
 #endif
 
         void setMessage(_MSG msg);
 
     private:
-        const x11 *_x11;
-
+#if PLATFORM_LINUX
+        const x11 *m_pX11;
+#endif
 };
 
 #endif /* WIN32_TEST_APPLICATION_H_ */

@@ -5,39 +5,20 @@
  *      Author: Artem.Smirnov
  */
 
-#include "win32.h"
-#include "x11.h"
 #include "Application.h"
 
-#include <thread>
+#ifdef PLATFORM_WIN32
+    #include "win32.h"
+#elif PLATFORM_LINUX
+    #include "x11.h"
+#endif
 
 int main()
 {
-#ifdef WIN32
+#ifdef PLATFORM_WIN32
     init_for_win32();
-    //while(true);
-#elif LINUX
-
-    //std::thread func_thread([&x]()->void{
-    //    x.isBtPressed();
-//    });
-    XInitThreads();
+#elif PLATFORM_LINUX
     x11 x;
-
-    // main cycle
-    std::thread func_thread([x]()->void
-            {
-                Application app(&x);
-                app.init();
-
-                while (true)
-                {
-                    app.quantum();
-                }
-            });
-
-    //func_thread.join();
-    x.run();
-
+    x.createWindow();
 #endif
 }

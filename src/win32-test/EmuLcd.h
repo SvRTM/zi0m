@@ -5,43 +5,42 @@
  *      Author: Artem.Smirnov
  */
 
-#ifndef WIN32_TEST_EMULCD_H_
-#define WIN32_TEST_EMULCD_H_
+#ifndef X11_TEST_EMULCD_H_
+#define X11_TEST_EMULCD_H_
 
 #include "../gui/MonitorDevice.h"
+#include "config.h"
 
-#ifdef WIN32
-#include <windows.h>
-#elif LINUX
-#include <X11/Xlib.h>
+#ifdef PLATFORM_WIN32
+    #include <windows.h>
+#elif PLATFORM_LINUX
+    #include "x11.h"
+    #include <X11/Xlib.h>
 #endif
+
 class EmuLcd: public MonitorDevice
 {
     public:
-#ifdef WIN32
-        EmuLcd(HWND hWnd);
-#else
-        EmuLcd(Display *display, Drawable window, GC gc, Colormap cmap);
+#ifdef PLATFORM_WIN32
+        explicit EmuLcd(HWND hWnd);
+#elif PLATFORM_LINUX
+        explicit EmuLcd(const RenderData *x11data);
 #endif
         virtual ~EmuLcd();
 
-        void onPaint();
-
-        void setPoint(int x, int y, const u_color &color);
+    public:
+        void setPoint(int16_t x, int16_t y, const u_color &color);
         void fillRect(const Rect &rect, const u_color &color);
 
-        inline uint16_t getWidth() override;
-        inline uint16_t getHight() override;
+        inline const uint16_t getWidth() const override;
+        inline const uint16_t getHight() const override;
 
     private:
-#ifdef WIN32
+#ifdef PLATFORM_WIN32
         HWND hWnd;
-#else
-        Display *display;
-        Drawable window;
-        GC gc;
-        Colormap cmap;
+#elif PLATFORM_LINUX
+        const RenderData *x11data;
 #endif
 };
 
-#endif /* WIN32_TEST_EMULCD_H_ */
+#endif /* X11_TEST_EMULCD_H_ */

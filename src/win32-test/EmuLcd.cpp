@@ -6,47 +6,31 @@
  */
 
 #include "EmuLcd.h"
-#include <iostream>
 
-#ifdef WIN32
-#include <windows.h>
-#undef min
-#undef max
-#elif LINUX
-#endif
-
-int offset_x = 0;
-int offset_y = 0;
-
-#ifdef WIN32
+#ifdef PLATFORM_WIN32
 EmuLcd::EmuLcd(HWND hWnd)
 {
     this->hWnd = hWnd;
 }
-#elif LINUX
-EmuLcd::EmuLcd(Display *display, Drawable window, GC gc, Colormap cmap)
+#elif PLATFORM_LINUX
+EmuLcd::EmuLcd(const RenderData *x11data)
 {
-    this->display = display;
-    this->window = window;
-    this->gc = gc;
-    this->cmap = cmap;
+    this->x11data = x11data;
 }
 #endif
 EmuLcd::~EmuLcd()
 {
 }
 
-void EmuLcd::setPoint(int x, int y, const u_color &color)
+void EmuLcd::setPoint(int16_t x, int16_t y, const u_color &color)
 {
-#ifdef WIN32
+#ifdef PLATFORM_WIN32
     HDC hdc = GetDC(hWnd);
-    SetPixel(hdc, x + offset_x, y + offset_y,
-            RGB(color.uc_color.R, color.uc_color.G, color.uc_color.B));
+    SetPixel(hdc, x, y, RGB(color.uc_color.R, color.uc_color.G, color.uc_color.B));
     ReleaseDC(hWnd, hdc);
-#elif LINUX
-    XColor xcolour
-    {};
 
+#elif PLATFORM_LINUX
+    XColor xcolour;
     uint16_t r = color.uc_color.R;
     xcolour.red = r << 8;
     uint16_t g = color.uc_color.G;
@@ -55,33 +39,31 @@ void EmuLcd::setPoint(int x, int y, const u_color &color)
     xcolour.blue = b << 8;
 
     xcolour.flags = DoRed | DoGreen | DoBlue;
-    XAllocColor(display, cmap, &xcolour);
-    XSetForeground(display, gc, xcolour.pixel);
-    XDrawPoint(display, window, gc, x + offset_x, y + offset_y);
-    XFlush(display);
+    XAllocColor(x11data->d_, x11data->cmap, &xcolour);
+    XSetForeground(x11data->d_, x11data->ctx, xcolour.pixel);
+    XDrawPoint(x11data->d_, x11data->win, x11data->ctx, x, y);
 #endif
 }
 
 void EmuLcd::fillRect(const Rect &rect, const u_color &color)
 {
-#ifdef WIN32
+#ifdef PLATFORM_WIN32
     HDC hdc = GetDC(hWnd);
     HBRUSH brush = CreateSolidBrush(
-            RGB(color.uc_color.R, color.uc_color.G, color.uc_color.B));
+                       RGB(color.uc_color.R, color.uc_color.G, color.uc_color.B));
     SelectObject(hdc, brush);
 
     RECT r;
-    r.left = rect.x + offset_x;
-    r.top = rect.y + offset_y;
-    r.right = (rect.x + rect.width) /*+ 1*/+ offset_x;
-    r.bottom = (rect.y + rect.height)/* + 1*/+ offset_y;
+    r.left = rect.x;
+    r.top = rect.y;
+    r.right = rect.x + rect.width;
+    r.bottom = rect.y + rect.height;
     FillRect(hdc, &r, brush);
     DeleteObject(brush);
     ReleaseDC(hWnd, hdc);
-#elif LINUX
-    XColor xcolour
-    {};
 
+#elif PLATFORM_LINUX
+    XColor xcolour;
     uint16_t r = color.uc_color.R;
     xcolour.red = r << 8;
     uint16_t g = color.uc_color.G;
@@ -90,20 +72,25 @@ void EmuLcd::fillRect(const Rect &rect, const u_color &color)
     xcolour.blue = b << 8;
 
     xcolour.flags = DoRed | DoGreen | DoBlue;
-    XAllocColor(display, cmap, &xcolour);
-    XSetForeground(display, gc, xcolour.pixel); //xcolour.pixel
+    XAllocColor(x11data->d_, x11data->cmap, &xcolour);
+    XSetForeground(x11data->d_, x11data->ctx, xcolour.pixel);
 
-    XFillRectangle(display,window,gc,rect.x + offset_x,rect.y + offset_y,(rect.x + rect.width) /*+ 1*/+ offset_x,(rect.y + rect.height)/* + 1*/+ offset_y);
-    XFlush(display);
+    XFillRectangle(x11data->d_, x11data->win, x11data->ctx, rect.x, rect.y,
+                   rect.width, rect.height);
+
+    //    int _x = rect.x, _y = rect.y;
+    //    int _w = rect.width, _h = rect.height;
+    //    for (int y = _y; y < _y + _h; ++y)
+    //        for (int x = _x; x < _x + _w; ++x)
+    //            XDrawPoint(param->d_, param->win, param->ctx, x, y);
 #endif
 }
 
-uint16_t EmuLcd::getWidth()
+const uint16_t EmuLcd::getWidth() const
 {
     return 320;
 }
-uint16_t EmuLcd::getHight()
+const uint16_t EmuLcd::getHight() const
 {
     return 240;
 }
-

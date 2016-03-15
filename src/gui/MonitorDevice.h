@@ -16,10 +16,11 @@ class MonitorDevice
         MonitorDevice();
         virtual ~MonitorDevice();
 
-        virtual void setPoint(int x, int y, const u_color &color) = 0;
+    public:
+        virtual void setPoint(int16_t x, int16_t y, const u_color &color) = 0;
         virtual void fillRect(const Rect &rect, const u_color &color) = 0;
-        virtual uint16_t getWidth() = 0;
-        virtual uint16_t getHight() = 0;
+        virtual const uint16_t getWidth() const = 0;
+        virtual const uint16_t getHight() const = 0;
 
         u_color RemoveAlpha(u_color foreground, u_color background);
 };

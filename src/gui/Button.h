@@ -16,30 +16,21 @@
 class Button: public Widget
 {
     public:
-        Button(Widget *parent);
+        explicit Button(Widget *parent);
         virtual ~Button();
 
         void setGeometry(Rect rect);
         void setText(const std::u16string text);
 
-        void paint(MonitorDevice * const pMonitorDevice) override;
-        //virtual Rect geometry() const = 0;
+        void paint(MonitorDevice *const pMonitorDevice) override;
+
         //virtual void clicked() const = 0;
-        void pressed();
+        void pressed() ;
         void released();
 
     private:
         const uint16_t borderWidth;
-
         Label *label;
-
-        std::u16string m_text;
-
-        struct
-        {
-                Rect rect;
-
-        } sPressed;
 };
 
 #endif /* GUI_BUTTON_H_ */

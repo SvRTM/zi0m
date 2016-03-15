@@ -10,10 +10,10 @@
 EmuTouch::EmuTouch()
 {
 }
-
 EmuTouch::~EmuTouch()
 {
 }
+
 void EmuTouch::setMessage(_MSG msg)
 {
     this->msg = msg;

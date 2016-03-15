@@ -25,11 +25,11 @@ u_color MonitorDevice::RemoveAlpha(u_color foreground, u_color background)
     u_color color;
     color.uc_color.A = 255;
     color.uc_color.R = foreground.uc_color.R * alpha
-            + background.uc_color.R * diff;
+                       + background.uc_color.R * diff;
     color.uc_color.G = foreground.uc_color.G * alpha
-            + background.uc_color.G * diff;
+                       + background.uc_color.G * diff;
     color.uc_color.B = foreground.uc_color.B * alpha
-            + background.uc_color.B * diff;
+                       + background.uc_color.B * diff;
 
     return color;
 }
