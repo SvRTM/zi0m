@@ -19,6 +19,7 @@ class Button: public Widget
         explicit Button(Widget *parent);
         virtual ~Button();
 
+        void setVisible(bool visible);
         void setGeometry(Rect rect);
         void setText(const std::u16string text);
 

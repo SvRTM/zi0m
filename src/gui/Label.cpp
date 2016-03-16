@@ -39,9 +39,18 @@ void Label::paint(MonitorDevice *const pMonitorDevice)
     color.i_color = COLOR_24B_GREEN;
     pMonitorDevice->fillRect(screenRect, color);
 
-    u_color black;
-    black.i_color = COLOR_24B_BLACK;
+    if (!visible)
+    {
+        color.i_color = COLOR_24B_WHITE;
+        drawText(pMonitorDevice, color, Alignment::Shift);
+    }
+    color.i_color = visible ? COLOR_24B_BLACK : COLOR_24B_GREYD;
+    drawText(pMonitorDevice, color, align);
+}
 
+void Label::drawText(MonitorDevice *const pMonitorDevice, const u_color pxColor,
+                     const uint8_t align)
+{
     int16_t vAlign = 0;
     if (align & Alignment::Bottom)
         vAlign = screenRect.height - font->height ;
@@ -52,7 +61,6 @@ void Label::paint(MonitorDevice *const pMonitorDevice)
     //    else if (align & Alignment::Top)
     //        vAlign = 0;
     int16_t vAlignPos = vAlign < 0 ? abs(vAlign) : 0;
-
 
     int16_t hAlign = 0;
     if (align & Alignment::Right)
@@ -70,15 +78,14 @@ void Label::paint(MonitorDevice *const pMonitorDevice)
     {
         const ONE_BIT_COLOR::CHAR_INFO *pDescriptor = descriptor(m_text.at(n));
         int8_t d = vAlignPos - pDescriptor->fstRow;
-        const uint8_t *pBitmaps = &font->bitmaps[pDescriptor->position]
-                                  + (d < 0 /*|| vAlignPos ==0*/ ? 0 : d);
+        const uint8_t *pBitmaps = &font->bitmaps[pDescriptor->position] + (d < 0 ? 0 : d);
         int16_t y = screenRect.y + vAlign + pDescriptor->fstRow;
 
         uint16_t e = vAlign <= 0 ?
                      std::min(screenRect.height + screenRect.y, pDescriptor->sizeRow + y) :
                      (pDescriptor->sizeRow + y);
 
-        for (uint8_t yRow = y + (d < 0 /*|| vAlignPos ==0*/ ? 0 : d); yRow <  e; yRow++)
+        for (uint8_t yRow = y + (d < 0 ? 0 : d); yRow <  e; yRow++)
         {
             int16_t x = scrX;
             uint8_t pt = 0;
@@ -94,7 +101,7 @@ void Label::paint(MonitorDevice *const pMonitorDevice)
                 {
                     bool px = pt >> nBit & 0x01;
                     if (!px)
-                        pMonitorDevice->setPoint(x, yRow, black);
+                        pMonitorDevice->setPoint(x, yRow, pxColor);
                 }
                 x++;
             }

@@ -24,15 +24,18 @@ void AnotherWindow::setupUi()
     Button *bt = new Button(this);
     bt->setGeometry(Rect(15, 15, 60, 30));
     bt->setText(u"Смирнов @#");
+    bt->setVisible(false);
     addWidget(bt);
 
     Label *lb = new Label(this, Alignment::Center);
-    lb->setText(u"Ёд 1234567 890 QWErtYu");
+    //lb->setText(u"Ёд 1234567 890 QWErtYu");
     lb->setText(u" 2.~`gj+.,^Щщу 1234567890");
+    lb->setVisible(false);
     lb->setGeometry(Rect(120, 55, 100, 6));
     addWidget(lb);
     lb = new Label(this, Alignment::Center);
     lb->setText(u"Ё☎д 12345");
+    lb->setVisible(false);
     lb->setGeometry(Rect(10, 50, 100, 16));
     addWidget(lb);
     lb = new Label(this, Alignment::Top);

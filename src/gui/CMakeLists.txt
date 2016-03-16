@@ -1,7 +1,7 @@
 add_subdirectory (system)
 add_subdirectory (font)
 
-set(SOURCES
+set (SOURCES
     ${SOURCES}
     "${CMAKE_CURRENT_SOURCE_DIR}/ApplicationBase.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/Button.cpp"
@@ -12,7 +12,7 @@ set(SOURCES
     PARENT_SCOPE
 )
 
-set(HEADERS
+set (HEADERS
     ${HEADERS}
     "${CMAKE_CURRENT_SOURCE_DIR}/ApplicationBase.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/Button.h"

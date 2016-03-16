@@ -31,10 +31,13 @@ void EventCtrl::process(const _MSG msg, Widget *const widget) const
     switch (msg.message)
     {
         case Message::TouchDown:
-            btn->pressed();
+            if (btn->isVisible())
+                btn->pressed();
             break;
         case Message::TouchUp:
-            btn->released();
+            if (btn->isVisible())
+                // FIXME: when the properties button is changed by pressing the button
+                btn->released();
             break;
         default:
             break;

@@ -41,11 +41,14 @@ void Button::released()
     refresh();
 }
 
+void Button::setVisible(bool visible)
+{
+    Widget::setVisible(visible);
+    label->setVisible(visible);
+}
+
 void Button::paint(MonitorDevice *const pMonitorDevice)
 {
-    if (!isVisible())
-        return;
-
     pMonitorDevice->fillRect(screenRect, u_color { 0x00D6D2D0U });
 
     u_color colorTL, colorBR;

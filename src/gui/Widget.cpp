@@ -78,6 +78,7 @@ bool Widget::isVisible() const
 void Widget::setVisible(bool visible)
 {
     this->visible = visible;
+    refresh();
 }
 
 void Widget::setEventType(EventType type)

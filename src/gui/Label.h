@@ -52,6 +52,9 @@ class Label: public Widget
             return width;
         }
 
+        void drawText(MonitorDevice *const pMonitorDevice, const u_color pxColor,
+                      const uint8_t align);
+
     private:
         uint8_t align;
         std::u16string m_text;

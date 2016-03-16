@@ -1,4 +1,4 @@
-set(SOURCES
+set (SOURCES
     ${SOURCES}
     "${CMAKE_CURRENT_SOURCE_DIR}/AnotherWindow.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/Application.cpp"
@@ -11,7 +11,7 @@ set(SOURCES
     PARENT_SCOPE
 )
 
-set(HEADERS
+set (HEADERS
     ${HEADERS}
     "${CMAKE_CURRENT_SOURCE_DIR}/config.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/AnotherWindow.h"
