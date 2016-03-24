@@ -22,7 +22,22 @@ class MonitorDevice
         virtual const uint16_t getWidth() const = 0;
         virtual const uint16_t getHight() const = 0;
 
-        u_color RemoveAlpha(u_color foreground, u_color background);
+        inline u_color alphaBlending(const u_color foreground, const u_color background) const
+        {
+            if (foreground.uc_color.A == 0xFFU)
+                return foreground;
+
+            float alpha = foreground.uc_color.A / 255.0f;
+            float diff = 1.0f - alpha;
+
+            u_color color;
+            color.uc_color.B = foreground.uc_color.B * alpha + background.uc_color.B * diff;
+            color.uc_color.G = foreground.uc_color.G * alpha + background.uc_color.G * diff;
+            color.uc_color.R = foreground.uc_color.R * alpha + background.uc_color.R * diff;
+            color.uc_color.A = 0xFFU;
+
+            return color;
+        }
 };
 
 #endif /* GUI_MONITORDEVICE_H_ */

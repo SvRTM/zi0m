@@ -10,6 +10,7 @@
 
 #include "../gui/Widget.h"
 #include <vector>
+
 class MainWindow: public Widget
 {
     public:
@@ -18,13 +19,9 @@ class MainWindow: public Widget
 
     public:
         void paint(MonitorDevice *const pMonitorDevice) override;
-        void setBackground(u_color bg);
 
     private:
         void setupUi();
-
-    private:
-        u_color background;
 };
 
 #endif /* GUI_MAINWINDOW_H_ */

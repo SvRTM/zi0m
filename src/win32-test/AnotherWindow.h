@@ -18,10 +18,6 @@ class AnotherWindow: public Widget
 
         void paint(MonitorDevice *const pMonitorDevice) override;
         void setupUi();
-
-        void setBackground(u_color bg);
-
-        u_color background;
 };
 
 #endif /* GUI_AnotherWindow_H_ */

@@ -32,13 +32,14 @@ class x11
         virtual ~x11();
 
     public:
-        void cycle();
+        void exec();
 
         bool isBtPressed()
         {
             return btPressed;
         }
 
+    private:
         void createWindow();
 
     public:

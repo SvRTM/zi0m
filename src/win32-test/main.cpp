@@ -5,7 +5,7 @@
  *      Author: Artem.Smirnov
  */
 
-#include "Application.h"
+#include "config.h"
 
 #ifdef PLATFORM_WIN32
     #include "win32.h"
@@ -19,6 +19,6 @@ int main()
     init_for_win32();
 #elif PLATFORM_LINUX
     x11 x;
-    x.createWindow();
+    x.exec();
 #endif
 }

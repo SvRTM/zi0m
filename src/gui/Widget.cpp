@@ -7,25 +7,13 @@
 
 #include "Widget.h"
 
+#include "font/Terminus_11pt_Regular.h"
 
-Widget::Widget()
-    : parent(nullptr)
+Widget::Widget(Widget *const _parent)
+    : parent(_parent), pEventCtrl(new EventCtrl()),
+    m_font(&Singleton<Terminus_11pt_Regular>::instance()), m_bg({0x00E8F6FAU}),
+    type(EventType::_None), visible(true), m_refresh(true)
 {
-    font = &Singleton<ONE_BIT_COLOR>::instance();
-    pEventCtrl = new EventCtrl();
-
-    rect = {};
-    screenRect = {};
-
-    visible = true;
-    m_refresh = true;
-
-    type = EventType::_None;
-}
-Widget::Widget(Widget *const parent)
-    : Widget()
-{
-    this->parent = parent;
 }
 Widget::~Widget()
 {
@@ -42,11 +30,6 @@ void Widget::eventPaint(MonitorDevice *const pMonitorDevice)
     }
     for (Widget *w : widgets)
         w->eventPaint(pMonitorDevice);
-}
-
-const Rect *Widget::geometry() const
-{
-    return &rect;
 }
 
 void Widget::setGeometry(Rect rect)
@@ -71,10 +54,16 @@ const Rect Widget::frameGeometry()
     return parentRect + rect;
 }
 
-bool Widget::isVisible() const
+void Widget::setFont(const IFont &font)
 {
-    return visible;
+    m_font = &font;
 }
+
+void Widget::setBackground(const u_color bg)
+{
+    m_bg = bg;
+}
+
 void Widget::setVisible(bool visible)
 {
     this->visible = visible;

@@ -49,17 +49,16 @@ void Button::setVisible(bool visible)
 
 void Button::paint(MonitorDevice *const pMonitorDevice)
 {
-    pMonitorDevice->fillRect(screenRect, u_color { 0x00D6D2D0U });
+    pMonitorDevice->fillRect(screenRect, {0x00D6D2D0U});
 
     u_color colorTL, colorBR;
 
     if (EventType::TouchButtonPress == eventType())
     {
-        colorBR.i_color = COLOR_24B_WHITE;
-        colorTL.i_color = COLOR_24B_BLACK;
+        colorBR = {COLOR_24B_WHITE};
+        colorTL = {COLOR_24B_BLACK};
 
-        u_color colorTL2;
-        colorTL2.i_color = COLOR_24B_GREYD;
+        u_color colorTL2({COLOR_24B_GREYD});
 
         // left
         pMonitorDevice->fillRect(
@@ -70,23 +69,24 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
             Rect(screenRect.x + 2 * borderWidth, screenRect.y + borderWidth,
                  screenRect.width - 4 * borderWidth, borderWidth), colorTL2);
 
-        label->setAlignment(Alignment::Shift);
+        label->setAlignment((Alignment) (label->alignment() | Alignment::Shift));
     }
     else
     {
-        colorBR.i_color = COLOR_24B_BLACK;
-        colorTL.i_color = COLOR_24B_WHITE;
+        colorBR = {COLOR_24B_BLACK};
+        colorTL = {COLOR_24B_WHITE};
 
-        u_color colorBR2;
-        colorBR2.i_color = COLOR_24B_GREYD;
+        u_color colorBR2({COLOR_24B_GREYD});
 
         // bottom
         pMonitorDevice->fillRect(
-            Rect(screenRect.x + borderWidth, screenRect.y + screenRect.height - 2 * borderWidth,
+            Rect(screenRect.x + borderWidth,
+                 screenRect.y + screenRect.height - 2 * borderWidth,
                  screenRect.width - 3 * borderWidth, borderWidth), colorBR2);
         // right
         pMonitorDevice->fillRect(
-            Rect(screenRect.x + screenRect.width - 2 * borderWidth, screenRect.y + borderWidth,
+            Rect(screenRect.x + screenRect.width - 2 * borderWidth,
+                 screenRect.y + borderWidth,
                  borderWidth, screenRect.height - 2 * borderWidth), colorBR2);
 
         label->setAlignment(Alignment::Center);

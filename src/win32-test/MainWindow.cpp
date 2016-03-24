@@ -21,12 +21,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupUi()
 {
-    //setBackground(u_color { 0x00E8F6FAU });
-    setBackground(u_color { 0x00D6D2D0U });
+    //setBackground(u_color { 0x00D6D2D0U });
 
     Button *bt = new Button(this);
     bt->setGeometry(Rect(15, 15, 60, 30));
-    bt->setText(u"Артём @#");
+    bt->setText(u"Артём");
     addWidget(bt);
 
     Widget *aw = new AnotherWindow(this);
@@ -35,11 +34,5 @@ void MainWindow::setupUi()
 
 void MainWindow::paint(MonitorDevice *const pMonitorDevice)
 {
-    pMonitorDevice->fillRect(screenRect, background);
+    pMonitorDevice->fillRect(screenRect, background());
 }
-
-void MainWindow::setBackground(u_color bg)
-{
-    background = bg;
-}
-

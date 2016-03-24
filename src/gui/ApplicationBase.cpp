@@ -10,9 +10,8 @@
 
 
 ApplicationBase::ApplicationBase( Widget *const mainWidget)
-    : pMainWidget(mainWidget), pMonitorDevice(nullptr)
+    : pMainWidget(mainWidget), pEventCtrl(new EventCtrl()), pMonitorDevice(nullptr)
 {
-    pEventCtrl = new EventCtrl();
 }
 
 ApplicationBase::~ApplicationBase()

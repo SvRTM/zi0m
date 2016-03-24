@@ -10,7 +10,8 @@
 
 #include "MonitorDevice.h"
 #include "system/EventCtrl.h"
-#include "font/Terminus.h"
+#include "font/ifont.h"
+#include "gui/system/singleton.h"
 #include "common.h"
 
 #include <vector>
@@ -18,32 +19,48 @@
 class Widget
 {
     public:
-        Widget();
-        explicit Widget(Widget *const parent);
+        explicit Widget(Widget *const _parent = nullptr);
         virtual ~Widget();
 
     public:
         virtual void paint(MonitorDevice *const pMonitorDevice) = 0;
         void eventPaint(MonitorDevice *const pMonitorDevice);
 
-        const EventCtrl  *event() const
+        inline const EventCtrl  *event() const
         {
             return pEventCtrl;
         }
 
         // Returns current position in parent. It is either position in view or frame coordinates.
-        const Rect *geometry() const;
+        inline const Rect *geometry() const
+        {
+            return &rect;
+        }
         void setGeometry(Rect rect);
-        void updateGeometry();
         // Returns current position in absolute screen coordinates.
         const Rect frameGeometry();
+
+        inline const IFont  &font() const
+        {
+            return *m_font;
+        }
+        void setFont(const IFont &font);
+
+        inline const u_color background() const
+        {
+            return m_bg;
+        }
+        void setBackground(const u_color bg);
 
         void refresh(bool r = true)
         {
             m_refresh = r;
         }
 
-        bool isVisible() const;
+        inline bool isVisible() const
+        {
+            return visible;
+        }
         void setVisible(bool visible);
 
         void setEventType(EventType type);
@@ -53,7 +70,17 @@ class Widget
         Widget *findChild(int16_t x, int16_t y) const;
 
     protected:
-        const ONE_BIT_COLOR *font;
+        void updateGeometry();
+
+    private:
+        const Widget *parent;
+        const EventCtrl *pEventCtrl;
+        const IFont *m_font;
+
+        u_color m_bg;
+
+    protected:
+        EventType type;
 
         Rect rect;
         Rect screenRect;
@@ -61,13 +88,7 @@ class Widget
         bool visible;
         bool m_refresh;
 
-        EventType type;
-
         std::vector<Widget *> widgets;
-
-    private:
-        const Widget *parent;
-        const EventCtrl *pEventCtrl;
 };
 
 #endif /* GUI_WIDGET_H_ */

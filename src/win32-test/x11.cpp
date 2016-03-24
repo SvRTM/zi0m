@@ -58,6 +58,8 @@ x11::x11()
         fflush(stdout);
         Panic("X11 error !");
     }
+
+    createWindow();
 }
 x11::~x11()
 {
@@ -95,11 +97,9 @@ void x11::createWindow()
                      | FocusChangeMask;
     XSelectInput(param.d_, param.win, eventmask);
     XSetWMProtocols(param.d_, param.win, &wmDelete, true);
-
-    cycle();
 }
 
-void x11::cycle()
+void x11::exec()
 {
     Application app(this);
     app.init();
