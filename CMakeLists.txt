@@ -43,4 +43,4 @@ source_group ("Source Files" FILES ${SOURCES})
 
 add_executable (${PROJECT_NAME} ${HEADERS} ${SOURCES})
 target_link_libraries (${PROJECT_NAME} ${libraries})
-set_target_properties (${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "_d")
+set_target_properties (${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32" DEBUG_POSTFIX "_d")

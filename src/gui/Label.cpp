@@ -92,14 +92,15 @@ void Label::drawText(MonitorDevice *const pMonitorDevice, const u_color pxColor,
     {
         const IFont::CHAR_INFO *pDescriptor = descriptor(m_text.at(n));
         int8_t yPos = vAlignPos - pDescriptor->fstRow;
-        const uint8_t *pBitmaps = &font().bitmaps()[pDescriptor->position] +
-                                  (yPos < 0 ? 0 : yPos);
+        yPos = yPos < 0 ? 0 : yPos;
+
+        const uint8_t *pBitmaps = &font().bitmaps()[pDescriptor->position] + yPos;
         int16_t posY = screenRect.y + vAlign + pDescriptor->fstRow;
 
         uint16_t yMax = vAlign <= 0 ?
                         std::min(screenRect.height + screenRect.y, pDescriptor->sizeRow + posY) :
                         (pDescriptor->sizeRow + posY);
-        for (uint8_t y = posY + (yPos < 0 ? 0 : yPos); y <  yMax; ++y)
+        for (uint8_t y = posY + yPos; y <  yMax; ++y)
         {
             uint8_t pt = 0;
             int16_t x = posX;
