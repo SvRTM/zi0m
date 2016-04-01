@@ -9,6 +9,9 @@
 #define GUI_MONITORDEVICE_H_
 
 #include "common.h"
+#include "font/ifont.h"
+
+#include <string>
 
 class MonitorDevice
 {
@@ -22,7 +25,8 @@ class MonitorDevice
         virtual const uint16_t getWidth() const = 0;
         virtual const uint16_t getHight() const = 0;
 
-        inline u_color alphaBlending(const u_color foreground, const u_color background) const
+        inline u_color alphaBlending(const u_color foreground,
+                                     const u_color background) const
         {
             if (foreground.uc_color.A == 0xFFU)
                 return foreground;
@@ -37,6 +41,25 @@ class MonitorDevice
             color.uc_color.A = 0xFFU;
 
             return color;
+        }
+
+        void drawText(const std::u16string &text, Rect &screenRect, const IFont &font,
+                      const u_color textColor, const u_color bgColor, const Alignment align,
+                      uint32_t pxTextWidth, uint8_t shiftX = 0, uint8_t shiftY = 0);
+
+    private:
+        inline const IFont::CHAR_INFO *descriptor(const wchar_t ch,
+                                                  const IFont &font) const
+        {
+            for (size_t n = 0; n < font.sizeOfBlock; ++n)
+            {
+                const IFont::BLOCK *block = &font.blocks()[n];
+                if (ch >= block->startChar && ch <= block->endChar)
+                    return &block->descriptors[ch - block->startChar];
+            }
+
+            const IFont::BLOCK *block = &font.blocks()[font.sizeOfBlock - 1];
+            return &block->descriptors[0];
         }
 };
 
