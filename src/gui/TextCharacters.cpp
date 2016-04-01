@@ -8,13 +8,13 @@ TextCharacters::TextCharacters(Alignment align): Additional(),  m_color({COLOR_2
 void TextCharacters::setText(const std::u16string text)
 {
     this->m_text = text;
+    calcPxTextWidth();
+}
 
-    this->pxTextWidth = 0;
-    for (size_t n = 0; n < text.length(); ++n)
-    {
-        const IFont::CHAR_INFO *pDescriptor = IFont::descriptor(text.at(n), font());
-        this->pxTextWidth += pDescriptor->width;
-    }
+void TextCharacters::setFont(const IFont &font)
+{
+    pFont = &font;
+    calcPxTextWidth();
 }
 
 void TextCharacters::setAbsolutePosition(Rect absolutePosition)
@@ -67,6 +67,9 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
     int16_t vAlignPos = vAlign < 0 ? abs(vAlign) : 0;
     int16_t posX = absolutePosition.x + hAlign + shiftX;
 
+    int16_t cx = absolutePosition.x + absolutePosition.width;
+    int16_t cy = absolutePosition.height + absolutePosition.y;
+
     for (size_t n = 0; n < m_text.length(); ++n)
     {
         const IFont::CHAR_INFO *pDescriptor = descriptor(m_text.at(n), font());
@@ -77,8 +80,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
         int16_t posY = absolutePosition.y + vAlign + pDescriptor->fstRow + shiftY;
 
         uint16_t yMax = vAlign <= 0 ?
-                        std::min(absolutePosition.height + absolutePosition.y,
-                                 pDescriptor->sizeRow + posY)
+                        std::min(cy, int16_t(pDescriptor->sizeRow + posY))
                         : (pDescriptor->sizeRow + posY);
         for (uint8_t y = posY + yPos; y < yMax; ++y)
         {
@@ -86,11 +88,14 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
             int16_t x = posX;
             for (uint8_t width = 0; width < pDescriptor->width; ++width)
             {
-                if (x >= absolutePosition.x + absolutePosition.width)
-                    break;
-
                 if (IFont::Mode::Bitmap ==  font().mode)
                 {
+                    if (x >= cx)
+                    {
+                        pBitmaps += (pDescriptor->width - width) / 8;
+                        break;
+                    }
+
                     const uint8_t nBit = 7 - (width % 8);
                     if (nBit == 7)
                         pt = *(pBitmaps++);
@@ -103,6 +108,12 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
                 }
                 else  // IFont::Mode::Antialias
                 {
+                    if (x >= cx)
+                    {
+                        pBitmaps += pDescriptor->width - width;
+                        break;
+                    }
+
                     uint8_t pt = *(pBitmaps++);
                     if (pt != 0xFFU && x >= absolutePosition.x)
                     {

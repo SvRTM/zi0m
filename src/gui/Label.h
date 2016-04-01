@@ -13,7 +13,7 @@
 
 #include <string>
 
-class Label: public Widget, protected TextCharacters
+class Label: public Widget, public TextCharacters
 {
     public:
         explicit Label(Widget *parent,

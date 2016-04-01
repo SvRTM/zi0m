@@ -26,10 +26,11 @@ AnotherWindow::~AnotherWindow()
 void AnotherWindow::setupUi()
 {
     Button *bt = new Button(this);
-    bt->setGeometry(Rect(15, 15, 90, 30));
+    bt->setGeometry(Rect(15, 15, 60, 30));
     bt->setText(u"Смирнов @#");
+    bt->setAlignment((Alignment)(Alignment::Right | Alignment::VCenter));
     bt->setFont(Singleton<Tinos_AA_11pt_Regular>::instance());
-   // bt->setVisible(false);
+    // bt->setVisible(false);
     addWidget(bt);
 
     //u_color color = {0xFF420D0D};

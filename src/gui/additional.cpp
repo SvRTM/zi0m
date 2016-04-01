@@ -7,11 +7,6 @@ Additional::Additional() : pFont(&Singleton<Terminus_11pt_Regular>::instance()),
 {
 }
 
-void Additional::setFont(const IFont &font)
-{
-    pFont = &font;
-}
-
 void Additional::setBackground(const u_color bg)
 {
     m_background = bg;

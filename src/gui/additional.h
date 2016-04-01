@@ -16,7 +16,6 @@ class Additional
         {
             return *pFont;
         }
-        void setFont(const IFont &font);
 
         inline const u_color background() const
         {
@@ -32,8 +31,10 @@ class Additional
     protected:
         void setVisible(bool visible);
 
-    private:
+    protected:
         const IFont *pFont;
+
+    private:
         u_color m_background;
         bool visible;
 };

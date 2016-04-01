@@ -20,9 +20,7 @@ class TextCharacters : public virtual Additional
             return m_text;
         }
 
-    protected:
-        void setText(const std::u16string m_text);
-        void setAbsolutePosition(Rect absolutePosition);
+        void setFont(const IFont &font);
 
         inline const u_color color() const
         {
@@ -30,12 +28,15 @@ class TextCharacters : public virtual Additional
         }
         void setColor(u_color color);
 
-
         inline Alignment alignment() const
         {
             return align;
         }
         void setAlignment(Alignment align);
+
+    protected:
+        void setText(const std::u16string m_text);
+        void setAbsolutePosition(Rect absolutePosition);
 
         void drawText(MonitorDevice *const pMonitorDevice);
         void drawText(MonitorDevice *const pMonitorDevice, u_color textColor,
@@ -56,10 +57,21 @@ class TextCharacters : public virtual Additional
             return &block->descriptors[0];
         }
 
+        void calcPxTextWidth()
+        {
+            pxTextWidth = 0;
+            for (size_t n = 0; n < m_text.length(); ++n)
+            {
+                const IFont::CHAR_INFO *pDescriptor = IFont::descriptor(m_text.at(n), font());
+                pxTextWidth += pDescriptor->width;
+            }
+        }
+
     private:
         std::u16string m_text;
         uint32_t pxTextWidth;
         Rect absolutePosition;
+
         u_color m_color;
         Alignment align;
 };

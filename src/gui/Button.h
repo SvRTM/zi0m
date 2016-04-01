@@ -13,7 +13,7 @@
 
 #include <string>
 
-class Button: public Widget, protected TextCharacters
+class Button: public Widget, public TextCharacters
 {
     public:
         explicit Button(Widget *parent);
