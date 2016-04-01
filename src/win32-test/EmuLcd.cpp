@@ -41,7 +41,9 @@ void EmuLcd::setPoint(int16_t x, int16_t y, const u_color &color)
     xcolour.flags = DoRed | DoGreen | DoBlue;
     XAllocColor(x11data->d_, x11data->cmap, &xcolour);
     XSetForeground(x11data->d_, x11data->ctx, xcolour.pixel);
+    usleep(10);
     XDrawPoint(x11data->d_, x11data->win, x11data->ctx, x, y);
+    usleep(10);
 #endif
 }
 
@@ -74,10 +76,10 @@ void EmuLcd::fillRect(const Rect &rect, const u_color &color)
     xcolour.flags = DoRed | DoGreen | DoBlue;
     XAllocColor(x11data->d_, x11data->cmap, &xcolour);
     XSetForeground(x11data->d_, x11data->ctx, xcolour.pixel);
-
+    usleep(10);
     XFillRectangle(x11data->d_, x11data->win, x11data->ctx, rect.x, rect.y,
                    rect.width, rect.height);
-
+    usleep(10);
     //    int _x = rect.x, _y = rect.y;
     //    int _w = rect.width, _h = rect.height;
     //    for (int y = _y; y < _y + _h; ++y)

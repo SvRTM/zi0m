@@ -9,29 +9,28 @@
 #define GUI_BUTTON_H_
 
 #include "Widget.h"
-#include "Label.h"
+#include "TextCharacters.h"
 
 #include <string>
 
-class Button: public Widget
+class Button: public Widget, protected TextCharacters
 {
     public:
         explicit Button(Widget *parent);
         virtual ~Button();
 
-        void setVisible(bool visible);
         void setGeometry(Rect rect);
         void setText(const std::u16string text);
 
+        void setColor(u_color color);
+
         void paint(MonitorDevice *const pMonitorDevice) override;
 
-        //virtual void clicked() const = 0;
         void pressed() ;
         void released();
 
     private:
         const uint16_t borderWidth;
-        Label *label;
 };
 
 #endif /* GUI_BUTTON_H_ */

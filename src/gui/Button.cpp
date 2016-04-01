@@ -8,10 +8,9 @@
 #include "Button.h"
 
 Button::Button(Widget *parent)
-    : Widget(parent), borderWidth(1)
+    : Widget(parent), TextCharacters(Alignment::Center), borderWidth(1)
 {
-    label = new Label(this, Alignment::Center);
-    addWidget(label);
+    setBackground({0x00D6D2D0U});
 }
 Button::~Button()
 {
@@ -20,40 +19,42 @@ Button::~Button()
 void Button::setGeometry(Rect rect)
 {
     Widget::setGeometry(rect);
-    label->setGeometry(Rect(2 * borderWidth, 2 * borderWidth,
-                            rect.width - 4 * borderWidth, rect.height - 4 * borderWidth));
+    setAbsolutePosition(Rect(
+                            screen().x +  2 * borderWidth, screen().y + 2 * borderWidth,
+                            screen().width - 4 * borderWidth, screen().height - 4 * borderWidth));
 }
 
 void Button::setText(const std::u16string text)
 {
-    label->setText(text);
+    TextCharacters::setText(text);
+    refresh();
+}
+
+void  Button::setColor(u_color color)
+{
+    TextCharacters::setColor(color);
+    refresh();
 }
 
 void Button::pressed()
 {
-    setEventType(EventType::TouchButtonPress);
+    setEventType(EventType::TouchStart);
     refresh();
 }
 
 void Button::released()
 {
-    setEventType(EventType::TouchButtonRelease);
+    setEventType(EventType::TouchEnd);
     refresh();
-}
-
-void Button::setVisible(bool visible)
-{
-    Widget::setVisible(visible);
-    label->setVisible(visible);
 }
 
 void Button::paint(MonitorDevice *const pMonitorDevice)
 {
-    pMonitorDevice->fillRect(screenRect, {0x00D6D2D0U});
+    pMonitorDevice->fillRect(screen(), background());
 
     u_color colorTL, colorBR;
 
-    if (EventType::TouchButtonPress == eventType())
+    if (EventType::TouchStart == eventType())
     {
         colorBR = {COLOR_24B_WHITE};
         colorTL = {COLOR_24B_BLACK};
@@ -61,15 +62,15 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
         u_color colorTL2({COLOR_24B_GREYD});
 
         // left
-        pMonitorDevice->fillRect(
-            Rect(screenRect.x + borderWidth, screenRect.y + borderWidth, borderWidth,
-                 screenRect.height - 3 * borderWidth), colorTL2);
+        pMonitorDevice->fillRect(Rect(
+                                     screen().x + borderWidth, screen().y + borderWidth, borderWidth,
+                                     screen().height - 3 * borderWidth), colorTL2);
         // top
-        pMonitorDevice->fillRect(
-            Rect(screenRect.x + 2 * borderWidth, screenRect.y + borderWidth,
-                 screenRect.width - 4 * borderWidth, borderWidth), colorTL2);
+        pMonitorDevice->fillRect(Rect(
+                                     screen().x + 2 * borderWidth, screen().y + borderWidth,
+                                     screen().width - 4 * borderWidth, borderWidth), colorTL2);
 
-        label->setAlignment((Alignment) (label->alignment() | Alignment::Shift));
+        drawText(pMonitorDevice, color(), 1, 1);
     }
     else
     {
@@ -80,33 +81,31 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
 
         // bottom
         pMonitorDevice->fillRect(
-            Rect(screenRect.x + borderWidth,
-                 screenRect.y + screenRect.height - 2 * borderWidth,
-                 screenRect.width - 3 * borderWidth, borderWidth), colorBR2);
+            Rect(screen().x + borderWidth, screen().y + screen().height - 2 * borderWidth,
+                 screen().width - 3 * borderWidth, borderWidth), colorBR2);
         // right
         pMonitorDevice->fillRect(
-            Rect(screenRect.x + screenRect.width - 2 * borderWidth,
-                 screenRect.y + borderWidth,
-                 borderWidth, screenRect.height - 2 * borderWidth), colorBR2);
+            Rect(screen().x + screen().width - 2 * borderWidth, screen().y + borderWidth,
+                 borderWidth, screen().height - 2 * borderWidth), colorBR2);
 
-        label->setAlignment(Alignment::Center);
+        drawText(pMonitorDevice);
     }
 
     // bottom
     pMonitorDevice->fillRect(
-        Rect(screenRect.x, screenRect.y + screenRect.height - borderWidth,
-             screenRect.width - borderWidth, borderWidth), colorBR);
+        Rect(screen().x, screen().y + screen().height - borderWidth,
+             screen().width - borderWidth, borderWidth), colorBR);
     // right
     pMonitorDevice->fillRect(
-        Rect(screenRect.x + screenRect.width - borderWidth, screenRect.y,
-             borderWidth, screenRect.height), colorBR);
+        Rect(screen().x + screen().width - borderWidth, screen().y,
+             borderWidth, screen().height), colorBR);
 
     // left
     pMonitorDevice->fillRect(
-        Rect(screenRect.x, screenRect.y, borderWidth, screenRect.height - borderWidth),
+        Rect(screen().x, screen().y, borderWidth, screen().height - borderWidth),
         colorTL);
     // top
     pMonitorDevice->fillRect(
-        Rect(screenRect.x, screenRect.y, screenRect.width - borderWidth, borderWidth),
+        Rect(screen().x, screen().y, screen().width - borderWidth, borderWidth),
         colorTL);
 }

@@ -2,6 +2,7 @@
 #define IFONT_H_
 
 #include <stdint.h>
+#include <cstddef>
 
 struct IFont
 {
@@ -36,7 +37,21 @@ struct IFont
 
     virtual const BLOCK *blocks()    const = 0;
     virtual const uint8_t *bitmaps() const = 0;
+
+    static inline const IFont::CHAR_INFO *descriptor(const wchar_t ch, const IFont &font);
 };
 
+const IFont::CHAR_INFO * IFont::descriptor(const wchar_t ch, const IFont &font)
+{
+    for (size_t n = 0; n < font.sizeOfBlock; ++n)
+    {
+        const IFont::BLOCK *block = &font.blocks()[n];
+        if (ch >= block->startChar && ch <= block->endChar)
+            return &block->descriptors[ch - block->startChar];
+    }
+
+    const IFont::BLOCK *block = &font.blocks()[font.sizeOfBlock - 1];
+    return &block->descriptors[0];
+}
 
 #endif /* IFONT_H_ */

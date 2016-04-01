@@ -11,15 +11,15 @@
 #include "MonitorDevice.h"
 #include "system/EventCtrl.h"
 #include "font/ifont.h"
-#include "gui/system/singleton.h"
 #include "common.h"
+#include "additional.h"
 
 #include <vector>
 
-class Widget
+class Widget: public virtual Additional
 {
     public:
-        explicit Widget(Widget *const _parent = nullptr);
+        explicit Widget(Widget *const parent = nullptr);
         virtual ~Widget();
 
     public:
@@ -32,60 +32,56 @@ class Widget
         }
 
         // Returns current position in parent. It is either position in view or frame coordinates.
-        inline const Rect *geometry() const
+        inline const Rect &geometry() const
         {
-            return &rect;
+            return rect;
         }
         void setGeometry(Rect rect);
         // Returns current position in absolute screen coordinates.
-        const Rect frameGeometry();
-
-        inline const IFont  &font() const
+        const Rect &screen() const
         {
-            return *m_font;
-        }
-        void setFont(const IFont &font);
-
-        inline const u_color background() const
-        {
-            return m_bg;
-        }
-        void setBackground(const u_color bg);
-
-        void refresh(bool r = true)
-        {
-            m_refresh = r;
+            return screenRect;
         }
 
-        inline bool isVisible() const
+        inline bool isEnabled() const
         {
-            return visible;
+            return enabled;
         }
+        void setEnabled(bool enable);
+
         void setVisible(bool visible);
 
         void setEventType(EventType type);
         EventType eventType() const;
 
-        void addWidget(Widget *const w) ;
         Widget *findChild(int16_t x, int16_t y) const;
 
     protected:
+        void addWidget(Widget *const w);
         void updateGeometry();
+        inline void refresh(bool refresh = true)
+        {
+            m_refresh = refresh;
+        }
+
 
     private:
-        const Widget *parent;
+        // Returns current position in absolute screen coordinates.
+        const Rect frameGeometry();
+
+    private:
+        Widget *const parent;
         const EventCtrl *pEventCtrl;
-        const IFont *m_font;
 
-        u_color m_bg;
 
-    protected:
+    private:
         EventType type;
 
         Rect rect;
         Rect screenRect;
 
-        bool visible;
+        bool enabled;
+
         bool m_refresh;
 
         std::vector<Widget *> widgets;

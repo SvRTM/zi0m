@@ -44,7 +44,7 @@ void ApplicationBase::quantum()
     for (InputDevice *device : devices)
     {
         msg = device->getMessage();
-        if (Message::_None != msg.message)
+        if (EventType::_None != msg.touchEvent)
             break;
     }
     pEventCtrl->process(msg, pMainWidget);

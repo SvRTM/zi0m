@@ -19,6 +19,9 @@ class EventCtrl
 
     public:
         void process(const _MSG msg,   Widget *const widget) const;
+
+    private:
+        Widget *prevWidget;
 };
 
 #endif /* SRC_GUI_SYSTEM_EVENTCTRL_H_ */

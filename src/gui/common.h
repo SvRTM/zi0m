@@ -79,19 +79,27 @@ struct Rect
 enum class EventType
 {
     _None,
-    TouchButtonPress,
-    TouchButtonRelease
+
+    TouchStart,
+    TouchMove,
+    TouchEnd,
+
+    TouchEnter,
+    TouchLeave
 };
 
-enum class Message
-{
-    _None,
-    TouchUp,
-    TouchDown
-};
+//enum class Message
+//{
+//    _None,
+//    TouchUp,
+//    TouchDown,
+//    TouchMove,
+//    TouchMoveIn,
+//    TouchMoveOut
+//};
 struct _MSG
 {
-    Message message;
+    EventType touchEvent;
     Point pt;
 };
 
@@ -113,8 +121,7 @@ enum Alignment
     Left = 1, Right = 2, HCenter = 4,
     Top = 16, Bottom = 32, VCenter = 64,
 
-    Center = HCenter | VCenter,
-    Shift = 128
+    Center = HCenter | VCenter
 };
 
 //////////

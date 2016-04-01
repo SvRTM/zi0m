@@ -21,7 +21,7 @@ void EmuTouch::setMessage(_MSG msg)
 
 bool EmuTouch::isPressed()
 {
-    return Message::TouchDown == msg.message || Message::TouchUp == msg.message;
+    return EventType::TouchStart == msg.touchEvent || EventType::TouchEnd == msg.touchEvent;
 }
 
 _MSG EmuTouch::getMessage() const

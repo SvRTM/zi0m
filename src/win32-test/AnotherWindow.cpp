@@ -26,9 +26,10 @@ AnotherWindow::~AnotherWindow()
 void AnotherWindow::setupUi()
 {
     Button *bt = new Button(this);
-    bt->setGeometry(Rect(15, 15, 60, 30));
+    bt->setGeometry(Rect(15, 15, 90, 30));
     bt->setText(u"Смирнов @#");
-    bt->setVisible(false);
+    bt->setFont(Singleton<Tinos_AA_11pt_Regular>::instance());
+   // bt->setVisible(false);
     addWidget(bt);
 
     //u_color color = {0xFF420D0D};
@@ -46,11 +47,18 @@ void AnotherWindow::setupUi()
     lb->setGeometry(Rect(120, 55, 100, 6));
     addWidget(lb);
     lb = new Label(this, Alignment::Center);
-    lb->setText(u"Ё☎д 12345");
+    lb->setText(u"Ё☎д ёр12345");
     lb->setColor(color);
     lb->setBackground(bg);
     lb->setVisible(false);
     lb->setGeometry(Rect(10, 50, 100, 16));
+    addWidget(lb);
+    lb = new Label(this, Alignment::Left);
+    lb->setText(u"Ё☎д 12345");
+    lb->setColor(color);
+    lb->setBackground(bg);
+    lb->setVisible(false);
+    lb->setGeometry(Rect(200, 0, 100, 15));
     addWidget(lb);
     lb = new Label(this, Alignment::Top);
     lb->setText(u"Ё☎д 12345");
@@ -75,7 +83,7 @@ void AnotherWindow::setupUi()
     addWidget(lb);
     lb = new Label(this, (Alignment) (Alignment::Top | Alignment::HCenter));
     lb->setFont(Singleton<Tinos_AA_11pt_Regular>::instance());
-    lb->setText(u" Ёд 12345");
+    lb->setText(u" Ёд 12345☎@");
     lb->setColor(color);
     lb->setBackground(bg);
     lb->setGeometry(Rect(120, 10, 100, 30));
@@ -88,5 +96,5 @@ void AnotherWindow::setupUi()
 
 void AnotherWindow::paint(MonitorDevice *const pMonitorDevice)
 {
-    pMonitorDevice->fillRect(screenRect, background());
+    pMonitorDevice->fillRect(screen(), background());
 }

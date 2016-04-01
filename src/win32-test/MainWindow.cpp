@@ -34,5 +34,5 @@ void MainWindow::setupUi()
 
 void MainWindow::paint(MonitorDevice *const pMonitorDevice)
 {
-    pMonitorDevice->fillRect(screenRect, background());
+    pMonitorDevice->fillRect(screen(), background());
 }

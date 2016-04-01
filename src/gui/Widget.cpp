@@ -7,12 +7,9 @@
 
 #include "Widget.h"
 
-#include "font/Terminus_11pt_Regular.h"
-
-Widget::Widget(Widget *const _parent)
-    : parent(_parent), pEventCtrl(new EventCtrl()),
-    m_font(&Singleton<Terminus_11pt_Regular>::instance()), m_bg({0x00E8F6FAU}),
-    type(EventType::_None), visible(true), m_refresh(true)
+Widget::Widget(Widget *const parent)
+    : parent(parent), pEventCtrl(new EventCtrl()), type(EventType::_None),
+      m_refresh(true)
 {
 }
 Widget::~Widget()
@@ -54,19 +51,16 @@ const Rect Widget::frameGeometry()
     return parentRect + rect;
 }
 
-void Widget::setFont(const IFont &font)
+void Widget::setEnabled(bool enable)
 {
-    m_font = &font;
-}
-
-void Widget::setBackground(const u_color bg)
-{
-    m_bg = bg;
+    enabled = enable;
+    if (parent)
+        parent->refresh();
 }
 
 void Widget::setVisible(bool visible)
 {
-    this->visible = visible;
+    Additional::setVisible(visible);
     refresh();
 }
 

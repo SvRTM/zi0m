@@ -10,12 +10,9 @@
 
 #include <stdio.h>
 #include <cstring>
-#include <unistd.h>
+
 #include <signal.h>
 #include <errno.h>
-#include <limits>
-#include <cmath>
-#include <climits>
 
 void  Panic(const char *msg)
 {
@@ -63,8 +60,6 @@ x11::x11()
 }
 x11::~x11()
 {
-    //XUnloadFont(dpy, font_info->fid);
-
     XUnmapWindow(param.d_, param.win);
     XDestroyWindow(param.d_, param.win);
     XCloseDisplay(param.d_);
@@ -83,15 +78,16 @@ void x11::createWindow()
     Visual *visual = DefaultVisual(param.d_, screen);
     XSetWindowAttributes attributes;
     attributes.background_pixel = bgcolor;
-    param.win = XCreateWindow(param.d_, root, 0, 0, 320, 240, 0, depth,
-                              InputOutput, visual
-                              , CWBackPixel,
-                              &attributes);
+    param.win = XCreateWindow(param.d_, root,
+                              0, 0, 320, 240, 0, depth,
+                              InputOutput, visual,
+                              CWBackPixel, &attributes);
 
     param.cmap = DefaultColormap(param.d_, screen);
     param.ctx =  DefaultGC(param.d_, screen);
 
-    long eventmask = ButtonPressMask | ButtonReleaseMask | ExposureMask
+    long eventmask = PointerMotionMask | ButtonPressMask | ButtonReleaseMask
+                     | ExposureMask
                      | KeyPressMask
                      | StructureNotifyMask | PropertyChangeMask | VisibilityChangeMask
                      | FocusChangeMask;
@@ -106,73 +102,89 @@ void x11::exec()
 
     XMapWindow(param.d_, param.win);
 
+    bool isBtnPressed = false;
     while (!param.exit)
     {
-        XEvent event;
-       if (XPending(param.d_))
+        if (XPending(param.d_))
         {
+            msg.touchEvent = EventType::_None;
+            msg.pt = Point();
+
+            XEvent event;
             XNextEvent(param.d_, &event);
             switch (event.type)
             {
                 case Expose:
-                    msg.message = Message::_None;
-                    /* Unless this is the last contiguous expose,
-                     * don't draw the window */
-                    printf("Expose!\n");
-                    //XClearWindow(display, window);
+                    /* Unless this is the last contiguous expose, don't draw the window */
+                    if (event.xexpose.count == 0)
+                        printf("Expose!\n");
                     break;
                 case ConfigureNotify:
-                    msg.message = Message::_None;
                     /* Window has been resized; change width and height
                      * to send to place_text and place_graphics in
                      * next Expose */
                     printf("Window moved or resized!\n");
                     break;
+
+                case MotionNotify:
+                {
+                    if (isBtnPressed)
+                    {
+                        int pointx = event.xmotion.x;
+                        int pointy = event.xmotion.y;
+                        printf("  Touch move    : [%d, %d]\n", pointx, pointy);
+
+                        msg.touchEvent = EventType::TouchStart;
+                        msg.pt = Point(pointx, pointy);
+                    }
+                    break;
+                }
                 case ButtonPress:
                 {
-                    msg.message = Message::TouchDown;
+                    isBtnPressed = true;
+
                     int pointx = event.xbutton.x;
                     int pointy = event.xbutton.y;
+                    printf("Touch start     : [%d, %d]\n", pointx, pointy);
+
+                    msg.touchEvent = EventType::TouchStart;
                     msg.pt = Point(pointx, pointy);
-                    printf("ButtonPress! %d:%d\n", pointx, pointy);
                     break;
                 }
                 case ButtonRelease:
                 {
-                    msg.message = Message::TouchUp;
+                    isBtnPressed = false;
+
                     int pointx = event.xbutton.x;
                     int pointy = event.xbutton.y;
+                    printf("Touch end       : [%d, %d]\n\n", pointx, pointy);
+
+                    msg.touchEvent = EventType::TouchEnd;
                     msg.pt = Point(pointx, pointy);
-                    printf("Button released : %d  %d:%d\n", event.xbutton.button - 1, pointx,
-                           pointy);
                     break;
                 }
                 case KeyPress:
-                    msg.message = Message::_None;
-                    fprintf(stdout, "KeyPress: %d\n", event.type);
+                    printf("KeyPress: %d\n", event.type);
                     break;
                 case ClientMessage:
-                    msg.message = Message::_None;
                     // TODO Should check here for other client message types -
                     // however as the only protocol registered above is WM_DELETE_WINDOW
                     // it is safe for this small example.
-
+                    printf("WM_DELETE_WINDOW!\n");
                     param.exit = true;
                     break;
                 case DestroyNotify:
-                    msg.message = Message::_None;
                     printf("Window killed!\n");
                     break;
                 default:
-                    msg.message = Message::_None;
                     fprintf(stderr, "Unexpected event: %d\n", event.type);
             }
         }
         app.setMessage(msg);
-        usleep(16000);
+        usleep(10000);
         app.quantum();
 
-        msg.message = Message::_None;
+        msg.touchEvent = EventType::_None;
         msg.pt = Point();
     }
 }
