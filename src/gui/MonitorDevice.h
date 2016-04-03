@@ -17,7 +17,7 @@ class MonitorDevice
 {
     public:
         MonitorDevice();
-        virtual ~MonitorDevice();
+        virtual ~MonitorDevice() {}
 
     public:
         virtual void setPoint(int16_t x, int16_t y, const u_color &color) = 0;

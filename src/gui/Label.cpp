@@ -11,14 +11,17 @@ Label::Label(Widget *parent, Alignment align)
     : Widget(parent), TextCharacters(align)
 {
 }
-Label::~Label()
-{
-}
 
 void Label::setGeometry(Rect rect)
 {
+    TextCharacters::setGeometry({0, 0, rect.width, rect.height});
     Widget::setGeometry(rect);
-    setAbsolutePosition(screen());
+}
+
+void Label::updateGeometry()
+{
+    Widget::updateGeometry();
+    TextCharacters::updateTextAbsPosition(screen());
 }
 
 void Label::setText(const std::u16string text)
@@ -29,14 +32,19 @@ void Label::setText(const std::u16string text)
 
 void Label::setAlignment(Alignment align)
 {
-    TextCharacters::setAlignment(align);
+    this->align = align;
     refresh();
 }
 
 void  Label::setColor(u_color color)
 {
-    TextCharacters::setColor(color);
+    m_color = color;
     refresh();
+}
+
+void Label::event(EventType type)
+{
+    this->type = type;
 }
 
 void Label::paint(MonitorDevice *const pMonitorDevice)

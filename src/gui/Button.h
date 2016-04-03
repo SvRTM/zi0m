@@ -17,17 +17,18 @@ class Button: public Widget, public TextCharacters
 {
     public:
         explicit Button(Widget *parent);
-        virtual ~Button();
+        virtual ~Button() {}
 
+    public:
         void setGeometry(Rect rect);
-        void setText(const std::u16string text);
+        void updateGeometry() ;
 
+        void setText(const std::u16string text);
         void setColor(u_color color);
 
+    private:
+        void event(EventType type);
         void paint(MonitorDevice *const pMonitorDevice) override;
-
-        void pressed() ;
-        void released();
 
     private:
         const uint16_t borderWidth;

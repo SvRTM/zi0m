@@ -29,7 +29,13 @@ void MainWindow::setupUi()
     addWidget(bt);
 
     Widget *aw = new AnotherWindow(this);
+    //aw->setGeometry(Rect(20, 30, 120, 100));
     addWidget(aw);
+}
+
+void MainWindow::event(EventType type)
+{
+    this->type = type;
 }
 
 void MainWindow::paint(MonitorDevice *const pMonitorDevice)

@@ -23,13 +23,8 @@ class Widget: public virtual Additional
         virtual ~Widget();
 
     public:
-        virtual void paint(MonitorDevice *const pMonitorDevice) = 0;
         void eventPaint(MonitorDevice *const pMonitorDevice);
-
-        inline const EventCtrl  *event() const
-        {
-            return pEventCtrl;
-        }
+        virtual void paint(MonitorDevice *const pMonitorDevice) = 0;
 
         // Returns current position in parent. It is either position in view or frame coordinates.
         inline const Rect &geometry() const
@@ -38,7 +33,7 @@ class Widget: public virtual Additional
         }
         void setGeometry(Rect rect);
         // Returns current position in absolute screen coordinates.
-        const Rect &screen() const
+        inline const Rect &screen() const
         {
             return screenRect;
         }
@@ -51,10 +46,10 @@ class Widget: public virtual Additional
 
         void setVisible(bool visible);
 
-        void setEventType(EventType type);
+        virtual void event(EventType type) = 0;
         EventType eventType() const;
 
-        Widget *findChild(int16_t x, int16_t y) const;
+        Widget *const exFindChild(int16_t x, int16_t y) const;
 
     protected:
         void addWidget(Widget *const w);
@@ -64,24 +59,21 @@ class Widget: public virtual Additional
             m_refresh = refresh;
         }
 
-
     private:
         // Returns current position in absolute screen coordinates.
         const Rect frameGeometry();
 
+
+    protected:
+        EventType type;
+
     private:
         Widget *const parent;
-        const EventCtrl *pEventCtrl;
-
-
-    private:
-        EventType type;
 
         Rect rect;
         Rect screenRect;
 
         bool enabled;
-
         bool m_refresh;
 
         std::vector<Widget *> widgets;

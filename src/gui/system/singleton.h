@@ -1,8 +1,10 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
+#define FONT(fontName)  Singleton<fontName>::instance()
+
 template<typename T>
-class Singleton
+class Singleton final
 {
     public:
         static const T &instance();

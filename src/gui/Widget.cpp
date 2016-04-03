@@ -6,10 +6,10 @@
  */
 
 #include "Widget.h"
+#include "TextCharacters.h"
 
 Widget::Widget(Widget *const parent)
-    : parent(parent), pEventCtrl(new EventCtrl()), type(EventType::_None),
-      m_refresh(true)
+    :  type(EventType::_None), parent(parent), m_refresh(true)
 {
 }
 Widget::~Widget()
@@ -25,7 +25,7 @@ void Widget::eventPaint(MonitorDevice *const pMonitorDevice)
         paint(pMonitorDevice);
         m_refresh = false;
     }
-    for (Widget *w : widgets)
+    for (Widget *const w : widgets)
         w->eventPaint(pMonitorDevice);
 }
 
@@ -39,8 +39,14 @@ void Widget::setGeometry(Rect rect)
 void Widget::updateGeometry()
 {
     screenRect = frameGeometry();
-    for (Widget *w : widgets)
-        w->updateGeometry();
+    for (Widget *const w : widgets)
+    {
+        TextCharacters *const txtCh  = dynamic_cast<TextCharacters *const>(w);
+        if (txtCh)
+            txtCh->updateGeometry();
+        else
+            w->updateGeometry();
+    }
 }
 
 const Rect Widget::frameGeometry()
@@ -64,11 +70,6 @@ void Widget::setVisible(bool visible)
     refresh();
 }
 
-void Widget::setEventType(EventType type)
-{
-    this->type = type;
-}
-
 EventType Widget::eventType() const
 {
     return type;
@@ -78,11 +79,17 @@ void Widget::addWidget(Widget *const w)
 {
     widgets.push_back(w);
 }
-Widget *Widget::findChild(int16_t x, int16_t y) const
+
+Widget *const Widget::exFindChild(int16_t x, int16_t y) const
 {
-    for (Widget *w : widgets)
-        if (w->screenRect.contains(x, y))
-            return w;
+    for (Widget *const w : widgets)
+        if (w->screenRect.contains(x, y) && w->enabled)
+        {
+            Widget *const _w = w->exFindChild(x, y);
+            if (_w == nullptr)
+                return w;
+            return _w;
+        }
 
     return nullptr;
 }

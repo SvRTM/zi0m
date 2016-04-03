@@ -16,8 +16,8 @@
 AnotherWindow::AnotherWindow(Widget *parent)
     : Widget(parent)
 {
-    setGeometry(Rect(20, 30, 120, 100));
     setupUi();
+    setGeometry(Rect(20, 30, 120, 100));
 }
 AnotherWindow::~AnotherWindow()
 {
@@ -27,10 +27,10 @@ void AnotherWindow::setupUi()
 {
     Button *bt = new Button(this);
     bt->setGeometry(Rect(15, 15, 60, 30));
-    bt->setText(u"Смирнов @#");
+    bt->setText(u"МСмирнов @#");
     bt->setAlignment((Alignment)(Alignment::Right | Alignment::VCenter));
-    bt->setFont(Singleton<Tinos_AA_11pt_Regular>::instance());
-    // bt->setVisible(false);
+    bt->setFont(FONT(Tinos_AA_11pt_Regular));
+    bt->setVisible(false);
     addWidget(bt);
 
     //u_color color = {0xFF420D0D};
@@ -68,14 +68,14 @@ void AnotherWindow::setupUi()
     lb->setGeometry(Rect(10, 150, 100, 26));
     addWidget(lb);
     lb = new Label(this, (Alignment) (Alignment::Bottom | Alignment::Right));
-    lb->setFont(Singleton<Terminus_24pt_Regular>::instance());
+    lb->setFont(FONT(Terminus_24pt_Regular));
     lb->setText(u"Ёд 1234");
     lb->setColor(color);
     lb->setBackground(bg);
     lb->setGeometry(Rect(10, 80, 100, 100));
     addWidget(lb);
     lb = new Label(this, (Alignment) (Alignment::Top | Alignment::HCenter));
-    lb->setFont(Singleton<Tinos_AA_11pt_Regular>::instance());
+    lb->setFont(FONT(Tinos_AA_11pt_Regular));
     lb->setText(u" Ёд 12345");
     lb->setColor(color);
     lb->setBackground(bg);
@@ -83,7 +83,7 @@ void AnotherWindow::setupUi()
     lb->setGeometry(Rect(120, 80, 100, 100));
     addWidget(lb);
     lb = new Label(this, (Alignment) (Alignment::Top | Alignment::HCenter));
-    lb->setFont(Singleton<Tinos_AA_11pt_Regular>::instance());
+    lb->setFont(FONT(Tinos_AA_11pt_Regular));
     lb->setText(u" Ёд 12345☎@");
     lb->setColor(color);
     lb->setBackground(bg);
@@ -93,6 +93,11 @@ void AnotherWindow::setupUi()
 
     setBackground({ 0x008886FAU });
     //setBackground(u_color { 0x00D6D2D0U });
+}
+
+void AnotherWindow::event(EventType type)
+{
+    this->type = type;
 }
 
 void AnotherWindow::paint(MonitorDevice *const pMonitorDevice)

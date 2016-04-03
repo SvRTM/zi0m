@@ -9,8 +9,10 @@
 #include "win32-test/EmuTouch.h"
 
 
-ApplicationBase::ApplicationBase( Widget *const mainWidget)
-    : pMainWidget(mainWidget), pEventCtrl(new EventCtrl()), pMonitorDevice(nullptr)
+ApplicationBase::ApplicationBase(Widget *const mainWidget)
+    : pMainWidget(mainWidget),
+      pEventCtrl(new EventCtrl()),
+      pMonitorDevice(nullptr)
 {
 }
 
@@ -23,17 +25,17 @@ ApplicationBase::~ApplicationBase()
     delete pEventCtrl;
 }
 
-void ApplicationBase::init(MonitorDevice *pMonitorDevice)
+void ApplicationBase::init(MonitorDevice *const pMonitorDevice)
 {
     this->pMonitorDevice = pMonitorDevice;
 }
 
-void ApplicationBase::addDevice(InputDevice *device)
+void ApplicationBase::addDevice(InputDevice *const device)
 {
     devices.push_back(device);
 }
 
-const std::vector<InputDevice *> ApplicationBase::getDevices()
+const std::vector<InputDevice *> ApplicationBase::getDevices() const
 {
     return devices;
 }
@@ -47,6 +49,9 @@ void ApplicationBase::quantum()
         if (EventType::_None != msg.touchEvent)
             break;
     }
-    pEventCtrl->process(msg, pMainWidget);
+
+    if (EventType::_None != msg.touchEvent)
+        pEventCtrl->process(msg, pMainWidget);
+
     pMainWidget->eventPaint(pMonitorDevice);
 }

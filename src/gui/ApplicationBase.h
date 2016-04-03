@@ -22,14 +22,14 @@ class ApplicationBase
         explicit ApplicationBase(Widget *const mainWidget);
         virtual ~ApplicationBase();
 
-        void init(MonitorDevice *pMonitorDevice);
+        void init(MonitorDevice *const pMonitorDevice);
 
-        void addDevice(InputDevice *device);
-        const std::vector<InputDevice *> getDevices();
+        void addDevice(InputDevice *const device);
+        const std::vector<InputDevice *> getDevices() const;
         void quantum();
 
     private:
-        Widget *pMainWidget;
+        Widget *const pMainWidget;
         EventCtrl *pEventCtrl;
 
         std::vector<InputDevice *> devices;

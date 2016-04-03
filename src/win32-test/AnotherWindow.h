@@ -16,8 +16,12 @@ class AnotherWindow: public Widget
         AnotherWindow(Widget *parent);
         virtual ~AnotherWindow();
 
+    public:
         void paint(MonitorDevice *const pMonitorDevice) override;
+
+    private:
         void setupUi();
+        void event(EventType type) override;
 };
 
 #endif /* GUI_AnotherWindow_H_ */

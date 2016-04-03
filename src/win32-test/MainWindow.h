@@ -20,6 +20,7 @@ class MainWindow: public Widget
     public:
         void paint(MonitorDevice *const pMonitorDevice) override;
 
+        void event(EventType type) override;
     private:
         void setupUi();
 };

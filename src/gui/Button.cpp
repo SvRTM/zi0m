@@ -7,21 +7,22 @@
 
 #include "Button.h"
 
-Button::Button(Widget *parent)
-    : Widget(parent), TextCharacters(Alignment::Center), borderWidth(1)
-{
-    setBackground({0x00D6D2D0U});
-}
-Button::~Button()
+Button::Button(Widget *parent) : Additional({0x00D6D2D0U}),
+       Widget(parent), TextCharacters(Alignment::Center), borderWidth(1)
 {
 }
 
 void Button::setGeometry(Rect rect)
 {
+    TextCharacters::setGeometry(Rect(2 * borderWidth, 2 * borderWidth,
+                                     rect.width - 4 * borderWidth, rect.height - 4 * borderWidth));
     Widget::setGeometry(rect);
-    setAbsolutePosition(Rect(
-                            screen().x +  2 * borderWidth, screen().y + 2 * borderWidth,
-                            screen().width - 4 * borderWidth, screen().height - 4 * borderWidth));
+}
+
+void Button::updateGeometry()
+{
+    Widget::updateGeometry();
+    TextCharacters::updateTextAbsPosition(screen());
 }
 
 void Button::setText(const std::u16string text)
@@ -32,20 +33,28 @@ void Button::setText(const std::u16string text)
 
 void  Button::setColor(u_color color)
 {
-    TextCharacters::setColor(color);
+    m_color = color;
     refresh();
 }
 
-void Button::pressed()
+void Button::event(EventType type)
 {
-    setEventType(EventType::TouchStart);
-    refresh();
-}
+    this->type = type;
 
-void Button::released()
-{
-    setEventType(EventType::TouchEnd);
-    refresh();
+    if (!visible)
+        return;
+
+    switch (type)
+    {
+        case EventType::TouchStart:
+        case EventType::TouchEnd:
+        case EventType::TouchLeave:
+            refresh();
+            break;
+
+        default:
+            break;
+    }
 }
 
 void Button::paint(MonitorDevice *const pMonitorDevice)

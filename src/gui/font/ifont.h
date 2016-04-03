@@ -13,8 +13,8 @@ struct IFont
     };
 
 
-    IFont(uint8_t _height, uint8_t _sizeOfBlock, Mode _mode)
-            : height(_height), sizeOfBlock(_sizeOfBlock), mode(_mode) {}
+    explicit IFont(uint8_t _height, uint8_t _sizeOfBlock, Mode _mode)
+                : height(_height), sizeOfBlock(_sizeOfBlock), mode(_mode) {}
 
 
     struct CHAR_INFO
@@ -38,19 +38,19 @@ struct IFont
     virtual const BLOCK *blocks()    const = 0;
     virtual const uint8_t *bitmaps() const = 0;
 
-    static inline const IFont::CHAR_INFO *descriptor(const wchar_t ch, const IFont &font);
+    static inline const IFont::CHAR_INFO *const descriptor(const wchar_t ch, const IFont &font);
 };
 
-const IFont::CHAR_INFO * IFont::descriptor(const wchar_t ch, const IFont &font)
+const IFont::CHAR_INFO *const IFont::descriptor(const wchar_t ch, const IFont &font)
 {
     for (size_t n = 0; n < font.sizeOfBlock; ++n)
     {
-        const IFont::BLOCK *block = &font.blocks()[n];
+        const IFont::BLOCK *const block = &font.blocks()[n];
         if (ch >= block->startChar && ch <= block->endChar)
             return &block->descriptors[ch - block->startChar];
     }
 
-    const IFont::BLOCK *block = &font.blocks()[font.sizeOfBlock - 1];
+    const IFont::BLOCK *const block = &font.blocks()[font.sizeOfBlock - 1];
     return &block->descriptors[0];
 }
 

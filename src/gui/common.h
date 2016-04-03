@@ -16,10 +16,10 @@ struct Size
     uint16_t width;
     uint16_t height;
 
-    Size () : width (0), height (0)
+    Size() : width(0), height(0)
     {
     }
-    Size (uint16_t w, uint16_t h) : width (w), height (h)
+    Size(uint16_t w, uint16_t h) : width(w), height(h)
     {
     }
 };
@@ -29,10 +29,10 @@ struct Point
     int16_t x;
     int16_t y;
 
-    Point () : x (0), y (0)
+    Point() : x(0), y(0)
     {
     }
-    Point (int16_t _x, int16_t _y) : x (_x), y (_y)
+    Point(int16_t x, int16_t y) : x(x), y(y)
     {
     }
 };
@@ -44,35 +44,33 @@ struct Rect
     uint16_t width;
     uint16_t height;
 
-    Rect () : x (0), y (0), width (0), height (0)
+    Rect() : x(0), y(0), width(0), height(0)
     {
     }
-    Rect (int16_t _x, int16_t _y, uint16_t _width, uint16_t _height)
-        : x (_x), y (_y), width (_width), height (_height)
+    Rect(int16_t x, int16_t y, uint16_t width, uint16_t height)
+        : x(x), y(y), width(width), height(height)
     {
-    }
-
-    void getCoords (int16_t *x1, int16_t *y1, int16_t *x2, int16_t *y2) const
-    {
-        *x1 = x;
-        *y1 = y;
-
-        *x2 = x + width;
-        *y2 = y + height;
     }
 
-    bool contains (int16_t _x, int16_t _y) const
+    void getCoords(int16_t &x1, int16_t &y1, int16_t &x2, int16_t &y2) const
     {
-        return (x <= _x && x + width >= _x) && (y <= _y && y + height >= _y);
+        x1 = x, y1 = y;
+        x2 = x + width, y2 = y + height;
     }
 
-    Rect operator+(Rect &rect)
+    bool contains(int16_t x, int16_t y) const
     {
-        return Rect (x + rect.x, y + rect.y, rect.width, rect.height);
+        return (this->x <= x && this->x + width >= x)
+               && (this->y <= y && this->y + height >= y);
     }
-    Rect operator+(Point pt)
+
+    Rect operator+(const Rect &rect) const
     {
-        return Rect (x + pt.x, y + pt.y, width, height);
+        return Rect(x + rect.x, y + rect.y, rect.width, rect.height);
+    }
+    Rect operator+(const Point pt) const
+    {
+        return Rect(x + pt.x, y + pt.y, width, height);
     }
 };
 
@@ -88,15 +86,6 @@ enum class EventType
     TouchLeave
 };
 
-//enum class Message
-//{
-//    _None,
-//    TouchUp,
-//    TouchDown,
-//    TouchMove,
-//    TouchMoveIn,
-//    TouchMoveOut
-//};
 struct _MSG
 {
     EventType touchEvent;

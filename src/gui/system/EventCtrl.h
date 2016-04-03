@@ -11,17 +11,18 @@
 #include "gui/common.h"
 
 class Widget;
-class EventCtrl
+class EventCtrl final
 {
     public:
-        EventCtrl();
-        virtual ~EventCtrl();
+        explicit EventCtrl();
+        virtual ~EventCtrl() {}
 
     public:
-        void process(const _MSG msg,   Widget *const widget) const;
+        void process(const _MSG msg, Widget *const widget);
 
     private:
         Widget *prevWidget;
+        bool isEnableTouchLeave;
 };
 
 #endif /* SRC_GUI_SYSTEM_EVENTCTRL_H_ */

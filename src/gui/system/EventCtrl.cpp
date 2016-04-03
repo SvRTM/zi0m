@@ -6,75 +6,62 @@
  */
 
 #include "EventCtrl.h"
-
 #include "../Widget.h"
-#include "../Button.h"
 
-EventCtrl::EventCtrl() : prevWidget(nullptr)
-{
-}
-EventCtrl::~EventCtrl()
+EventCtrl::EventCtrl() : prevWidget(nullptr), isEnableTouchLeave(false)
 {
 }
 
-void EventCtrl::process(const _MSG msg, Widget *const widget) const
+void EventCtrl::process(const _MSG msg, Widget *const widget)
 {
-        Button *const btn = dynamic_cast<Button *const>(widget);
-        if (btn == nullptr)
-        {
-            Widget *w = widget->findChild(msg.pt.x, msg.pt.y);
-            if (w != nullptr)
-                w->event()->process(msg, w);
-            return;
-        }
-
-//    switch (msg.touchEvent)
-//    {
-//        case EventType::TouchStart:
-//        {
-//            Widget *const currWidget = widget->findChild(msg.pt.x, msg.pt.y);
-//            if (currWidget == nullptr)
-//                currWidget = widget;
-//            if (prevWidget == nullptr)
-//            {
-//                currWidget->setEventType(EventType::TouchStart);
-//                prevWidget = currWidget;
-//                //process
-//            }
-//            else if (prevWidget == currWidget)
-//            {
-//                if (!currWidget->frameGeometry().contains(prevWidget->frameGeometry().x,
-//                                                          prevWidget->frameGeometry().y))
-//                    currWidget->setEventType(EventType::TouchMove);
-//            }
-//            else
-//            {
-//                prevWidget->setEventType(EventType::TouchLeave);
-//                // process prevW
-//            }
-//            break;
-//        }
-//        case EventType::TouchEnd:
-//            prevWidget->setEventType(EventType::TouchEnd);
-//            //process
-//            prevWidget = nullptr;
-//            break;
-
-//        default:
-//            break;
-//    }
-
     switch (msg.touchEvent)
     {
         case EventType::TouchStart:
-            if (btn->isVisible())
-                btn->pressed();
+        {
+            Widget *currWidget = widget->exFindChild(msg.pt.x, msg.pt.y);
+            if (currWidget == nullptr)
+                currWidget = widget;
+
+            if (prevWidget == nullptr)
+            {
+                currWidget->event(EventType::TouchStart);
+                //process
+                prevWidget = currWidget;
+            }
+            else if (prevWidget == currWidget)
+            {
+                if (!currWidget->screen().contains(prevWidget->screen().x,
+                                                   prevWidget->screen().y))
+                {
+                    if (isEnableTouchLeave)
+                        currWidget->event(EventType::TouchEnter);
+                    else
+                        currWidget->event(EventType::TouchMove);
+                    isEnableTouchLeave = false;
+                    // process
+                }
+            }
+            else
+            {
+                if (!isEnableTouchLeave && EventType::TouchLeave != prevWidget->eventType())
+                {
+                    prevWidget->event(EventType::TouchLeave);
+                    isEnableTouchLeave = true;
+                }
+                else
+                    prevWidget->event(EventType::TouchMove);
+                // process prevWidget
+            }
             break;
+        }
+
         case EventType::TouchEnd:
-            if (btn->isVisible())
-                // FIXME: when the properties button is changed by pressing the button
-                btn->released();
+            prevWidget->event(EventType::TouchEnd);
+            //process prevWidget/currWidget
+            prevWidget = nullptr;
+            isEnableTouchLeave = false;
             break;
+
         default:
             break;
     }

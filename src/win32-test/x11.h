@@ -16,8 +16,9 @@
 
 struct RenderData
 {
-    RenderData() : exit(false) {}
-    Display *d_;
+    explicit RenderData() : exit(false) {}
+
+    Display *dsp;
     GC ctx;
     Drawable win;
     Colormap cmap;
@@ -25,30 +26,27 @@ struct RenderData
     bool exit;
 };
 
-class x11
+class x11 final
 {
-
     public:
-        x11();
+        explicit x11();
         virtual ~x11();
 
     public:
         void exec();
 
-        bool isBtPressed()
-        {
-            return btPressed;
-        }
-
     private:
         void createWindow();
+        inline void clearMsg()
+        {
+            msg = {EventType::_None, {0, 0}};
+        }
 
     public:
         RenderData param;
 
     private:
         _MSG msg;
-        volatile bool btPressed;
 };
 
 #endif /* SRC_WIN32_TEST_X11_H_ */

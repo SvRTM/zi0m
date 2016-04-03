@@ -18,16 +18,19 @@ class Label: public Widget, public TextCharacters
     public:
         explicit Label(Widget *parent,
                        Alignment align = (Alignment) (Alignment::VCenter | Alignment::Left));
-        virtual ~Label();
+        virtual ~Label() {}
 
     public:
         void setGeometry(Rect rect);
-        void setText(const std::u16string text);
+        void updateGeometry() ;
 
+        void setText(const std::u16string text);
         void setColor(u_color color);
 
         void setAlignment(Alignment align);
 
+    private:
+        void event(EventType type) override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 };
 

@@ -1,5 +1,5 @@
-#ifndef COM_H
-#define COM_H
+#ifndef ADDITIONAL_H
+#define ADDITIONAL_H
 
 #include "font/ifont.h"
 #include "gui/system/singleton.h"
@@ -8,10 +8,12 @@
 class Additional
 {
     public:
-        explicit Additional();
+        explicit Additional(u_color bg = {0x00E8F6FAU});
         virtual ~Additional() {}
 
     public:
+        virtual void updateGeometry() = 0;
+
         inline const IFont &font() const
         {
             return *pFont;
@@ -33,10 +35,8 @@ class Additional
 
     protected:
         const IFont *pFont;
-
-    private:
         u_color m_background;
         bool visible;
 };
 
-#endif // COM_H
+#endif // ADDITIONAL_H

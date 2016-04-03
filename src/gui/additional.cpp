@@ -2,8 +2,9 @@
 
 #include "font/Terminus_11pt_Regular.h"
 
-Additional::Additional() : pFont(&Singleton<Terminus_11pt_Regular>::instance()),
-    m_background({0x00E8F6FAU}), visible(true)
+Additional::Additional(u_color bg) :
+    pFont(&FONT(Terminus_11pt_Regular)),
+    m_background(bg), visible(true)
 {
 }
 

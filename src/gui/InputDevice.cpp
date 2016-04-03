@@ -10,6 +10,3 @@
 InputDevice::InputDevice()
 {
 }
-InputDevice::~InputDevice()
-{
-}

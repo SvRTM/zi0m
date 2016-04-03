@@ -47,9 +47,9 @@ void  Panic(const char *msg)
 }
 
 
-x11::x11()
+x11::x11() : msg({EventType::_None, {0, 0}})
 {
-    if (!(param.d_ = XOpenDisplay(nullptr)))
+    if (!(param.dsp = XOpenDisplay(nullptr)))
     {
         printf("No X11 display, errno = %d, %s", errno, strerror(errno));
         fflush(stdout);
@@ -60,39 +60,39 @@ x11::x11()
 }
 x11::~x11()
 {
-    XUnmapWindow(param.d_, param.win);
-    XDestroyWindow(param.d_, param.win);
-    XCloseDisplay(param.d_);
+    XUnmapWindow(param.dsp, param.win);
+    XDestroyWindow(param.dsp, param.win);
+    XCloseDisplay(param.dsp);
 }
 
 void x11::createWindow()
 {
-    int screen = DefaultScreen(param.d_);
-    Window root = RootWindow(param.d_, screen);
+    int screen = DefaultScreen(param.dsp);
+    Window root = RootWindow(param.dsp, screen);
 
-    Atom wmDelete = XInternAtom(param.d_, "WM_DELETE_WINDOW", false);
+    Atom wmDelete = XInternAtom(param.dsp, "WM_DELETE_WINDOW", false);
 
-    long bgcolor = WhitePixel(param.d_, screen);
+    long bgcolor = WhitePixel(param.dsp, screen);
 
-    int depth =  DefaultDepth(param.d_, screen);
-    Visual *visual = DefaultVisual(param.d_, screen);
+    int depth =  DefaultDepth(param.dsp, screen);
+    Visual *visual = DefaultVisual(param.dsp, screen);
     XSetWindowAttributes attributes;
     attributes.background_pixel = bgcolor;
-    param.win = XCreateWindow(param.d_, root,
+    param.win = XCreateWindow(param.dsp, root,
                               0, 0, 320, 240, 0, depth,
                               InputOutput, visual,
                               CWBackPixel, &attributes);
 
-    param.cmap = DefaultColormap(param.d_, screen);
-    param.ctx =  DefaultGC(param.d_, screen);
+    param.cmap = DefaultColormap(param.dsp, screen);
+    param.ctx =  DefaultGC(param.dsp, screen);
 
     long eventmask = PointerMotionMask | ButtonPressMask | ButtonReleaseMask
                      | ExposureMask
                      | KeyPressMask
                      | StructureNotifyMask | PropertyChangeMask | VisibilityChangeMask
                      | FocusChangeMask;
-    XSelectInput(param.d_, param.win, eventmask);
-    XSetWMProtocols(param.d_, param.win, &wmDelete, true);
+    XSelectInput(param.dsp, param.win, eventmask);
+    XSetWMProtocols(param.dsp, param.win, &wmDelete, true);
 }
 
 void x11::exec()
@@ -100,18 +100,15 @@ void x11::exec()
     Application app(this);
     app.init();
 
-    XMapWindow(param.d_, param.win);
+    XMapWindow(param.dsp, param.win);
 
     bool isBtnPressed = false;
     while (!param.exit)
     {
-        if (XPending(param.d_))
+        if (XPending(param.dsp))
         {
-            msg.touchEvent = EventType::_None;
-            msg.pt = Point();
-
             XEvent event;
-            XNextEvent(param.d_, &event);
+            XNextEvent(param.dsp, &event);
             switch (event.type)
             {
                 case Expose:
@@ -180,12 +177,12 @@ void x11::exec()
                     fprintf(stderr, "Unexpected event: %d\n", event.type);
             }
         }
+        usleep(16000);
+
         app.setMessage(msg);
-        usleep(10000);
         app.quantum();
 
-        msg.touchEvent = EventType::_None;
-        msg.pt = Point();
+        clearMsg();
     }
 }
 

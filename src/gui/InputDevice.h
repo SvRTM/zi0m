@@ -14,7 +14,7 @@ class InputDevice
 {
     public:
         InputDevice();
-        virtual ~InputDevice();
+        virtual ~InputDevice() {}
 
     public:
         virtual _MSG getMessage() const = 0;

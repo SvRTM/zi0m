@@ -10,6 +10,3 @@
 MonitorDevice::MonitorDevice()
 {
 }
-MonitorDevice::~MonitorDevice()
-{
-}
