@@ -14,7 +14,7 @@ struct IFont
 
 
     explicit IFont(uint8_t _height, uint8_t _sizeOfBlock, Mode _mode)
-                : height(_height), sizeOfBlock(_sizeOfBlock), mode(_mode) {}
+        : height(_height), sizeOfBlock(_sizeOfBlock), mode(_mode) {}
 
 
     struct CHAR_INFO
