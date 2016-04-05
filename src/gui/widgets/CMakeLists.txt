@@ -1,0 +1,15 @@
+set(SOURCES
+    ${SOURCES}
+    "${CMAKE_CURRENT_SOURCE_DIR}/Button.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Label.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Widget.cpp"
+    PARENT_SCOPE
+)
+
+set(HEADERS
+    ${HEADERS}
+    "${CMAKE_CURRENT_SOURCE_DIR}/Button.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Label.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Widget.h"
+    PARENT_SCOPE
+)
