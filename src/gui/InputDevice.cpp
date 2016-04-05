@@ -7,6 +7,11 @@
 
 #include "InputDevice.h"
 
+namespace zi0m
+{
+
 InputDevice::InputDevice()
 {
+}
+
 }

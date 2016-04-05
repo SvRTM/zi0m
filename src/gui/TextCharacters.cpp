@@ -1,5 +1,8 @@
 #include "TextCharacters.h"
 
+namespace zi0m
+{
+
 TextCharacters::TextCharacters(Alignment align) :
     m_color({COLOR_24B_BLACK}), align(align)
 {
@@ -133,4 +136,6 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
         }
         posX += pDescriptor->width;
     }
+}
+
 }

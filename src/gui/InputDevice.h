@@ -10,6 +10,8 @@
 
 #include "common.h"
 
+namespace zi0m
+{
 class InputDevice
 {
     public:
@@ -19,5 +21,5 @@ class InputDevice
     public:
         virtual _MSG getMessage() const = 0;
 };
-
+}
 #endif /* GUI_INPUTDEVICE_H_ */

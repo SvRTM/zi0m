@@ -8,6 +8,8 @@
 #include "ApplicationBase.h"
 #include "win32-test/EmuTouch.h"
 
+namespace zi0m
+{
 
 ApplicationBase::ApplicationBase(Widget *const mainWidget)
     : pMainWidget(mainWidget),
@@ -54,4 +56,6 @@ void ApplicationBase::quantum()
         pEventCtrl->process(msg, pMainWidget);
 
     pMainWidget->eventPaint(pMonitorDevice);
+}
+
 }

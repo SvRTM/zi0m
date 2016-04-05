@@ -10,6 +10,8 @@
 
 #include "../gui/InputDevice.h"
 
+using namespace zi0m;
+
 class EmuTouch final : public InputDevice
 {
     public:

@@ -14,6 +14,8 @@
 #include <string>
 #include <functional>
 
+namespace zi0m
+{
 class Button: public Widget, public TextCharacters
 {
     public:
@@ -42,5 +44,5 @@ class Button: public Widget, public TextCharacters
         std::function<void (void)> cbReleased;
         std::function<void (uint16_t x, uint16_t y)> cbMoved;
 };
-
+}
 #endif /* GUI_BUTTON_H_ */

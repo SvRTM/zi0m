@@ -16,6 +16,8 @@
 
 #include <vector>
 
+namespace zi0m
+{
 class Widget: public virtual Additional
 {
     public:
@@ -78,5 +80,5 @@ class Widget: public virtual Additional
 
         std::vector<Widget *> widgets;
 };
-
+}
 #endif /* GUI_WIDGET_H_ */

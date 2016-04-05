@@ -8,6 +8,9 @@
 #include "EventCtrl.h"
 #include "../Widget.h"
 
+namespace zi0m
+{
+
 EventCtrl::EventCtrl() : prevWidget(nullptr), isEnableTouchLeave(false)
 {
 }
@@ -30,8 +33,7 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
             }
             else if (prevWidget == currWidget)
             {
-                if (!currWidget->screen().contains(prevWidget->screen().x,
-                                                   prevWidget->screen().y))
+                if (!currWidget->screen().contains(prevWidget->screen().x, prevWidget->screen().y))
                 {
                     if (isEnableTouchLeave)
                         currWidget->event(EventType::TouchEnter);
@@ -65,4 +67,6 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
         default:
             break;
     }
+}
+
 }

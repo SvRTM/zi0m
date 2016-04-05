@@ -13,6 +13,8 @@
 
 #include <string>
 
+namespace zi0m
+{
 class Label: public Widget, public TextCharacters
 {
     public:
@@ -33,5 +35,5 @@ class Label: public Widget, public TextCharacters
         void event(EventType type) override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 };
-
+}
 #endif /* SRC_GUI_LABEL_H_ */

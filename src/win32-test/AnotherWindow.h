@@ -10,6 +10,8 @@
 
 #include "../gui/Widget.h"
 
+using namespace zi0m;
+
 class AnotherWindow: public Widget
 {
     public:

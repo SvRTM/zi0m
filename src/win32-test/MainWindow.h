@@ -11,6 +11,8 @@
 #include "../gui/Widget.h"
 #include <vector>
 
+using namespace zi0m;
+
 class MainWindow: public Widget
 {
     public:

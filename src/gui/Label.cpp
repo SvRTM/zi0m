@@ -7,6 +7,9 @@
 
 #include "Label.h"
 
+namespace zi0m
+{
+
 Label::Label(Widget *parent, Alignment align)
     : Widget(parent), TextCharacters(align)
 {
@@ -57,3 +60,4 @@ void Label::paint(MonitorDevice *const pMonitorDevice)
     drawText(pMonitorDevice);
 }
 
+}

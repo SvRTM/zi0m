@@ -10,6 +10,8 @@
 
 #include "gui/common.h"
 
+namespace zi0m
+{
 class Widget;
 class EventCtrl final
 {
@@ -24,5 +26,5 @@ class EventCtrl final
         Widget *prevWidget;
         bool isEnableTouchLeave;
 };
-
+}
 #endif /* SRC_GUI_SYSTEM_EVENTCTRL_H_ */

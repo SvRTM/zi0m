@@ -5,6 +5,8 @@
 #include "gui/system/singleton.h"
 #include "common.h"
 
+namespace zi0m
+{
 class Additional
 {
     public:
@@ -38,5 +40,5 @@ class Additional
         u_color m_background;
         bool visible;
 };
-
+}
 #endif // ADDITIONAL_H

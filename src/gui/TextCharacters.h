@@ -8,6 +8,8 @@
 
 #include <string>
 
+namespace zi0m
+{
 class TextCharacters : public virtual Additional
 {
     public:
@@ -78,5 +80,5 @@ class TextCharacters : public virtual Additional
         std::u16string m_text;
         uint16_t pxTextWidth;
 };
-
+}
 #endif // TEXTCHARACTERS_H

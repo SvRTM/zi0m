@@ -7,6 +7,11 @@
 
 #include "MonitorDevice.h"
 
+namespace zi0m
+{
+
 MonitorDevice::MonitorDevice()
 {
+}
+
 }

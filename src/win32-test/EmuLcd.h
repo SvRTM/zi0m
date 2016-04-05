@@ -18,6 +18,8 @@
     #include <X11/Xlib.h>
 #endif
 
+using namespace zi0m;
+
 class EmuLcd: public MonitorDevice
 {
     public:

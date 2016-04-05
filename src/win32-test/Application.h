@@ -19,6 +19,8 @@
     #include "x11.h"
 #endif
 
+using namespace zi0m;
+
 class Application: public ApplicationBase
 {
     public:

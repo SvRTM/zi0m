@@ -8,6 +8,9 @@
 #include "Widget.h"
 #include "TextCharacters.h"
 
+namespace zi0m
+{
+
 Widget::Widget(Widget *const parent)
     :  type(EventType::_None), parent(parent), m_refresh(true)
 {
@@ -92,4 +95,6 @@ Widget *const Widget::exFindChild(int16_t x, int16_t y) const
         }
 
     return nullptr;
+}
+
 }

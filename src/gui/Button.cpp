@@ -7,6 +7,9 @@
 
 #include "Button.h"
 
+namespace zi0m
+{
+
 Button::Button(Widget *parent) : Additional({0x00D6D2D0U}),
        Widget(parent), TextCharacters(Alignment::Center), borderWidth(1)
 {
@@ -142,4 +145,6 @@ void Button::setCbReleased(const std::function<void ()> &func)
 void Button::setCbPressed(const std::function<void ()> &func)
 {
     cbPressed = func;
+}
+
 }

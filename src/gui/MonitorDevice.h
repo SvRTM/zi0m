@@ -13,6 +13,8 @@
 
 #include <string>
 
+namespace zi0m
+{
 class MonitorDevice
 {
     public:
@@ -43,5 +45,5 @@ class MonitorDevice
             return color;
         }
 };
-
+}
 #endif /* GUI_MONITORDEVICE_H_ */

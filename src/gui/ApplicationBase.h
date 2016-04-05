@@ -16,6 +16,8 @@
 
 #include <vector>
 
+namespace zi0m
+{
 class ApplicationBase
 {
     public:
@@ -35,5 +37,5 @@ class ApplicationBase
         std::vector<InputDevice *> devices;
         MonitorDevice *pMonitorDevice;
 };
-
+}
 #endif /* SRC_GUI_APPLICATIONBASE_H_ */

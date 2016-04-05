@@ -14,6 +14,8 @@
 #include <X11/Xlib.h>
 #include <unistd.h>
 
+using namespace zi0m;
+
 struct RenderData
 {
     explicit RenderData() : exit(false) {}

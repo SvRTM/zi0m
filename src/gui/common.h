@@ -11,6 +11,9 @@
 #include <stdint.h>
 #include <stddef.h>
 
+namespace zi0m
+{
+
 struct Size
 {
     uint16_t width;
@@ -169,4 +172,6 @@ enum Alignment
 #define COLOR_16B_ORANGE 0xFD20      /* 255, 165,   0 */
 #define COLOR_16B_GREENYELLOW 0xAFE5 /* 173, 255,  47 */
 
+}
 #endif /* GUI_COMMON_H_ */
+
