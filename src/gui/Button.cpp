@@ -47,8 +47,18 @@ void Button::event(EventType type)
     switch (type)
     {
         case EventType::TouchStart:
+            if (cbPressed)
+                cbPressed();
+            goto L;
         case EventType::TouchEnd:
+            if (cbReleased)
+                cbReleased();
+            goto L;
+
         case EventType::TouchLeave:
+            if (cbMoved)
+                cbMoved(0, 0);
+        L:
             refresh();
             break;
 
@@ -117,4 +127,19 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
     pMonitorDevice->fillRect(
         Rect(screen().x, screen().y, screen().width - borderWidth, borderWidth),
         colorTL);
+}
+
+void Button::setCbMoved(const std::function<void (uint16_t, uint16_t)> &func)
+{
+    cbMoved = func;
+}
+
+void Button::setCbReleased(const std::function<void ()> &func)
+{
+    cbReleased = func;
+}
+
+void Button::setCbPressed(const std::function<void ()> &func)
+{
+    cbPressed = func;
 }

@@ -30,8 +30,18 @@ void AnotherWindow::setupUi()
     bt->setText(u"МСмирнов @#");
     bt->setAlignment((Alignment)(Alignment::Right | Alignment::VCenter));
     bt->setFont(FONT(Tinos_AA_11pt_Regular));
-    bt->setVisible(false);
+    //bt->setVisible(false);
     addWidget(bt);
+    bt->setCbPressed( [bt]
+    {
+        bt->setAlignment((Alignment)(Alignment::Left | Alignment::Bottom));
+        bt->setText(u"Pressed");
+    });
+    bt->setCbReleased( [bt]
+    {
+        bt->setAlignment((Alignment)(Alignment::Left | Alignment::Top));
+        bt->setText(u"Released");
+    });
 
     //u_color color = {0xFF420D0D};
     // u_color color = {0xFFAA0000U};
