@@ -87,10 +87,11 @@ void x11::createWindow()
     param.ctx =  DefaultGC(param.dsp, screen);
 
     long eventmask = PointerMotionMask | ButtonPressMask | ButtonReleaseMask
-                     | ExposureMask
-                     | KeyPressMask
-                     | StructureNotifyMask | PropertyChangeMask | VisibilityChangeMask
-                     | FocusChangeMask;
+                     //| ExposureMask
+                     //| KeyPressMask
+                     //| StructureNotifyMask | PropertyChangeMask | VisibilityChangeMask
+                     //| FocusChangeMask
+                     ;
     XSelectInput(param.dsp, param.win, eventmask);
     XSetWMProtocols(param.dsp, param.win, &wmDelete, true);
 }
@@ -99,8 +100,9 @@ void x11::exec()
 {
     Application app(this);
     app.init();
-
     XMapWindow(param.dsp, param.win);
+
+    bool latch=true;
 
     bool isBtnPressed = false;
     while (!param.exit)
@@ -177,12 +179,18 @@ void x11::exec()
                     fprintf(stderr, "Unexpected event: %d\n", event.type);
             }
         }
-        usleep(16000);
+
+        if (latch)
+        {
+            usleep(16000);
+            latch=false;
+        }
 
         app.setMessage(msg);
         app.quantum();
 
         clearMsg();
     }
+
 }
 

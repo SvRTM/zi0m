@@ -43,7 +43,7 @@ void EmuLcd::setPoint(int16_t x, int16_t y, const u_color &color)
     XSetForeground(x11data->dsp, x11data->ctx, xcolour.pixel);
     usleep(10);
     XDrawPoint(x11data->dsp, x11data->win, x11data->ctx, x, y);
-    usleep(10);
+    usleep(500);
 #endif
 }
 
