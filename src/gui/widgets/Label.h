@@ -27,6 +27,7 @@ class Label: public Widget, public TextCharacters
         void updateGeometry() ;
 
         void setText(const std::u16string text);
+        void setFont(const IFont &font);
         void setColor(u_color color);
 
         void setAlignment(Alignment align);

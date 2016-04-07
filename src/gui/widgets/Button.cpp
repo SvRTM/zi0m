@@ -34,6 +34,12 @@ void Button::setText(const std::u16string text)
     refresh();
 }
 
+void Button::setFont(const IFont &font)
+{
+    TextCharacters::setFont(font);
+    refresh();
+}
+
 void  Button::setColor(u_color color)
 {
     m_color = color;
@@ -44,7 +50,7 @@ void Button::event(EventType type)
 {
     this->type = type;
 
-    if (!visible)
+    if (!isVisible())
         return;
 
     switch (type)

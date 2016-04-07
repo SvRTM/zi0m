@@ -37,6 +37,7 @@ class Additional
 
     protected:
         const IFont *pFont;
+    private:
         u_color m_background;
         bool visible;
 };

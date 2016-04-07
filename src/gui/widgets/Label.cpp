@@ -13,6 +13,8 @@ namespace zi0m
 Label::Label(Widget *parent, Alignment align)
     : Widget(parent), TextCharacters(align)
 {
+    if (parent)
+        setBackground(parent->background());
 }
 
 void Label::setGeometry(Rect rect)
@@ -30,6 +32,12 @@ void Label::updateGeometry()
 void Label::setText(const std::u16string text)
 {
     TextCharacters::setText(text);
+    refresh();
+}
+
+void Label::setFont(const IFont &font)
+{
+    TextCharacters::setFont(font);
     refresh();
 }
 
