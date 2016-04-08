@@ -14,6 +14,7 @@ class TextCharacters : public virtual Additional
 {
     public:
         explicit TextCharacters(Alignment align);
+        explicit TextCharacters(Point pos, Size size, Alignment align);
         virtual ~ TextCharacters() {}
 
     public:
@@ -21,6 +22,7 @@ class TextCharacters : public virtual Additional
         {
             return m_text;
         }
+        void setText(const std::u16string m_text);
 
         void setFont(const IFont &font);
 
@@ -37,10 +39,8 @@ class TextCharacters : public virtual Additional
         void setAlignment(Alignment align);
 
     protected:
-        void setGeometry(Rect rect);
-        void updateTextAbsPosition(Rect p);
-
-        void setText(const std::u16string m_text);
+        void setSize(Size size);
+        void updateAbsPosition(Point pos);
 
         void drawText(MonitorDevice *const pMonitorDevice);
         void drawText(MonitorDevice *const pMonitorDevice, const u_color textColor,
@@ -71,12 +71,14 @@ class TextCharacters : public virtual Additional
         }
 
     protected:
-        u_color m_color;
-        Rect textAbsPosition;
+        Point m_pos;
+        Size m_size;
         Alignment align;
+        u_color m_color = {COLOR_24B_BLACK};
 
     private:
-        Rect rect;
+        Point new_textAbsPosition;
+
         std::u16string m_text;
         uint16_t pxTextWidth;
 };

@@ -15,7 +15,7 @@ using namespace zi0m;
 class MainWindow final : public Widget
 {
     public:
-        MainWindow();
+        explicit MainWindow();
         virtual ~MainWindow() {}
 
     private:

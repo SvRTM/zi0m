@@ -10,47 +10,32 @@
 namespace zi0m
 {
 
-Button::Button(Widget *parent) : Additional({0x00D6D2D0U}),
-       Widget(parent), TextCharacters(Alignment::Center), borderWidth(1)
+Button::Button(Point pos, Size size, Widget *parent) : Additional({0x00D6D2D0U}),
+       Widget(pos, size, parent),
+       TextCharacters(Alignment::Center)
 {
+    TextCharacters::m_pos = {int16_t(2 * borderWidth), int16_t(2 * borderWidth)};
+    TextCharacters::m_size = {uint16_t(size.width - 4 * borderWidth), uint16_t(size.height - 4 * borderWidth)};
+    TextCharacters::updateAbsPosition(absolutePos);
 }
 
-void Button::setGeometry(Rect rect)
+void Button::setSize(Size size)
 {
-    TextCharacters::setGeometry(Rect(2 * borderWidth, 2 * borderWidth,
-                                     rect.width - 4 * borderWidth, rect.height - 4 * borderWidth));
-    Widget::setGeometry(rect);
+    TextCharacters::setSize({uint16_t(size.width - 4 * borderWidth), uint16_t(size.height - 4 * borderWidth)});
+    Widget::setSize(size);
 }
 
-void Button::updateGeometry()
+void Button::updateAllPosition()
 {
-    Widget::updateGeometry();
-    TextCharacters::updateTextAbsPosition(screen());
-}
-
-void Button::setText(const std::u16string text)
-{
-    TextCharacters::setText(text);
-    refresh();
-}
-
-void Button::setFont(const IFont &font)
-{
-    TextCharacters::setFont(font);
-    refresh();
-}
-
-void  Button::setColor(u_color color)
-{
-    m_color = color;
-    refresh();
+    Widget::updateAllPosition();
+    TextCharacters::updateAbsPosition(absolutePos);
 }
 
 void Button::event(EventType type)
 {
     this->type = type;
 
-    if (!isVisible())
+    if (!isEnabled())
         return;
 
     switch (type)
@@ -90,13 +75,13 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
         u_color colorTL2({COLOR_24B_GREYD});
 
         // left
-        pMonitorDevice->fillRect(Rect(
-                                     screen().x + borderWidth, screen().y + borderWidth, borderWidth,
-                                     screen().height - 3 * borderWidth), colorTL2);
+        pMonitorDevice->fillRect({int16_t(screen().x + borderWidth), int16_t(screen().y + borderWidth),
+                                  borderWidth, uint16_t(screen().height - 3 * borderWidth)
+                                 }, colorTL2);
         // top
-        pMonitorDevice->fillRect(Rect(
-                                     screen().x + 2 * borderWidth, screen().y + borderWidth,
-                                     screen().width - 4 * borderWidth, borderWidth), colorTL2);
+        pMonitorDevice->fillRect({int16_t(screen().x + 2 * borderWidth), int16_t(screen().y + borderWidth),
+                                  uint16_t(screen().width - 4 * borderWidth), borderWidth
+                                 }, colorTL2);
 
         drawText(pMonitorDevice, color(), 1, 1);
     }
@@ -108,34 +93,34 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
         u_color colorBR2({COLOR_24B_GREYD});
 
         // bottom
-        pMonitorDevice->fillRect(
-            Rect(screen().x + borderWidth, screen().y + screen().height - 2 * borderWidth,
-                 screen().width - 3 * borderWidth, borderWidth), colorBR2);
+        pMonitorDevice->fillRect({int16_t(screen().x + borderWidth), int16_t(screen().y + screen().height - 2 * borderWidth),
+                                  uint16_t(screen().width - 3 * borderWidth), borderWidth
+                                 }, colorBR2);
         // right
-        pMonitorDevice->fillRect(
-            Rect(screen().x + screen().width - 2 * borderWidth, screen().y + borderWidth,
-                 borderWidth, screen().height - 2 * borderWidth), colorBR2);
+        pMonitorDevice->fillRect({int16_t(screen().x + screen().width - 2 * borderWidth), int16_t(screen().y + borderWidth),
+                                  borderWidth, uint16_t(screen().height - 2 * borderWidth)
+                                 }, colorBR2);
 
         drawText(pMonitorDevice);
     }
 
     // bottom
-    pMonitorDevice->fillRect(
-        Rect(screen().x, screen().y + screen().height - borderWidth,
-             screen().width - borderWidth, borderWidth), colorBR);
+    pMonitorDevice->fillRect({screen().x, int16_t(screen().y + screen().height - borderWidth),
+                              uint16_t(screen().width - borderWidth), borderWidth
+                             }, colorBR);
     // right
-    pMonitorDevice->fillRect(
-        Rect(screen().x + screen().width - borderWidth, screen().y,
-             borderWidth, screen().height), colorBR);
+    pMonitorDevice->fillRect({int16_t(screen().x + screen().width - borderWidth), screen().y,
+                              borderWidth, screen().height
+                             }, colorBR);
 
     // left
-    pMonitorDevice->fillRect(
-        Rect(screen().x, screen().y, borderWidth, screen().height - borderWidth),
-        colorTL);
+    pMonitorDevice->fillRect({screen().x, screen().y, borderWidth,
+                              uint16_t(screen().height - borderWidth)
+                             }, colorTL);
     // top
-    pMonitorDevice->fillRect(
-        Rect(screen().x, screen().y, screen().width - borderWidth, borderWidth),
-        colorTL);
+    pMonitorDevice->fillRect({screen().x, screen().y,
+                              uint16_t(screen().width - borderWidth), borderWidth
+                             }, colorTL);
 }
 
 void Button::setCbMoved(const std::function<void (uint16_t, uint16_t)> &func)

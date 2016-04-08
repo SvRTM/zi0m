@@ -10,47 +10,25 @@
 namespace zi0m
 {
 
-Label::Label(Widget *parent, Alignment align)
-    : Widget(parent), TextCharacters(align)
+Label::Label(Point pos, Size size, Widget *parent, Alignment align)
+    : Widget(pos, size, parent)
+    , TextCharacters({0, 0}, {size.width, size.height}, align)
 {
     if (parent)
         setBackground(parent->background());
+    TextCharacters::updateAbsPosition(absolutePos);
 }
 
-void Label::setGeometry(Rect rect)
+void Label::setSize(Size size)
 {
-    TextCharacters::setGeometry({0, 0, rect.width, rect.height});
-    Widget::setGeometry(rect);
+    TextCharacters::setSize({size.width, size.height});
+    Widget::setSize(size);
 }
 
-void Label::updateGeometry()
+void Label::updateAllPosition()
 {
-    Widget::updateGeometry();
-    TextCharacters::updateTextAbsPosition(screen());
-}
-
-void Label::setText(const std::u16string text)
-{
-    TextCharacters::setText(text);
-    refresh();
-}
-
-void Label::setFont(const IFont &font)
-{
-    TextCharacters::setFont(font);
-    refresh();
-}
-
-void Label::setAlignment(Alignment align)
-{
-    this->align = align;
-    refresh();
-}
-
-void  Label::setColor(u_color color)
-{
-    m_color = color;
-    refresh();
+    Widget::updateAllPosition();
+    TextCharacters::updateAbsPosition(absolutePos);
 }
 
 void Label::event(EventType type)

@@ -11,9 +11,12 @@
 namespace zi0m
 {
 
-Widget::Widget(Widget *const parent)
-    :  type(EventType::_None), parent(parent), m_refresh(true)
+Widget::Widget(Point pos, Size size, Widget *const parent)
+    :  type(EventType::_None),
+       absolutePos(parent ? parent->absolutePos + pos : pos),
+       m_pos(pos), m_size(size), parent(parent)
 {
+    updateAllPosition();
 }
 Widget::~Widget()
 {
@@ -32,45 +35,38 @@ void Widget::eventPaint(MonitorDevice *const pMonitorDevice)
         w->eventPaint(pMonitorDevice);
 }
 
-void Widget::setGeometry(Rect rect)
+void Widget::setPosition(Point pos)
 {
-    this->rect = rect;
-    updateGeometry();
-    refresh();
+    m_pos = pos;
+    updateAllPosition();
 }
 
-void Widget::updateGeometry()
+void Widget::setSize(Size size)
 {
-    screenRect = frameGeometry();
+    m_size = size;
+    updateAllPosition();
+}
+
+void Widget::updateAllPosition()
+{
+    absolutePos = parent ? parent->absolutePos + m_pos : m_pos;
+
     for (Widget *const w : widgets)
     {
         TextCharacters *const txtCh  = dynamic_cast<TextCharacters *const>(w);
         if (txtCh)
-            txtCh->updateGeometry();
+            txtCh->updateAllPosition();
         else
-            w->updateGeometry();
+            w->updateAllPosition();
     }
-}
-
-const Rect Widget::frameGeometry()
-{
-    if (parent == nullptr)
-        return rect;
-    Rect parentRect = parent->screenRect;
-    return parentRect + rect;
-}
-
-void Widget::setEnabled(bool enable)
-{
-    enabled = enable;
-    if (parent)
-        parent->refresh();
+    refresh();
 }
 
 void Widget::setVisible(bool visible)
 {
-    Additional::setVisible(visible);
-    refresh();
+    this->visible = visible;
+    if (parent)
+        parent->refresh();
 }
 
 EventType Widget::eventType() const
@@ -83,17 +79,21 @@ void Widget::addWidget(Widget *const w)
     widgets.push_back(w);
 }
 
-Widget *const Widget::exFindChild(int16_t x, int16_t y) const
+Widget *const Widget::findWidget(int16_t x, int16_t y) const
 {
     for (Widget *const w : widgets)
-        if (w->screenRect.contains(x, y) && w->enabled)
+    {
+        Point &absPos = w->absolutePos;
+        if ((absPos.x <= x && absPos.x + w->m_size.width >= x)
+                && (absPos.y <= y && absPos.y + w->m_size.height >= y)
+                && w->visible)
         {
-            Widget *const _w = w->exFindChild(x, y);
-            if (_w == nullptr)
+            Widget *const chd = w->findWidget(x, y);
+            if (chd == nullptr)
                 return w;
-            return _w;
+            return chd;
         }
-
+    }
     return nullptr;
 }
 

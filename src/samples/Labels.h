@@ -19,7 +19,7 @@ using namespace zi0m;
 class Labels: public Widget
 {
     public:
-        Labels(Widget *parent);
+        Labels(Point pos, Size size, Widget *parent);
         virtual ~Labels() {}
 
     private:

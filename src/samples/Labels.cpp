@@ -14,24 +14,22 @@
 #include "gui/text/font/Tinos_AA_11pt_Regular.h"
 
 
-Labels::Labels(Widget *parent)
-    : Widget(parent), isEnabledLabels(true), nFont(0)
+Labels::Labels(Point pos, Size size, Widget *parent)
+    : Widget(pos, size, parent), isEnabledLabels(true), nFont(0)
 {
-    setGeometry({0, 0, parent->geometry().width, parent->geometry().height});
     setBackground({ 0x008886FAU });
     setupUi();
 }
 
 void Labels::setupUi()
 {
-    fonts.push_back(std::make_pair(&FONT(Terminus_11pt_Regular), u"Terminus_11pt_Regular"));
-    fonts.push_back(std::make_pair(&FONT(Terminus_24pt_Regular), u"Terminus_24pt_Regular"));
-    fonts.push_back(std::make_pair(&FONT(Tinos_AA_11pt_Regular), u"Tinos_AA_11pt_Regular"));
-    fonts.push_back(std::make_pair(&FONT(PT_Serif_AA_14pt_Regular),
-                                   u"PT_Serif_AA_14pt_Regular"));
+    fonts = {std::make_pair(&FONT(Terminus_11pt_Regular), u"Terminus_11pt_Regular")
+             , std::make_pair(&FONT(Terminus_24pt_Regular), u"Terminus_24pt_Regular")
+             , std::make_pair(&FONT(Tinos_AA_11pt_Regular), u"Tinos_AA_11pt_Regular")
+             , std::make_pair(&FONT(PT_Serif_AA_14pt_Regular), u"PT_Serif_AA_14pt_Regular")
+            };
 
-    Button *btn = new Button(this);
-    btn->setGeometry({115, 0, 70, 25});
+    Button *btn = new Button({115, 0}, {70, 25}, this);
     btn->setText(u"Enable");
     btn->setCbReleased([btn, this]()
     {
@@ -41,11 +39,10 @@ void Labels::setupUi()
         else
             btn->setText(u"Disable");
         for (Widget *const w : labels)
-            w->setVisible(isEnabledLabels);
+            w->setEnabled(isEnabledLabels);
     });
     addWidget(btn);
-    btn = new Button(this);
-    btn->setGeometry({130, 174, 50, 25});
+    btn = new Button({130, 174}, {50, 25}, this);
     btn->setText(u"Font");
     btn->setCbReleased([btn, this]()
     {
@@ -57,56 +54,47 @@ void Labels::setupUi()
     });
     addWidget(btn);
 
-
     u_color bg = {COLOR_24B_GREEN};
 
-    Label *lb = new Label(this, Alignment::Left);
-    lb->setGeometry({1, 1, 110, 25});
+    Label *lb = new Label({1, 1}, {110, 25}, this, Alignment::Left);
     lb->setText(u"Left-aligned");
     lb->setBackground(bg);
     addWidget(lb);
     labels.push_back(lb);
-    lb = new Label(this, Alignment::Right);
-    lb->setGeometry({188, 1, 120, 25});
+    lb = new Label({188, 1}, {120, 25}, this, Alignment::Right);
     lb->setText(u"Right-aligned");
     lb->setBackground(bg);
     addWidget(lb);
     labels.push_back(lb);
-    lb = new Label(this, Alignment::Bottom);
-    lb->setGeometry({1, 174, 120, 20});
+    lb = new Label({1, 160}, {120, 39}, this, Alignment::Bottom);
     lb->setText(u"Bottom aligned");
     lb->setBackground(bg);
     addWidget(lb);
     labels.push_back(lb);
-    lb = new Label(this, Alignment::Top);
-    lb->setGeometry({188, 174, 120, 25});
+    lb = new Label({188, 160}, {120, 39}, this, Alignment::Top);
     lb->setText(u"Top aligned");
     lb->setBackground(bg);
     addWidget(lb);
     labels.push_back(lb);
 
-    lb = new Label(this, Alignment::Center);
-    lb->setGeometry({15, 30, 280, 16});
+    lb = new Label({15, 30}, {280, 16}, this, Alignment::Center);
     lb->setText(u"Displaying unknown symbols: 俄罗斯");
     lb->setBackground(bg);
     addWidget(lb);
     labels.push_back(lb);
-    lb = new Label(this, Alignment::Center);
+    lb = new Label({2, 50}, {306, 5}, this, Alignment::Center);
     lb->setText(u"Center horizontal and vertical align of an element.");
     lb->setBackground(bg);
-    lb->setGeometry(Rect(2, 50, 306, 5));
     addWidget(lb);
     labels.push_back(lb);
-    lb = new Label(this, Alignment::Center);
+    lb = new Label({2, 60}, {306, 30}, this, Alignment::Center);
     lb->setText(u"Center horizontal and vertical align of an element.");
     lb->setBackground(bg);
-    lb->setGeometry(Rect(2, 60, 306, 30));
     addWidget(lb);
     labels.push_back(lb);
 
-    lblFontName = new Label(this, Alignment::Center);
+    lblFontName = new Label({2, 95}, {306, 55}, this, Alignment::Center);
     lblFontName->setColor({0x00DCE92FU});
-    lblFontName->setGeometry(Rect(2, 95, 306, 75));
     addWidget(lblFontName);
     labels.push_back(lblFontName);
 }

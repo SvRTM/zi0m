@@ -14,66 +14,46 @@
 namespace zi0m
 {
 
-struct Size
+struct Size final
 {
     uint16_t width;
     uint16_t height;
 
-    Size() : width(0), height(0)
-    {
-    }
-    Size(uint16_t w, uint16_t h) : width(w), height(h)
-    {
-    }
+    Size(uint16_t w = 0, uint16_t h = 0) : width(w), height(h) {}
 };
 
-struct Point
+struct Point final
 {
     int16_t x;
     int16_t y;
 
-    Point() : x(0), y(0)
+    Point(int16_t x = 0, int16_t y = 0) : x(x), y(y) {}
+    Point operator+(const Point &pt) const
     {
-    }
-    Point(int16_t x, int16_t y) : x(x), y(y)
-    {
+        return {int16_t(x + pt.x), int16_t(y + pt.y)};
     }
 };
 
-struct Rect
+struct Rect final
 {
     int16_t x;
     int16_t y;
     uint16_t width;
     uint16_t height;
 
-    Rect() : x(0), y(0), width(0), height(0)
-    {
-    }
-    Rect(int16_t x, int16_t y, uint16_t width, uint16_t height)
-        : x(x), y(y), width(width), height(height)
-    {
-    }
-
-    void getCoords(int16_t &x1, int16_t &y1, int16_t &x2, int16_t &y2) const
-    {
-        x1 = x, y1 = y;
-        x2 = x + width, y2 = y + height;
-    }
+    Rect(const Point &pt, const Size &size) : x(pt.x), y(pt.y), width(size.width),
+        height(size.height) {}
+    Rect(int16_t x = 0, int16_t y = 0, uint16_t width = 0, uint16_t height = 0)
+        : x(x), y(y), width(width), height(height) {}
 
     bool contains(int16_t x, int16_t y) const
     {
-        return (this->x <= x && this->x + width >= x)
-               && (this->y <= y && this->y + height >= y);
+        return (this->x <= x && this->x + width >= x) && (this->y <= y && this->y + height >= y);
     }
 
     Rect operator+(const Rect &rect) const
     {
-        return Rect(x + rect.x, y + rect.y, rect.width, rect.height);
-    }
-    Rect operator+(const Point pt) const
-    {
-        return Rect(x + pt.x, y + pt.y, width, height);
+        return {int16_t(x + rect.x), int16_t(y + rect.y), rect.width, rect.height};
     }
 };
 
@@ -89,17 +69,17 @@ enum class EventType
     TouchLeave
 };
 
-struct _MSG
+struct _MSG final
 {
     EventType touchEvent;
     Point pt;
 };
 
-union u_color
+union u_color final
 {
     uint32_t i_color;
 
-    struct s_color
+    struct s_color final
     {
         uint8_t B;
         uint8_t G;
@@ -174,4 +154,3 @@ enum Alignment
 
 }
 #endif /* GUI_COMMON_H_ */
-

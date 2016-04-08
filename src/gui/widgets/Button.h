@@ -19,27 +19,23 @@ namespace zi0m
 class Button: public Widget, public TextCharacters
 {
     public:
-        explicit Button(Widget *parent);
+        explicit Button(Point pos, Size size, Widget *parent);
         virtual ~Button() {}
 
     public:
-        void setGeometry(Rect rect);
-        void updateGeometry() ;
-
-        void setText(const std::u16string text);
-        void setFont(const IFont &font);
-        void setColor(u_color color);
+        void setSize(Size size);
 
         void setCbPressed(const std::function<void ()> &func);
         void setCbReleased(const std::function<void ()> &func);
         void setCbMoved(const std::function<void (uint16_t x, uint16_t y)> &func);
 
     private:
+        void updateAllPosition();
         void event(EventType type);
         void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:
-        const uint16_t borderWidth;
+        const uint16_t borderWidth = 1;
 
         std::function<void (void)> cbPressed;
         std::function<void (void)> cbReleased;

@@ -14,7 +14,7 @@ class Additional
         virtual ~Additional() {}
 
     public:
-        virtual void updateGeometry() = 0;
+        virtual void updateAllPosition() = 0;
 
         inline const IFont &font() const
         {
@@ -27,19 +27,27 @@ class Additional
         }
         void setBackground(const u_color bg);
 
-        inline bool isVisible() const
+        // This property holds whether the widget is enabled.
+        inline bool isEnabled() const
         {
-            return visible;
+            return enabled;
         }
 
+        void setEnabled(bool enabled);
+
     protected:
-        void setVisible(bool visible);
+        inline void refresh(bool refresh = true)
+        {
+            m_refresh = refresh;
+        }
+
 
     protected:
         const IFont *pFont;
+        bool m_refresh = true;
     private:
         u_color m_background;
-        bool visible;
+        bool enabled = true;
 };
 }
 #endif // ADDITIONAL_H

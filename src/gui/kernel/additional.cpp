@@ -7,7 +7,7 @@ namespace zi0m
 
 Additional::Additional(u_color bg) :
     pFont(&FONT(Terminus_11pt_Regular)),
-    m_background(bg), visible(true)
+    m_background(bg)
 {
 }
 
@@ -16,9 +16,10 @@ void Additional::setBackground(const u_color bg)
     m_background = bg;
 }
 
-void Additional::setVisible(bool visible)
+void Additional::setEnabled(bool enabled)
 {
-    this->visible = visible;
+    this->enabled = enabled;
+    refresh();
 }
 
 }

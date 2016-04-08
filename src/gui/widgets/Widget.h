@@ -21,62 +21,60 @@ namespace zi0m
 class Widget: public virtual Additional
 {
     public:
-        explicit Widget(Widget *const parent = nullptr);
+        explicit Widget(Point pos, Size size, Widget *const parent = nullptr);
         virtual ~Widget();
 
     public:
         void eventPaint(MonitorDevice *const pMonitorDevice);
         virtual void paint(MonitorDevice *const pMonitorDevice) = 0;
 
-        // Returns current position in parent. It is either position in view or frame coordinates.
-        inline const Rect &geometry() const
-        {
-            return rect;
-        }
-        void setGeometry(Rect rect);
         // Returns current position in absolute screen coordinates.
-        inline const Rect &screen() const
+        inline const Rect screen() const
         {
-            return screenRect;
+            return {absolutePos, m_size};
         }
 
-        inline bool isEnabled() const
+        // This property holds the position of the widget within its parent widget.
+        inline const Point &pos() const
         {
-            return enabled;
+            return m_pos;
         }
-        void setEnabled(bool enable);
+        void setPosition(Point pos);
 
+        // This property holds the size of the widget excluding any window frame.
+        inline const Size &size() const
+        {
+            return m_size;
+        }
+        void setSize(Size size);
+
+        // This property holds whether the widget is visible.
+        inline bool isVisible() const
+        {
+            return visible;
+        }
         void setVisible(bool visible);
 
         virtual void event(EventType type) = 0;
         EventType eventType() const;
 
-        Widget *const exFindChild(int16_t x, int16_t y) const;
+        Widget *const findWidget(int16_t x, int16_t y) const;
 
     protected:
         void addWidget(Widget *const w);
-        void updateGeometry();
-        inline void refresh(bool refresh = true)
-        {
-            m_refresh = refresh;
-        }
 
-    private:
-        // Returns current position in absolute screen coordinates.
-        const Rect frameGeometry();
-
+        void updateAllPosition();
 
     protected:
         EventType type;
+        Point absolutePos;
 
     private:
+        Point m_pos;
+        Size m_size;
         Widget *const parent;
 
-        Rect rect;
-        Rect screenRect;
-
-        bool enabled;
-        bool m_refresh;
+        bool visible = true;
 
         std::vector<Widget *> widgets;
 };

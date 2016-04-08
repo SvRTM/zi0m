@@ -3,8 +3,11 @@
 namespace zi0m
 {
 
-TextCharacters::TextCharacters(Alignment align) :
-    m_color({COLOR_24B_BLACK}), align(align)
+TextCharacters::TextCharacters(Alignment align) : align(align)
+{
+}
+TextCharacters::TextCharacters(Point pos, Size size, Alignment align) :
+    m_pos(pos), m_size(size), align(align)
 {
 }
 
@@ -12,71 +15,75 @@ void TextCharacters::setText(const std::u16string text)
 {
     m_text = text;
     calcPxTextWidth();
+    refresh();
 }
 
 void TextCharacters::setFont(const IFont &font)
 {
     pFont = &font;
     calcPxTextWidth();
+    refresh();
 }
 
 void TextCharacters::setColor(u_color color)
 {
     m_color = color;
+    refresh();
 }
 
 void TextCharacters::setAlignment(Alignment align)
 {
     this->align = align;
+    refresh();
 }
 
 void TextCharacters::drawText(MonitorDevice *const pMonitorDevice)
 {
-    if (!isVisible())
+    if (!isEnabled())
         drawText(pMonitorDevice, {COLOR_24B_WHITE}, 1, 1);
 
-    u_color xcolor = { isVisible() ? color().i_color : COLOR_24B_GREYD };
+    u_color xcolor = { isEnabled() ? color().i_color : COLOR_24B_GREYD };
     drawText(pMonitorDevice, xcolor);
 }
 
-void TextCharacters::updateTextAbsPosition(Rect p)
+void TextCharacters::setSize(Size size)
 {
-    textAbsPosition = p + rect;
+    m_size  = size;
 }
 
-void TextCharacters::setGeometry(Rect rect)
+void TextCharacters::updateAbsPosition(Point pos)
 {
-    this->rect = rect;
+    new_textAbsPosition = m_pos + pos;
 }
 
 void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
                               const u_color textColor, const uint8_t shiftX, const uint8_t shiftY)
 {
-    if (textAbsPosition.width == 0 || textAbsPosition.height == 0)
+    if (m_size.width == 0 || m_size.height == 0)
         return;
 
     int16_t vAlign;
     if (align & Alignment::Bottom)
-        vAlign = textAbsPosition.height - font().height;
+        vAlign = m_size.height - font().height;
     else if (align & Alignment::VCenter)
-        vAlign = (textAbsPosition.height - font().height) / 2 ;
+        vAlign = (m_size.height - font().height) / 2 ;
     else // if (align & Alignment::Top)
         vAlign = 0;
 
     int16_t hAlign;
     if (align & Alignment::Right)
-        hAlign = textAbsPosition.width - pxTextWidth;
+        hAlign = m_size.width - pxTextWidth;
     else if (align & Alignment::HCenter)
-        hAlign = (textAbsPosition.width - pxTextWidth) / 2 ;
+        hAlign = (m_size.width - pxTextWidth) / 2 ;
     else // if (align & Alignment::Left)
         hAlign = 0;
 
 
     const uint8_t vAlignPos = vAlign < 0 ? abs(vAlign) : 0;
-    int16_t posX = textAbsPosition.x + hAlign + shiftX;
+    int16_t posX = new_textAbsPosition.x + hAlign + shiftX;
 
-    const int16_t cx = textAbsPosition.x + textAbsPosition.width;
-    const int16_t cy = textAbsPosition.y + textAbsPosition.height;
+    const int16_t cx = new_textAbsPosition.x + m_size.width;
+    const int16_t cy = new_textAbsPosition.y + m_size.height;
 
     for (size_t n = 0; n < m_text.length(); ++n)
     {
@@ -86,7 +93,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
 
         const uint8_t *pBitmaps = &font().bitmaps()[pDescriptor->position + yPos *
                                   (IFont::Mode::Bitmap == font().mode ? pDescriptor->width / 8 : pDescriptor->width)];
-        const int16_t posY = textAbsPosition.y + vAlign + pDescriptor->fstRow + shiftY;
+        const int16_t posY = new_textAbsPosition.y + vAlign + pDescriptor->fstRow + shiftY;
 
         const int16_t yMax = std::min(cy, int16_t(pDescriptor->sizeRow + posY));
         for (uint16_t y = posY + yPos; y < yMax; ++y)
@@ -106,7 +113,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
                     const uint8_t nBit = 7 - (width % 8);
                     if (nBit == 7)
                         pt = *(pBitmaps++);
-                    if ( x >= textAbsPosition.x)
+                    if ( x >= new_textAbsPosition.x)
                     {
                         const bool px = pt >> nBit & 0x01;
                         if (!px)
@@ -122,7 +129,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
                     }
 
                     const uint8_t pt = *(pBitmaps++);
-                    if (pt != 0xFFU && x >= textAbsPosition.x)
+                    if (pt != 0xFFU && x >= new_textAbsPosition.x)
                     {
                         u_color foreground(textColor);
                         foreground.uc_color.A = 255 - pt;

@@ -21,7 +21,7 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
     {
         case EventType::TouchStart:
         {
-            Widget *currWidget = widget->exFindChild(msg.pt.x, msg.pt.y);
+            Widget *currWidget = widget->findWidget(msg.pt.x, msg.pt.y);
             if (currWidget == nullptr)
                 currWidget = widget;
 
