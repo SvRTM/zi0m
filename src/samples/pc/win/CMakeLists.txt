@@ -1,0 +1,11 @@
+set(SOURCES
+    ${SOURCES}
+    "${CMAKE_CURRENT_SOURCE_DIR}/win32.cpp"
+    PARENT_SCOPE
+)
+
+set(HEADERS
+    ${HEADERS}
+    "${CMAKE_CURRENT_SOURCE_DIR}/win32.h"
+    PARENT_SCOPE
+)
