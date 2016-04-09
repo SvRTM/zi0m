@@ -28,7 +28,7 @@ class EmuLcd: public MonitorDevice
 #elif PLATFORM_LINUX
         explicit EmuLcd(const RenderData *x11data);
 #endif
-        virtual ~EmuLcd();
+        virtual ~EmuLcd() {}
 
     public:
         void setPoint(int16_t x, int16_t y, const u_color &color);

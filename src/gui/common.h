@@ -77,7 +77,7 @@ struct _MSG final
 
 union u_color final
 {
-    uint32_t i_color;
+    uint32_t value;
 
     struct s_color final
     {
@@ -85,8 +85,20 @@ union u_color final
         uint8_t G;
         uint8_t R;
         uint8_t A;
-    } uc_color;
+    } argb;
 };
+//union u_color_16
+//{
+//        uint16_t i_color;
+
+//        struct s_color
+//        {
+//                uint8_t B:5;
+//                uint8_t G:6;
+//                uint8_t R:5;
+//        } uc_color;
+//        //uint8_t A;
+//};
 
 enum Alignment
 {

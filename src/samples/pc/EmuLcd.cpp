@@ -18,9 +18,6 @@ EmuLcd::EmuLcd(const RenderData *x11data)
     this->x11data = x11data;
 }
 #endif
-EmuLcd::~EmuLcd()
-{
-}
 
 void EmuLcd::setPoint(int16_t x, int16_t y, const u_color &color)
 {
@@ -31,11 +28,11 @@ void EmuLcd::setPoint(int16_t x, int16_t y, const u_color &color)
 
 #elif PLATFORM_LINUX
     XColor xcolour;
-    uint16_t r = color.uc_color.R;
+    uint16_t r = color.argb.R;
     xcolour.red = r << 8;
-    uint16_t g = color.uc_color.G;
+    uint16_t g = color.argb.G;
     xcolour.green = g << 8;
-    uint16_t b = color.uc_color.B;
+    uint16_t b = color.argb.B;
     xcolour.blue = b << 8;
 
     xcolour.flags = DoRed | DoGreen | DoBlue;
@@ -66,11 +63,11 @@ void EmuLcd::fillRect(const Rect &rect, const u_color &color)
 
 #elif PLATFORM_LINUX
     XColor xcolour;
-    uint16_t r = color.uc_color.R;
+    uint16_t r = color.argb.R;
     xcolour.red = r << 8;
-    uint16_t g = color.uc_color.G;
+    uint16_t g = color.argb.G;
     xcolour.green = g << 8;
-    uint16_t b = color.uc_color.B;
+    uint16_t b = color.argb.B;
     xcolour.blue = b << 8;
 
     xcolour.flags = DoRed | DoGreen | DoBlue;
