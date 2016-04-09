@@ -36,7 +36,13 @@ void MainWindow::paint(MonitorDevice *const pMonitorDevice)
 // #####################################################
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 MainWindow::Header::Header(Widget *parent)
-    : Additional({0x00A3D5ACU}), Widget({0, 0}, {320, 30}, parent)
+#ifdef RGB888
+    : Additional({0x00A3D5ACU}),
+#elif  RGB565
+    :
+    Additional({0xA6B5U}),
+#endif
+Widget({0, 0}, {320, 30}, parent)
 {
     // FIXME: replace (320/240) on MAX_WIDTH / MAX_HEIGHT
 
@@ -61,7 +67,12 @@ void MainWindow::Header::paint(MonitorDevice *const pMonitorDevice)
 }
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 MainWindow::Body::Body(Widget *parent)
-    : Additional({0x00A3A3D5U}), Widget({5, 35}, {320 - 5 - 5, 240 - 35 - 5}, parent)
+#ifdef RGB888
+    : Additional({0x00A3A3D5U})
+#elif  RGB565
+    : Additional({0xA51AU})
+#endif
+, Widget({5, 35}, {320 - 5 - 5, 240 - 35 - 5}, parent)
 {
     // FIXME: replace (320/240) on MAX_WIDTH / MAX_HEIGHT
     addWidget(new Labels({0, 0}, size(), this));

@@ -7,9 +7,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
+if (NOT DEFINED COLOR_DEPTH)
+    set(COLOR_DEPTH RGB565)
+endif ()
+
 if (WIN32)
+    set(PLATFORM "WIN32")
+
     set(libraries gdi32)
-else ()
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    set(PLATFORM "LINUX")
+
     include(FindX11)
     if (X11_FOUND)
        include_directories(${X11_INCLUDE_DIR})
@@ -22,6 +30,8 @@ else ()
        message(" *****************************************************************************")
        message(FATAL_ERROR "X11 DEVELOPMENT LIBRARIES NOT FOUND")
     endif ()
+else ()
+    message(FATAL_ERROR "Unknown OS")
 endif ()
 
 if (MSVC)
@@ -37,6 +47,8 @@ else ()
         message("Unknown compiler")
 endif ()
 
+configure_file(src/config.h.in ${PROJECT_BINARY_DIR}/config.h)
+include_directories("${PROJECT_BINARY_DIR}")
 
 set(HEADERS)
 set(SOURCES )

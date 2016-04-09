@@ -40,9 +40,9 @@ void TextCharacters::setAlignment(Alignment align)
 void TextCharacters::drawText(MonitorDevice *const pMonitorDevice)
 {
     if (!isEnabled())
-        drawText(pMonitorDevice, {COLOR_24B_WHITE}, 1, 1);
+        drawText(pMonitorDevice, {COLOR_WHITE}, 1, 1);
 
-    u_color xcolor = { isEnabled() ? color().value : COLOR_24B_GREYD };
+    u_color xcolor = { isEnabled() ? color().value : COLOR_GREYD };
     drawText(pMonitorDevice, xcolor);
 }
 
@@ -132,8 +132,12 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
                     if (pt != 0xFFU && x >= new_textAbsPosition.x)
                     {
                         u_color foreground(textColor);
+#ifdef RGB888
                         foreground.argb.A = 255 - pt;
                         foreground = pMonitorDevice->alphaBlending(foreground, background());
+#elif  RGB565
+                        foreground = pMonitorDevice->alphaBlending(foreground, background(), 255 - pt);
+#endif
                         pMonitorDevice->setPoint(x, y, foreground);
                     }
                 }

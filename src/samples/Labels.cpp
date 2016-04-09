@@ -17,7 +17,11 @@
 Labels::Labels(Point pos, Size size, Widget *parent)
     : Widget(pos, size, parent), isEnabledLabels(true), nFont(0)
 {
+#ifdef RGB888
     setBackground({ 0x008886FAU });
+#elif  RGB565
+    setBackground({ 0x8C3FU });
+#endif
     setupUi();
 }
 
@@ -54,7 +58,7 @@ void Labels::setupUi()
     });
     addWidget(btn);
 
-    u_color bg = {COLOR_24B_GREEN};
+    u_color bg = {COLOR_GREEN};
 
     Label *lb = new Label({1, 1}, {110, 25}, this, Alignment::Left);
     lb->setText(u"Left-aligned");
@@ -94,7 +98,11 @@ void Labels::setupUi()
     labels.push_back(lb);
 
     lblFontName = new Label({2, 95}, {306, 55}, this, Alignment::Center);
+#ifdef RGB888
     lblFontName->setColor({0x00DCE92FU});
+#elif  RGB565
+    lblFontName->setColor({0xDF45U});
+#endif
     addWidget(lblFontName);
     labels.push_back(lblFontName);
 }

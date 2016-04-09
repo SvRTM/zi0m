@@ -9,7 +9,6 @@
 #define SRC_WIN32_TEST_X11_H_
 
 #include "gui/common.h"
-#include "samples/pc/config.h"
 
 #include <X11/Xlib.h>
 #include <unistd.h>

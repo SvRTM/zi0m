@@ -74,7 +74,7 @@ class TextCharacters : public virtual Additional
         Point m_pos;
         Size m_size;
         Alignment align;
-        u_color m_color = {COLOR_24B_BLACK};
+        u_color m_color = {COLOR_BLACK};
 
     private:
         Point new_textAbsPosition;

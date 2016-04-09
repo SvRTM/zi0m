@@ -8,8 +8,11 @@
 #ifndef GUI_COMMON_H_
 #define GUI_COMMON_H_
 
+#include "config.h"
+
 #include <stdint.h>
 #include <stddef.h>
+
 
 namespace zi0m
 {
@@ -75,6 +78,7 @@ struct _MSG final
     Point pt;
 };
 
+#ifdef RGB888
 union u_color final
 {
     uint32_t value;
@@ -87,18 +91,19 @@ union u_color final
         uint8_t A;
     } argb;
 };
-//union u_color_16
-//{
-//        uint16_t i_color;
+#elif  RGB565
+union u_color
+{
+    uint16_t value;
 
-//        struct s_color
-//        {
-//                uint8_t B:5;
-//                uint8_t G:6;
-//                uint8_t R:5;
-//        } uc_color;
-//        //uint8_t A;
-//};
+    struct s_color
+    {
+        uint16_t B: 5;
+        uint16_t G: 6;
+        uint16_t R: 5;
+    } rgb565;
+};
+#endif
 
 enum Alignment
 {
@@ -109,60 +114,45 @@ enum Alignment
 };
 
 //////////
-//////////
-#define LCD_COLOR_WHITE 0
-#define LCD_COLOR_TEAL 1
-#define LCD_COLOR_PURPLE 2
-#define LCD_COLOR_BLUE 3
-#define LCD_COLOR_GREYL 4
-#define LCD_COLOR_GREYD 5
-#define LCD_COLOR_TEALD 6
-#define LCD_COLOR_PURPLED 7
-#define LCD_COLOR_BLUED 8
-#define LCD_COLOR_YELLOW 9
-#define LCD_COLOR_GREEN 10
-#define LCD_COLOR_YELLOWD 11
-#define LCD_COLOR_GREEND 12
-#define LCD_COLOR_RED 13
-#define LCD_COLOR_REDD 14
-#define LCD_COLOR_BLACK 15
+#ifdef RGB888
 
-#define COLOR_24B_WHITE 0xFFFFFFFFU
-#define COLOR_24B_TEAL 0xFF00FFFFU
-#define COLOR_24B_PURPLE 0xFFFF00FFU
-#define COLOR_24B_BLUE 0xFF0000FFU
-#define COLOR_24B_GREYL 0xFFC0C0C0U
-#define COLOR_24B_GREYD 0xFF808080U
-#define COLOR_24B_TEALD 0xFF008080U
-#define COLOR_24B_PURPLED 0xFF800080U
-#define COLOR_24B_BLUED 0xFF000080U
-#define COLOR_24B_YELLOW 0xFFFFFF00U
-#define COLOR_24B_GREEN 0xFF00FF00U
-#define COLOR_24B_YELLOWD 0xFF808000U
-#define COLOR_24B_GREEND 0xFF008000U
-#define COLOR_24B_RED 0xFFFF0000U
-#define COLOR_24B_REDD 0xFF800000U
-#define COLOR_24B_BLACK 0xFF000000U
+#define COLOR_WHITE     0xFFFFFFFFU
+#define COLOR_TEAL       0xFF00FFFFU
+#define COLOR_PURPLE   0xFFFF00FFU
+#define COLOR_BLUE       0xFF0000FFU
+#define COLOR_GREYL     0xFFC0C0C0U
+#define COLOR_GREYD     0xFF808080U
+#define COLOR_TEALD     0xFF008080U
+#define COLOR_PURPLED 0xFF800080U
+#define COLOR_BLUED     0xFF000080U
+#define COLOR_YELLOW   0xFFFFFF00U
+#define COLOR_GREEN     0xFF00FF00U
+#define COLOR_YELLOWD 0xFF808000U
+#define COLOR_GREEND   0xFF008000U
+#define COLOR_RED         0xFFFF0000U
+#define COLOR_REDD       0xFF800000U
+#define COLOR_BLACK      0xFF000000U
 
-/* some RGB color definitions                                                 */
-#define COLOR_16B_BLACK 0x0000       /*   0,   0,   0 */
-#define COLOR_16B_NAVY 0x000F        /*   0,   0, 128 */
-#define COLOR_16B_DARKGREEN 0x03E0   /*   0, 128,   0 */
-#define COLOR_16B_DARKCYAN 0x03EF    /*   0, 128, 128 */
-#define COLOR_16B_MAROON 0x7800      /* 128,   0,   0 */
-#define COLOR_16B_PURPLE 0x780F      /* 128,   0, 128 */
-#define COLOR_16B_OLIVE 0x7BE0       /* 128, 128,   0 */
-#define COLOR_16B_LIGHTGREY 0xC618   /* 192, 192, 192 */
-#define COLOR_16B_DARKGREY 0x7BEF    /* 128, 128, 128 */
-#define COLOR_16B_BLUE 0x001F        /*   0,   0, 255 */
-#define COLOR_16B_GREEN 0x07E0       /*   0, 255,   0 */
-#define COLOR_16B_CYAN 0x07FF        /*   0, 255, 255 */
-#define COLOR_16B_RED 0xF800         /* 255,   0,   0 */
-#define COLOR_16B_MAGENTA 0xF81F     /* 255,   0, 255 */
-#define COLOR_16B_YELLOW 0xFFE0      /* 255, 255,   0 */
-#define COLOR_16B_WHITE 0xFFFF       /* 255, 255, 255 */
-#define COLOR_16B_ORANGE 0xFD20      /* 255, 165,   0 */
-#define COLOR_16B_GREENYELLOW 0xAFE5 /* 173, 255,  47 */
+#elif  RGB565
+
+#define COLOR_WHITE      uint16_t(0xFFFFU)
+#define COLOR_TEAL        uint16_t(0x0410U)
+#define COLOR_PURPLE    uint16_t(0xF81FU)
+#define COLOR_BLUE        uint16_t(0x001FU)
+#define COLOR_GREYL      uint16_t(0xC618U)
+#define COLOR_GREYD      uint16_t(0x8410U)
+#define COLOR_TEALD      uint16_t(0x0410U)
+#define COLOR_PURPLED  uint16_t(0x8010U)
+#define COLOR_BLUED      uint16_t(0x0010U)
+#define COLOR_YELLOW    uint16_t(0xFFE0U)
+#define COLOR_GREEN      uint16_t(0x07E0U)
+#define COLOR_YELLOWD  uint16_t(0x8400U)
+#define COLOR_GREEND    uint16_t(0x0400U)
+#define COLOR_RED          uint16_t(0xF800U)
+#define COLOR_REDD        uint16_t(0x8000U)
+#define COLOR_BLACK      uint16_t(0x0000U)
+
+#endif
 
 }
 #endif /* GUI_COMMON_H_ */

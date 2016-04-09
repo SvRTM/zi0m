@@ -10,7 +10,11 @@ namespace zi0m
 class Additional
 {
     public:
+#ifdef RGB888
         explicit Additional(u_color bg = {0x00E8F6FAU});
+#elif  RGB565
+        explicit Additional(u_color bg = {0xEFBFU});
+#endif
         virtual ~Additional() {}
 
     public:

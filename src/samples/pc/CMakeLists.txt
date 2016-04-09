@@ -15,7 +15,6 @@ set(SOURCES
 
 set(HEADERS
     ${HEADERS}
-    "${CMAKE_CURRENT_SOURCE_DIR}/config.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/Application.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/EmuLcd.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/EmuTouch.h"

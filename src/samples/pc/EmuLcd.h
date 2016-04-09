@@ -9,13 +9,12 @@
 #define X11_TEST_EMULCD_H_
 
 #include "gui/io/MonitorDevice.h"
-#include "config.h"
 
 #ifdef PLATFORM_WIN32
-    #include <windows.h>
+#include <windows.h>
 #elif PLATFORM_LINUX
-    #include "samples/pc/linux/x11.h"
-    #include <X11/Xlib.h>
+#include "samples/pc/linux/x11.h"
+#include <X11/Xlib.h>
 #endif
 
 using namespace zi0m;

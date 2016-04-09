@@ -28,12 +28,22 @@ void EmuLcd::setPoint(int16_t x, int16_t y, const u_color &color)
 
 #elif PLATFORM_LINUX
     XColor xcolour;
+
+#ifdef RGB888
     uint16_t r = color.argb.R;
     xcolour.red = r << 8;
     uint16_t g = color.argb.G;
     xcolour.green = g << 8;
     uint16_t b = color.argb.B;
     xcolour.blue = b << 8;
+#elif  RGB565
+    uint16_t r = color.rgb565.R;
+    xcolour.red = r << 11;
+    uint16_t g = color.rgb565.G;
+    xcolour.green = g << 10;
+    uint16_t b = color.rgb565.B;
+    xcolour.blue = b << 11;
+#endif
 
     xcolour.flags = DoRed | DoGreen | DoBlue;
     XAllocColor(x11data->dsp, x11data->cmap, &xcolour);
@@ -63,12 +73,22 @@ void EmuLcd::fillRect(const Rect &rect, const u_color &color)
 
 #elif PLATFORM_LINUX
     XColor xcolour;
+
+#ifdef RGB888
     uint16_t r = color.argb.R;
     xcolour.red = r << 8;
     uint16_t g = color.argb.G;
     xcolour.green = g << 8;
     uint16_t b = color.argb.B;
     xcolour.blue = b << 8;
+#elif  RGB565
+    uint16_t r = color.rgb565.R;
+    xcolour.red = r << 11;
+    uint16_t g = color.rgb565.G;
+    xcolour.green = g << 10;
+    uint16_t b = color.rgb565.B;
+    xcolour.blue = b << 11;
+#endif
 
     xcolour.flags = DoRed | DoGreen | DoBlue;
     XAllocColor(x11data->dsp, x11data->cmap, &xcolour);

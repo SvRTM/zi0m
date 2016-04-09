@@ -16,7 +16,7 @@
 
 void  Panic(const char *msg)
 {
-#ifdef PLATFORM_POSIX
+#if __unix || __unix__
     signal(SIGILL, SIG_DFL);
     signal(SIGSEGV, SIG_DFL);
     signal(SIGBUS, SIG_DFL);

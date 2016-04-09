@@ -10,9 +10,14 @@
 namespace zi0m
 {
 
-Button::Button(Point pos, Size size, Widget *parent) : Additional({0x00D6D2D0U}),
-       Widget(pos, size, parent),
-       TextCharacters(Alignment::Center)
+Button::Button(Point pos, Size size, Widget *parent) :
+#ifdef RGB888
+    Additional({0x00D6D2D0U})
+#elif RGB565
+    Additional({0xD69AU})
+#endif
+, Widget(pos, size, parent)
+, TextCharacters(Alignment::Center)
 {
     TextCharacters::m_pos = {int16_t(2 * borderWidth), int16_t(2 * borderWidth)};
     TextCharacters::m_size = {uint16_t(size.width - 4 * borderWidth), uint16_t(size.height - 4 * borderWidth)};
@@ -69,10 +74,10 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
 
     if (EventType::TouchStart == eventType())
     {
-        colorBR = {COLOR_24B_WHITE};
-        colorTL = {COLOR_24B_BLACK};
+        colorBR = {COLOR_WHITE};
+        colorTL = {COLOR_BLACK};
 
-        u_color colorTL2({COLOR_24B_GREYD});
+        u_color colorTL2({COLOR_GREYD});
 
         // left
         pMonitorDevice->fillRect({int16_t(screen().x + borderWidth), int16_t(screen().y + borderWidth),
@@ -87,10 +92,10 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
     }
     else
     {
-        colorBR = {COLOR_24B_BLACK};
-        colorTL = {COLOR_24B_WHITE};
+        colorBR = {COLOR_BLACK};
+        colorTL = {COLOR_WHITE};
 
-        u_color colorBR2({COLOR_24B_GREYD});
+        u_color colorBR2({COLOR_GREYD});
 
         // bottom
         pMonitorDevice->fillRect({int16_t(screen().x + borderWidth), int16_t(screen().y + screen().height - 2 * borderWidth),
