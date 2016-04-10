@@ -5,8 +5,8 @@
  *      Author: Artem.Smirnov
  */
 
-#ifndef GUI_WIDGET_H_
-#define GUI_WIDGET_H_
+#ifndef WIDGETS_WIDGET_H_
+#define WIDGETS_WIDGET_H_
 
 #include "gui/io/MonitorDevice.h"
 #include "gui/kernel/EventCtrl.h"
@@ -21,10 +21,15 @@ namespace zi0m
 class Widget: public virtual Additional
 {
     public:
-        explicit Widget(Point pos, Size size, Widget *const parent = nullptr);
+        explicit Widget(Point pos, Size size, Widget *const m_parent = nullptr);
         virtual ~Widget();
 
     public:
+        const Widget *parent() const
+        {
+            return m_parent;
+        }
+
         void eventPaint(MonitorDevice *const pMonitorDevice);
         virtual void paint(MonitorDevice *const pMonitorDevice) = 0;
 
@@ -62,8 +67,10 @@ class Widget: public virtual Additional
 
     protected:
         void addWidget(Widget *const w);
-
         void updateAllPosition();
+
+    private:
+        void refreshChilds();
 
     protected:
         EventType type;
@@ -72,11 +79,11 @@ class Widget: public virtual Additional
     private:
         Point m_pos;
         Size m_size;
-        Widget *const parent;
+        Widget *const m_parent;
 
         bool visible = true;
 
         std::vector<Widget *> widgets;
 };
 }
-#endif /* GUI_WIDGET_H_ */
+#endif /* WIDGETS_WIDGET_H_ */

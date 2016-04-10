@@ -14,7 +14,7 @@ namespace zi0m
 Widget::Widget(Point pos, Size size, Widget *const parent)
     :  type(EventType::_None),
        absolutePos(parent ? parent->absolutePos + pos : pos),
-       m_pos(pos), m_size(size), parent(parent)
+       m_pos(pos), m_size(size), m_parent(parent)
 {
     updateAllPosition();
 }
@@ -31,8 +31,10 @@ void Widget::eventPaint(MonitorDevice *const pMonitorDevice)
         paint(pMonitorDevice);
         m_refresh = false;
     }
+
     for (Widget *const w : widgets)
-        w->eventPaint(pMonitorDevice);
+        if (w->isVisible())
+            w->eventPaint(pMonitorDevice);
 }
 
 void Widget::setPosition(Point pos)
@@ -49,7 +51,7 @@ void Widget::setSize(Size size)
 
 void Widget::updateAllPosition()
 {
-    absolutePos = parent ? parent->absolutePos + m_pos : m_pos;
+    absolutePos = m_parent ? m_parent->absolutePos + m_pos : m_pos;
 
     for (Widget *const w : widgets)
     {
@@ -62,11 +64,27 @@ void Widget::updateAllPosition()
     refresh();
 }
 
+void Widget::refreshChilds()
+{
+    refresh();
+    for (Widget *const w : widgets)
+        w->refreshChilds();
+}
+
+//FIXME: implement the by other visible or not visible elements
 void Widget::setVisible(bool visible)
 {
     this->visible = visible;
-    if (parent)
-        parent->refresh();
+    if (m_parent)
+    {
+        if (visible)
+        {
+            m_parent->refresh(false);
+            refreshChilds();
+        }
+        else
+            m_parent->refresh();
+    }
 }
 
 EventType Widget::eventType() const
