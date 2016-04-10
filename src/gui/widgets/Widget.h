@@ -71,6 +71,10 @@ class Widget: public virtual Additional
 
     private:
         void refreshChilds();
+        void resetEvent()
+        {
+            type = EventType::None;
+        }
 
     protected:
         EventType type;

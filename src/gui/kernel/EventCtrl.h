@@ -5,8 +5,8 @@
  *      Author: Artem.Smirnov
  */
 
-#ifndef SRC_GUI_SYSTEM_EVENTCTRL_H_
-#define SRC_GUI_SYSTEM_EVENTCTRL_H_
+#ifndef EVENTCTRL_H_
+#define EVENTCTRL_H_
 
 #include "gui/common.h"
 
@@ -16,15 +16,15 @@ class Widget;
 class EventCtrl final
 {
     public:
-        explicit EventCtrl();
+        explicit EventCtrl() {}
         virtual ~EventCtrl() {}
 
     public:
         void process(const _MSG msg, Widget *const widget);
 
     private:
-        Widget *prevWidget;
-        bool isEnableTouchLeave;
+        Widget *prevWidget = nullptr;
+        bool isEnableTouchLeave = false;
 };
 }
-#endif /* SRC_GUI_SYSTEM_EVENTCTRL_H_ */
+#endif /* EVENTCTRL_H_ */

@@ -5,8 +5,8 @@
  *      Author: Artem.Smirnov
  */
 
-#ifndef GUI_BUTTON_H_
-#define GUI_BUTTON_H_
+#ifndef BUTTON_H_
+#define BUTTON_H_
 
 #include "Widget.h"
 #include "gui/text/TextCharacters.h"
@@ -19,7 +19,7 @@ namespace zi0m
 class Button: public Widget, public TextCharacters
 {
     public:
-        explicit Button(Point pos, Size size, Widget *parent);
+        explicit Button(Point pos, Size size, Widget *const parent);
         virtual ~Button() {}
 
     public:
@@ -30,16 +30,16 @@ class Button: public Widget, public TextCharacters
         void setCbMoved(const std::function<void (uint16_t x, uint16_t y)> &func);
 
     private:
-        void updateAllPosition();
-        void event(EventType type);
+        void updateAllPosition() override;
+        void event(EventType type) override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:
-        const uint16_t borderWidth = 1;
+        const uint8_t borderWidth = 1;
 
         std::function<void (void)> cbPressed;
         std::function<void (void)> cbReleased;
         std::function<void (uint16_t x, uint16_t y)> cbMoved;
 };
 }
-#endif /* GUI_BUTTON_H_ */
+#endif /* BUTTON_H_ */

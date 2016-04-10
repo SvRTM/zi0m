@@ -11,16 +11,13 @@
 namespace zi0m
 {
 
-EventCtrl::EventCtrl() : prevWidget(nullptr), isEnableTouchLeave(false)
-{
-}
-
 void EventCtrl::process(const _MSG msg, Widget *const widget)
 {
     switch (msg.touchEvent)
     {
         case EventType::TouchStart:
         {
+            // FIXME: optimize
             Widget *currWidget = widget->findWidget(msg.pt.x, msg.pt.y);
             if (currWidget == nullptr)
                 currWidget = widget;
@@ -33,13 +30,15 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
             }
             else if (prevWidget == currWidget)
             {
-                if (!currWidget->screen().contains(prevWidget->screen().x, prevWidget->screen().y))
+                if (currWidget->screen().contains(prevWidget->screen().x, prevWidget->screen().y))
                 {
                     if (isEnableTouchLeave)
+                    {
                         currWidget->event(EventType::TouchEnter);
+                        isEnableTouchLeave = false;
+                    }
                     else
                         currWidget->event(EventType::TouchMove);
-                    isEnableTouchLeave = false;
                     // process
                 }
             }
@@ -58,12 +57,19 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
         }
 
         case EventType::TouchEnd:
-            prevWidget->event(EventType::TouchEnd);
+        {
+            // FIXME: optimize
+            Widget *currWidget = widget->findWidget(msg.pt.x, msg.pt.y);
+            if (currWidget == nullptr)
+                currWidget = widget;
+
+            if (prevWidget == currWidget)
+                prevWidget->event(EventType::TouchEnd);
             //process prevWidget/currWidget
             prevWidget = nullptr;
             isEnableTouchLeave = false;
             break;
-
+        }
         default:
             break;
     }

@@ -12,7 +12,7 @@ namespace zi0m
 {
 
 Widget::Widget(Point pos, Size size, Widget *const parent)
-    :  type(EventType::_None),
+    :  type(EventType::None),
        absolutePos(parent ? parent->absolutePos + pos : pos),
        m_pos(pos), m_size(size), m_parent(parent)
 {
@@ -33,8 +33,12 @@ void Widget::eventPaint(MonitorDevice *const pMonitorDevice)
     }
 
     for (Widget *const w : widgets)
+    {
         if (w->isVisible())
             w->eventPaint(pMonitorDevice);
+        w->resetEvent();
+    }
+    resetEvent();
 }
 
 void Widget::setPosition(Point pos)
