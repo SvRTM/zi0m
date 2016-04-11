@@ -7,7 +7,7 @@ struct PT_Serif_AA_14pt_Regular : IFont
 {
     PT_Serif_AA_14pt_Regular() : IFont(22, 8, Mode::Antialias) {}
 
-    const CHAR_INFO descriptors[174] = {
+    static constexpr CHAR_INFO descriptors[174] = {
              {21, 1, 5, 0}		// ' '	[32]
             ,{3, 14, 6, 5}		// '!'	[33]
             ,{3, 5, 7, 89}		// '"'	[34]
@@ -183,7 +183,7 @@ struct PT_Serif_AA_14pt_Regular : IFont
             ,{8, 8, 24, 24459}		// '⇔'	[8660]
             ,{4, 13, 13, 24651}		// '￿'	[65535]
     };
-    const BLOCK _blocks[8] = {
+    static constexpr BLOCK _blocks[8] = {
              {32, 126, &descriptors[0]},
              {1025, 1025, &descriptors[95]},
              {1040, 1103, &descriptors[96]},
@@ -193,7 +193,7 @@ struct PT_Serif_AA_14pt_Regular : IFont
              {8656, 8660, &descriptors[168]},
              {65535, 65535, &descriptors[173]}
     };
-    const uint8_t _bitmaps[24820] = {
+    static constexpr uint8_t _bitmaps[24820] = {
 /* ▁▁▁▁▁ */		0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
 
 /* ▁▁░█░▁ */		0xFF, 0xFF, 0xC2, 0x11, 0xAA, 0xFF,

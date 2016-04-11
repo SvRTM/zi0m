@@ -7,7 +7,7 @@ struct Tinos_AA_11pt_Regular : IFont
 {
     Tinos_AA_11pt_Regular() : IFont(16, 8, Mode::Antialias) {}
 
-    const CHAR_INFO descriptors[174] = {
+    static constexpr CHAR_INFO descriptors[174] = {
              {15, 1, 4, 0}		// ' '	[32]
             ,{3, 10, 5, 4}		// '!'	[33]
             ,{3, 4, 6, 54}		// '"'	[34]
@@ -183,7 +183,7 @@ struct Tinos_AA_11pt_Regular : IFont
             ,{6, 6, 19, 13576}		// '⇔'	[8660]
             ,{2, 12, 12, 13690}		// '￿'	[65535]
     };
-    const BLOCK _blocks[8] = {
+    static constexpr BLOCK _blocks[8] = {
              {32, 126, &descriptors[0]},
              {1025, 1025, &descriptors[95]},
              {1040, 1103, &descriptors[96]},
@@ -193,7 +193,7 @@ struct Tinos_AA_11pt_Regular : IFont
              {8656, 8660, &descriptors[168]},
              {65535, 65535, &descriptors[173]}
     };
-    const uint8_t _bitmaps[13834] = {
+    static constexpr uint8_t _bitmaps[13834] = {
 /* ▁▁▁▁ */		0xFF, 0xFF, 0xFF, 0xFF,
 
 /* ▁░█░▁ */		0xFF, 0xB7, 0x0, 0xC0, 0xFF,

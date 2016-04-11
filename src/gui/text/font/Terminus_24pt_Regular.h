@@ -7,7 +7,7 @@ struct Terminus_24pt_Regular : IFont
 {
     Terminus_24pt_Regular() : IFont(32, 8, Mode::Bitmap) {}
 
-    const CHAR_INFO descriptors[174] = {
+    static constexpr CHAR_INFO descriptors[174] = {
              {31, 1, 16, 0}		// ' '	[32]
             ,{6, 20, 16, 2}		// '!'	[33]
             ,{4, 6, 16, 42}		// '"'	[34]
@@ -183,7 +183,7 @@ struct Terminus_24pt_Regular : IFont
             ,{10, 12, 16, 6038}		// '⇔'	[8660]
             ,{8, 16, 16, 6062}		// '￿'	[65535]
     };
-    const BLOCK _blocks[8] = {
+    static constexpr BLOCK _blocks[8] = {
              {32, 126, &descriptors[0]},
              {1025, 1025, &descriptors[95]},
              {1040, 1103, &descriptors[96]},
@@ -193,7 +193,7 @@ struct Terminus_24pt_Regular : IFont
              {8656, 8660, &descriptors[168]},
              {65535, 65535, &descriptors[173]}
     };
-    const uint8_t _bitmaps[6094] = {
+    static constexpr uint8_t _bitmaps[6094] = {
         0b11111111, 0b11111111    /* ░░░░░░░░░░░░░░░░*/,
 
         0b11111110, 0b01111111    /* ░░░░░░░██░░░░░░░*/,

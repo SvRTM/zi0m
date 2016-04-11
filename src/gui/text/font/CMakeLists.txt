@@ -1,4 +1,10 @@
-set( SOURCES ${SOURCES} PARENT_SCOPE )
+set(SOURCES
+    ${SOURCES}
+    "${CMAKE_CURRENT_SOURCE_DIR}/PT_Serif_AA_14pt_Regular.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Terminus_11pt_Regular.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Terminus_24pt_Regular.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Tinos_AA_11pt_Regular.cpp"
+    PARENT_SCOPE )
 
 set(HEADERS
     ${HEADERS}

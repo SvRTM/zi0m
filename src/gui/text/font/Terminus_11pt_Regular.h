@@ -7,7 +7,7 @@ struct Terminus_11pt_Regular : IFont
 {
     Terminus_11pt_Regular() : IFont(16, 8, Mode::Bitmap) {}
 
-    const CHAR_INFO descriptors[174] = {
+    static constexpr CHAR_INFO descriptors[174] = {
              {15, 1, 8, 0}		// ' '	[32]
             ,{2, 10, 8, 1}		// '!'	[33]
             ,{1, 3, 8, 11}		// '"'	[34]
@@ -183,7 +183,7 @@ struct Terminus_11pt_Regular : IFont
             ,{5, 5, 8, 1503}		// '⇔'	[8660]
             ,{4, 8, 8, 1508}		// '￿'	[65535]
     };
-    const BLOCK _blocks[8] = {
+    static constexpr BLOCK _blocks[8] = {
              {32, 126, &descriptors[0]},
              {1025, 1025, &descriptors[95]},
              {1040, 1103, &descriptors[96]},
@@ -193,7 +193,7 @@ struct Terminus_11pt_Regular : IFont
              {8656, 8660, &descriptors[168]},
              {65535, 65535, &descriptors[173]}
     };
-    const uint8_t _bitmaps[1516] = {
+    static constexpr uint8_t _bitmaps[1516] = {
         0b11111111    /* ░░░░░░░░*/,
 
         0b11101111    /* ░░░█░░░░*/,
