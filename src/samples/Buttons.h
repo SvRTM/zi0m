@@ -5,24 +5,20 @@
  *      Author: Artem.Smirnov
  */
 
-#ifndef LABELS_H_
-#define LABELS_H_
+#ifndef BUTTONS_H_
+#define BUTTONS_H_
 
 #include "gui/widgets/Widget.h"
-#include "gui/widgets/Label.h"
-#include "gui/text/font/ifont.h"
 
 #include "common.h"
 
-#include <vector>
-
 using namespace zi0m;
 
-class Labels: public Widget, public Common
+class Buttons: public Widget, public Common
 {
     public:
-        Labels(Point pos, Size size, Widget *m_parent);
-        virtual ~Labels() {}
+        Buttons(Point pos, Size size, Widget *m_parent);
+        virtual ~Buttons() {}
 
     private:
         void paint(MonitorDevice *const pMonitorDevice) override;
@@ -30,10 +26,6 @@ class Labels: public Widget, public Common
 
         void setupUi();
         void setFontWidgtes(std::pair<const IFont *, std::u16string> data) override;
-
-    private:
-        bool isEnabledLabels;
-        Label *pLblFontName;
 };
 
-#endif /* LABELS_H_ */
+#endif /* BUTTONS_H_ */

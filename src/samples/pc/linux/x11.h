@@ -11,6 +11,7 @@
 #include "gui/common.h"
 
 #include <X11/Xlib.h>
+#undef None
 #include <unistd.h>
 
 using namespace zi0m;
@@ -40,7 +41,7 @@ class x11 final
         void createWindow();
         inline void clearMsg()
         {
-            msg = {EventType::_None, {0, 0}};
+            msg = {EventType::None, {0, 0}};
         }
 
     public:

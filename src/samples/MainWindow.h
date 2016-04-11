@@ -5,10 +5,14 @@
  *      Author: Artem.Smirnov
  */
 
-#ifndef GUI_MAINWINDOW_H_
-#define GUI_MAINWINDOW_H_
+#ifndef MAINWINDOW_H_
+#define MAINWINDOW_H_
 
 #include "gui/widgets/Widget.h"
+
+#include "common.h"
+
+#include <vector>
 
 using namespace zi0m;
 
@@ -25,21 +29,31 @@ class MainWindow final : public Widget
         void setupUi();
 
     private:
+        std::vector<Widget *> bodys;
+
+    private:
+        // # # # # # # # # # # # # # # # #
         class Header final : public Widget
         {
             public:
-                Header(Widget *parent);
+                Header(Widget *m_parent);
                 virtual ~Header() {}
 
             private:
                 void paint(MonitorDevice *const pMonitorDevice) override;
                 void event(EventType type) override;
+
+            private:
+                uint8_t iWidget = 0;
+                Common  *pVisibleBody = nullptr;
+                uint8_t nFont = 0;
+                std::vector<std::pair<const IFont *, std::u16string>> fonts;
         };
 
         class Body final : public Widget
         {
             public:
-                Body(Widget *parent);
+                Body(Widget *m_parent);
                 virtual ~Body() {}
 
             private:
@@ -48,4 +62,4 @@ class MainWindow final : public Widget
         };
 };
 
-#endif /* GUI_MAINWINDOW_H_ */
+#endif /* MAINWINDOW_H_ */

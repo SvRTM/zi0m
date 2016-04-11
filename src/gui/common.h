@@ -62,7 +62,7 @@ struct Rect final
 
 enum class EventType
 {
-    _None,
+    None,
 
     TouchStart,
     TouchMove,
@@ -117,39 +117,51 @@ enum Alignment
 #ifdef RGB888
 
 #define COLOR_WHITE     0xFFFFFFFFU
-#define COLOR_TEAL       0xFF00FFFFU
-#define COLOR_PURPLE   0xFFFF00FFU
 #define COLOR_BLUE       0xFF0000FFU
-#define COLOR_GREYL     0xFFC0C0C0U
-#define COLOR_GREYD     0xFF808080U
-#define COLOR_TEALD     0xFF008080U
-#define COLOR_PURPLED 0xFF800080U
 #define COLOR_BLUED     0xFF000080U
-#define COLOR_YELLOW   0xFFFFFF00U
 #define COLOR_GREEN     0xFF00FF00U
-#define COLOR_YELLOWD 0xFF808000U
 #define COLOR_GREEND   0xFF008000U
 #define COLOR_RED         0xFFFF0000U
 #define COLOR_REDD       0xFF800000U
+#define COLOR_YELLOW   0xFFFFFF00U
+#define COLOR_YELLOWD 0xFF808000U
+#define COLOR_SNOW      0xFFEEE9E9U
+#define COLOR_SNOWD    0xFF8B8989U
+#define COLOR_SILVER     0xFFC0C0C0U
+#define COLOR_GRAYL     0xFFBEBEBEU
+#define COLOR_GRAY       0xFF808080U
+#define COLOR_GRAY_ARSENIC 0xFF3B444BU
+#define COLOR_GRAYD     0xFF303030U
+#define COLOR_TEAL       0xFF00FFFFU
+#define COLOR_TEALD     0xFF008080U
+#define COLOR_PURPLE   0xFFFF00FFU
+#define COLOR_PURPLED 0xFF800080U
+#define COLOR_LAVENDER_BLUSH 0xEEE0E5U
 #define COLOR_BLACK      0xFF000000U
 
 #elif  RGB565
 
 #define COLOR_WHITE      uint16_t(0xFFFFU)
-#define COLOR_TEAL        uint16_t(0x0410U)
-#define COLOR_PURPLE    uint16_t(0xF81FU)
 #define COLOR_BLUE        uint16_t(0x001FU)
-#define COLOR_GREYL      uint16_t(0xC618U)
-#define COLOR_GREYD      uint16_t(0x8410U)
-#define COLOR_TEALD      uint16_t(0x0410U)
-#define COLOR_PURPLED  uint16_t(0x8010U)
 #define COLOR_BLUED      uint16_t(0x0010U)
-#define COLOR_YELLOW    uint16_t(0xFFE0U)
 #define COLOR_GREEN      uint16_t(0x07E0U)
-#define COLOR_YELLOWD  uint16_t(0x8400U)
 #define COLOR_GREEND    uint16_t(0x0400U)
 #define COLOR_RED          uint16_t(0xF800U)
 #define COLOR_REDD        uint16_t(0x8000U)
+#define COLOR_YELLOW    uint16_t(0xFFE0U)
+#define COLOR_YELLOWD  uint16_t(0x8400U)
+#define COLOR_SNOW       uint16_t(0xEF5DU)
+#define COLOR_SNOWD     uint16_t(0x8C51U)
+#define COLOR_SILVER      uint16_t(0xC618U)
+#define COLOR_GRAYL      uint16_t(0xBDF7U)
+#define COLOR_GRAY        uint16_t(0x8410U)
+#define COLOR_GRAY_ARSENIC uint16_t(0x3A29U)
+#define COLOR_GRAYD      uint16_t(0x3186U)
+#define COLOR_TEAL        uint16_t(0x0410U)
+#define COLOR_TEALD      uint16_t(0x0410U)
+#define COLOR_PURPLE    uint16_t(0xF81FU)
+#define COLOR_PURPLED  uint16_t(0x8010U)
+#define COLOR_LAVENDER_BLUSH uint16_t(0xEF1CU)
 #define COLOR_BLACK      uint16_t(0x0000U)
 
 #endif

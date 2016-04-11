@@ -5,8 +5,8 @@
  *      Author: Artem.Smirnov
  */
 
-#ifndef SRC_GUI_APPLICATIONBASE_H_
-#define SRC_GUI_APPLICATIONBASE_H_
+#ifndef APPLICATIONBASE_H_
+#define APPLICATIONBASE_H_
 
 #include "gui/kernel/EventCtrl.h"
 
@@ -38,4 +38,4 @@ class ApplicationBase
         MonitorDevice *pMonitorDevice;
 };
 }
-#endif /* SRC_GUI_APPLICATIONBASE_H_ */
+#endif /* APPLICATIONBASE_H_ */

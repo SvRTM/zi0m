@@ -23,6 +23,10 @@ class TextCharacters : public virtual Additional
             return m_text;
         }
         void setText(const std::u16string m_text);
+        uint16_t pxTextWidth() const
+        {
+            return m_pxTextWidth;
+        }
 
         void setFont(const IFont &font);
 
@@ -62,11 +66,11 @@ class TextCharacters : public virtual Additional
 
         void calcPxTextWidth()
         {
-            pxTextWidth = 0;
+            m_pxTextWidth = 0;
             for (size_t n = 0; n < m_text.length(); ++n)
             {
                 const IFont::CHAR_INFO *pDescriptor = IFont::descriptor(m_text.at(n), font());
-                pxTextWidth += pDescriptor->width;
+                m_pxTextWidth += pDescriptor->width;
             }
         }
 
@@ -80,7 +84,7 @@ class TextCharacters : public virtual Additional
         Point new_textAbsPosition;
 
         std::u16string m_text;
-        uint16_t pxTextWidth;
+        uint16_t m_pxTextWidth = 0;
 };
 }
 #endif // TEXTCHARACTERS_H

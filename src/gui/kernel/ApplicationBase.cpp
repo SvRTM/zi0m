@@ -48,11 +48,11 @@ void ApplicationBase::quantum()
     for (InputDevice *device : devices)
     {
         msg = device->getMessage();
-        if (EventType::_None != msg.touchEvent)
+        if (EventType::None != msg.touchEvent)
             break;
     }
 
-    if (EventType::_None != msg.touchEvent)
+    if (EventType::None != msg.touchEvent)
         pEventCtrl->process(msg, pMainWidget);
 
     pMainWidget->eventPaint(pMonitorDevice);

@@ -45,7 +45,6 @@ class Additional
             m_refresh = refresh;
         }
 
-
     protected:
         const IFont *pFont;
         bool m_refresh = true;

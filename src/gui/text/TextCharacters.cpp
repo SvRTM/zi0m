@@ -42,7 +42,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice)
     if (!isEnabled())
         drawText(pMonitorDevice, {COLOR_WHITE}, 1, 1);
 
-    u_color xcolor = { isEnabled() ? color().value : COLOR_GREYD };
+    u_color xcolor = { isEnabled() ? color().value : COLOR_GRAY };
     drawText(pMonitorDevice, xcolor);
 }
 
@@ -72,9 +72,9 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
 
     int16_t hAlign;
     if (align & Alignment::Right)
-        hAlign = m_size.width - pxTextWidth;
+        hAlign = m_size.width - m_pxTextWidth;
     else if (align & Alignment::HCenter)
-        hAlign = (m_size.width - pxTextWidth) / 2 ;
+        hAlign = (m_size.width - m_pxTextWidth) / 2 ;
     else // if (align & Alignment::Left)
         hAlign = 0;
 

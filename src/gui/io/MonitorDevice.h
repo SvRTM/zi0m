@@ -5,8 +5,8 @@
  *      Author: Artem.Smirnov
  */
 
-#ifndef GUI_MONITORDEVICE_H_
-#define GUI_MONITORDEVICE_H_
+#ifndef IO_MONITORDEVICE_H_
+#define IO_MONITORDEVICE_H_
 
 #include "gui/common.h"
 #include "gui/text/font/ifont.h"
@@ -59,4 +59,4 @@ class MonitorDevice
         }
 };
 }
-#endif /* GUI_MONITORDEVICE_H_ */
+#endif /* IO_MONITORDEVICE_H_ */

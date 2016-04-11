@@ -10,7 +10,7 @@
 namespace zi0m
 {
 
-Label::Label(Point pos, Size size, Widget *parent, Alignment align)
+Label::Label(Point pos, Size size, Widget *const parent, Alignment align)
     : Widget(pos, size, parent)
     , TextCharacters({0, 0}, {size.width, size.height}, align)
 {

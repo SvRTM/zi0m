@@ -8,31 +8,20 @@
 #include "Labels.h"
 #include "gui/widgets/Button.h"
 
-#include "gui/text/font/PT_Serif_AA_14pt_Regular.h"
-#include "gui/text/font/Terminus_11pt_Regular.h"
-#include "gui/text/font/Terminus_24pt_Regular.h"
-#include "gui/text/font/Tinos_AA_11pt_Regular.h"
-
 
 Labels::Labels(Point pos, Size size, Widget *parent)
-    : Widget(pos, size, parent), isEnabledLabels(true), nFont(0)
+    : Widget(pos, size, parent), isEnabledLabels(true)
 {
 #ifdef RGB888
-    setBackground({ 0x008886FAU });
+    setBackground({ 0X007092BEU });
 #elif  RGB565
-    setBackground({ 0x8C3FU });
+    setBackground({ 0x7497U });
 #endif
     setupUi();
 }
 
 void Labels::setupUi()
 {
-    fonts = {std::make_pair(&FONT(Terminus_11pt_Regular), u"Terminus_11pt_Regular")
-             , std::make_pair(&FONT(Terminus_24pt_Regular), u"Terminus_24pt_Regular")
-             , std::make_pair(&FONT(Tinos_AA_11pt_Regular), u"Tinos_AA_11pt_Regular")
-             , std::make_pair(&FONT(PT_Serif_AA_14pt_Regular), u"PT_Serif_AA_14pt_Regular")
-            };
-
     Button *btn = new Button({115, 0}, {70, 25}, this);
     btn->setText(u"Enable");
     btn->setCbReleased([btn, this]()
@@ -42,21 +31,11 @@ void Labels::setupUi()
             btn->setText(u"Enable");
         else
             btn->setText(u"Disable");
-        for (Widget *const w : labels)
+        for (TextCharacters *const w : smplWidgets)
             w->setEnabled(isEnabledLabels);
     });
     addWidget(btn);
-    btn = new Button({130, 174}, {50, 25}, this);
-    btn->setText(u"Font");
-    btn->setCbReleased([btn, this]()
-    {
-        std::pair<const IFont *, std::u16string> p = fonts[++nFont % fonts.size()];
-        const IFont &font = *p.first;
-        lblFontName->setText(p.second);
-        for (Label *w : labels)
-            w->setFont(font);
-    });
-    addWidget(btn);
+
 
     u_color bg = {COLOR_GREEN};
 
@@ -64,47 +43,55 @@ void Labels::setupUi()
     lb->setText(u"Left-aligned");
     lb->setBackground(bg);
     addWidget(lb);
-    labels.push_back(lb);
+    smplWidgets.push_back(lb);
     lb = new Label({188, 1}, {120, 25}, this, Alignment::Right);
     lb->setText(u"Right-aligned");
     lb->setBackground(bg);
     addWidget(lb);
-    labels.push_back(lb);
+    smplWidgets.push_back(lb);
     lb = new Label({1, 160}, {120, 39}, this, Alignment::Bottom);
     lb->setText(u"Bottom aligned");
     lb->setBackground(bg);
     addWidget(lb);
-    labels.push_back(lb);
+    smplWidgets.push_back(lb);
     lb = new Label({188, 160}, {120, 39}, this, Alignment::Top);
     lb->setText(u"Top aligned");
     lb->setBackground(bg);
     addWidget(lb);
-    labels.push_back(lb);
+    smplWidgets.push_back(lb);
 
     lb = new Label({15, 30}, {280, 16}, this, Alignment::Center);
     lb->setText(u"Displaying unknown symbols: 俄罗斯");
     lb->setBackground(bg);
     addWidget(lb);
-    labels.push_back(lb);
+    smplWidgets.push_back(lb);
     lb = new Label({2, 50}, {306, 5}, this, Alignment::Center);
     lb->setText(u"Center horizontal and vertical align of an element.");
     lb->setBackground(bg);
     addWidget(lb);
-    labels.push_back(lb);
+    smplWidgets.push_back(lb);
     lb = new Label({2, 60}, {306, 30}, this, Alignment::Center);
     lb->setText(u"Center horizontal and vertical align of an element.");
     lb->setBackground(bg);
     addWidget(lb);
-    labels.push_back(lb);
+    smplWidgets.push_back(lb);
 
-    lblFontName = new Label({2, 95}, {306, 55}, this, Alignment::Center);
+    pLblFontName = new Label({2, 95}, {306, 55}, this, Alignment::Center);
 #ifdef RGB888
-    lblFontName->setColor({0x00DCE92FU});
+    pLblFontName->setColor({0x00DCE92FU});
 #elif  RGB565
-    lblFontName->setColor({0xDF45U});
+    pLblFontName->setColor({0xDF45U});
 #endif
-    addWidget(lblFontName);
-    labels.push_back(lblFontName);
+    addWidget(pLblFontName);
+    smplWidgets.push_back(pLblFontName);
+}
+
+void Labels::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
+{
+    const IFont &font = *data.first;
+    pLblFontName->setText(data.second);
+    for (zi0m::TextCharacters *const w : smplWidgets)
+        w->setFont(font);
 }
 
 void Labels::event(EventType type)

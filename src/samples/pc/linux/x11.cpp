@@ -47,7 +47,7 @@ void  Panic(const char *msg)
 }
 
 
-x11::x11() : msg({EventType::_None, {0, 0}})
+x11::x11() : msg({EventType::None, {0, 0}})
 {
     if (!(param.dsp = XOpenDisplay(nullptr)))
     {

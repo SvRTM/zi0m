@@ -5,8 +5,8 @@
  *      Author: Artem.Smirnov
  */
 
-#ifndef GUI_INPUTDEVICE_H_
-#define GUI_INPUTDEVICE_H_
+#ifndef IO_INPUTDEVICE_H_
+#define IO_INPUTDEVICE_H_
 
 #include "gui/common.h"
 
@@ -22,4 +22,4 @@ class InputDevice
         virtual _MSG getMessage() const = 0;
 };
 }
-#endif /* GUI_INPUTDEVICE_H_ */
+#endif /* IO_INPUTDEVICE_H_ */
