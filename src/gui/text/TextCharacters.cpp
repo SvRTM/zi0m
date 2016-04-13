@@ -117,7 +117,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
                     {
                         const bool px = pt >> nBit & 0x01;
                         if (!px)
-                            pMonitorDevice->setPoint(x, y, textColor);
+                            pMonitorDevice->drawPoint(x, y, textColor);
                     }
                 }
                 else  // IFont::Mode::Antialias
@@ -138,7 +138,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
 #elif  RGB565
                         foreground = pMonitorDevice->alphaBlending(foreground, background(), 255 - pt);
 #endif
-                        pMonitorDevice->setPoint(x, y, foreground);
+                        pMonitorDevice->drawPoint(x, y, foreground);
                     }
                 }
                 x++;

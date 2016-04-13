@@ -1,12 +1,11 @@
 #ifndef CHECKBOX_H
 #define CHECKBOX_H
 
-#include "Widget.h"
-#include "gui/text/TextCharacters.h"
+#include "AbstractButton.h"
 
 namespace zi0m
 {
-class CheckBox : public Widget, public TextCharacters
+class CheckBox : public AbstractButton
 {
     public:
         explicit CheckBox(Point pos, Widget *const parent);
@@ -20,11 +19,6 @@ class CheckBox : public Widget, public TextCharacters
         };
 
     public:
-        void setAutoSize(bool autoSize);
-        void setSize(Size size);
-        void setFont(const IFont &font);
-        void setText(const std::u16string text);
-
         void setState(State state);
         State checkState() const
         {
@@ -37,11 +31,9 @@ class CheckBox : public Widget, public TextCharacters
         }
 
     private:
-        void updateAllPosition() override;
-        void event(EventType type) override;
+        const uint8_t elementWidth() const override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
-        void autoSize();
         void drawCheckmark(const Point chPos, const u_color color,
                            MonitorDevice *const pMonitorDevice)
         {
@@ -54,7 +46,7 @@ class CheckBox : public Widget, public TextCharacters
                     const uint8_t nBit = 7 - (width % 8);
                     const bool px = checkmark[nRow] >> nBit & 0x01;
                     if (px)
-                        pMonitorDevice->setPoint(x, y, color);
+                        pMonitorDevice->drawPoint(x, y, color);
                     x++;
                 }
                 y++;
@@ -75,13 +67,10 @@ class CheckBox : public Widget, public TextCharacters
         };
 
         const uint8_t borderWidth = 1;
-        const uint8_t marginLeftRight = 5;
         const uint8_t boxWidth = 14;
 
         State state = State::Unchecked;
         bool tristate = false;
-
-        bool m_autoSize = true;
 };
 }
 #endif // CHECKBOX_H

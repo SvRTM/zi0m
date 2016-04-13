@@ -7,6 +7,7 @@
 
 #include "Buttons.h"
 #include "gui/widgets/CheckBox.h"
+#include "gui/widgets/RadioButton.h"
 
 Buttons::Buttons(Point pos, Size size, Widget *parent)
     : Widget(pos, size, parent)
@@ -57,13 +58,25 @@ void Buttons::setupUi()
     ch->setBackground(bg);
     addWidget(ch);
     smplWidgets.push_back(ch);
+
+    RadioButton *rb  = new RadioButton({5, 125}, this);
+    rb->setText(u"RadioButton");
+    rb->setBackground(bg);
+    addWidget(rb);
+    smplWidgets.push_back(rb);
+    rb  = new RadioButton({5, 150}, this);
+    rb->setText(u"Checked");
+    rb->setChecked(true);
+    rb->setEnabled(false);
+    addWidget(rb);
+    smplWidgets.push_back(rb);
 }
 
 void Buttons::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
 {
     const IFont &font = *data.first;
     for (zi0m::TextCharacters *const w : smplWidgets)
-        dynamic_cast<CheckBox *const>(w)->setFont(font);
+        dynamic_cast<AbstractButton *const>(w)->setFont(font);
     refresh();
 }
 

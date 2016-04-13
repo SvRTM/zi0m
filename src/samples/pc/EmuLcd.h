@@ -30,11 +30,28 @@ class EmuLcd: public MonitorDevice
         virtual ~EmuLcd() {}
 
     public:
-        void setPoint(int16_t x, int16_t y, const u_color &color);
-        void fillRect(const Rect &rect, const u_color &color);
+        void drawPoint(int16_t x, int16_t y, const u_color &color) override;
+        void drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
+                      const u_color &color) override;
+        void fillRect(const Rect &rect, const u_color &color) override;
+        void fillCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color &color) override;
+        void circle(int16_t cx, int16_t cy, uint16_t radius, const u_color &color) override;
+        void circle(int16_t cx, int16_t cy, uint16_t radius, int16_t dy, const u_color &color1,
+                    const u_color &color2) override;
 
-        inline const uint16_t getWidth() const override;
-        inline const uint16_t getHight() const override;
+
+        inline const uint16_t getWidth() const override
+        {
+            return 320;
+        }
+        inline const uint16_t getHight() const override
+        {
+            return 240;
+        }
+
+    private:
+        void setColor(const u_color &color);
+        void drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
 
     private:
 #ifdef PLATFORM_WIN32
