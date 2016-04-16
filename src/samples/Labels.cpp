@@ -31,7 +31,7 @@ void Labels::setupUi()
             btn->setText(u"Enable");
         else
             btn->setText(u"Disable");
-        for (TextCharacters *const w : smplWidgets)
+        for (AbstractTextWidget *const w : smplWidgets)
             w->setEnabled(isEnabledLabels);
     });
     addWidget(btn);
@@ -90,11 +90,11 @@ void Labels::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
 {
     const IFont &font = *data.first;
     pLblFontName->setText(data.second);
-    for (zi0m::TextCharacters *const w : smplWidgets)
+    for (AbstractTextWidget *const w : smplWidgets)
         w->setFont(font);
 }
 
-void Labels::event(EventType type)
+void Labels::event(const EventType type)
 {
     this->type = type;
 }

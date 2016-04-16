@@ -10,33 +10,31 @@
 namespace zi0m
 {
 
-Button::Button(Point pos, Size size, Widget *const parent) :
-#ifdef RGB888
-    Additional({0x00D6D2D0U})
-#elif RGB565
-    Additional({0xD69AU})
-#endif
-, Widget(pos, size, parent)
-, TextCharacters(Alignment::Center)
+Button::Button(Point pos, Size size, Widget *const parent)
+    : AbstractTextWidget(pos, size, Alignment::Center, parent)
 {
+    setBackground(
+#ifdef RGB888
+    {0x00D6D2D0U}
+#elif RGB565
+    {0xD69AU}
+#endif
+    );
     TextCharacters::m_pos = {int16_t(2 * borderWidth), int16_t(2 * borderWidth)};
     TextCharacters::m_size = {uint16_t(size.width - 4 * borderWidth), uint16_t(size.height - 4 * borderWidth)};
     TextCharacters::updateAbsPosition(absolutePos);
 }
 
-void Button::setSize(Size size)
+void Button::p_setSize()
 {
-    TextCharacters::setSize({uint16_t(size.width - 4 * borderWidth), uint16_t(size.height - 4 * borderWidth)});
-    Widget::setSize(size);
+    TextCharacters::m_size = {uint16_t(size().width - 4 * borderWidth), uint16_t(size().height - 4 * borderWidth)};
 }
-
-void Button::updateAllPosition()
+void Button::p_updateAllPosition()
 {
-    Widget::updateAllPosition();
     TextCharacters::updateAbsPosition(absolutePos);
 }
 
-void Button::event(EventType type)
+void Button::event(const EventType type)
 {
     if (!isEnabled())
         return;

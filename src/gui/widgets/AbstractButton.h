@@ -2,11 +2,11 @@
 #define ABSTRACTBUTTON_H
 
 #include "Widget.h"
-#include "gui/text/TextCharacters.h"
+#include "AbstractTextWidget.h"
 
 namespace zi0m
 {
-class AbstractButton : public Widget, public TextCharacters
+class AbstractButton : public AbstractTextWidget
 {
     public:
         explicit AbstractButton(Point pos, Widget *const parent);
@@ -14,22 +14,24 @@ class AbstractButton : public Widget, public TextCharacters
 
     public:
         void setAutoSize(bool autoSize);
-        void setSize(Size size);
-        void setFont(const IFont &font);
-        void setText(const std::u16string text);
 
     protected:
         void init();
 
     private:
-        virtual const uint8_t elementWidth() const = 0;
-        void event(EventType type) override;
-        void updateAllPosition() override;
         void autoSize();
+        virtual const uint8_t elementWidth() const = 0;
+
+        void p_setSize() override;
+        void p_setFont() override;
+        void p_setText() override;
+        void p_updateAllPosition() override;
+
+        void event(const EventType type) override;
 
 
     protected:
-        const uint8_t marginLeftRight = 5;
+        static constexpr uint8_t marginLeftRight = 5;
 
     private:
         bool m_autoSize = true;

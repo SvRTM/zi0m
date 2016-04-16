@@ -50,11 +50,13 @@ void GroupBoxs::setupUi()
     gr->setText(u"X");
     addWidget(gr);
     smplWidgets.push_back(gr);
-    gr = new GroupBox({5,85}, {210, 60}, this);
+    gr = new GroupBox({5, 85}, {210, 60}, this);
     gr->setAlignment(Alignment::HCenter);
     gr->setText(u"GroupBox");
+    Button *bt = new Button({15, 15}, {50, 25}, gr);
+    bt->setText(u"Button");
+    gr->addWidget(bt);
     gr->setEnabled(false);
-    gr->addWidget(new Button({15,15}, {50,25}, gr));
     addWidget(gr);
     smplWidgets.push_back(gr);
 }
@@ -62,12 +64,12 @@ void GroupBoxs::setupUi()
 void GroupBoxs::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
 {
     const IFont &font = *data.first;
-    for (zi0m::TextCharacters *const w : smplWidgets)
-        dynamic_cast<GroupBox *const>(w)->setFont(font);
+    for (AbstractTextWidget *const w : smplWidgets)
+        w->setFont(font);
     refresh();
 }
 
-void GroupBoxs::event(EventType type)
+void GroupBoxs::event(const EventType type)
 {
     this->type = type;
 }

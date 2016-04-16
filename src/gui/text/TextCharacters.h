@@ -10,12 +10,12 @@
 
 namespace zi0m
 {
-class TextCharacters : public virtual Additional
+class TextCharacters: public virtual Additional
 {
     public:
         explicit TextCharacters(Alignment align);
-        explicit TextCharacters(Point pos, Size size, Alignment align);
-        virtual ~ TextCharacters() {}
+        //explicit TextCharacters(Point pos, Size size, Alignment align);
+        virtual ~TextCharacters() {}
 
     public:
         inline const std::u16string &text() const
@@ -34,7 +34,7 @@ class TextCharacters : public virtual Additional
         {
             return m_color;
         }
-        void setColor(u_color color);
+        void setColor(const u_color color);
 
         inline Alignment alignment() const
         {
@@ -43,8 +43,7 @@ class TextCharacters : public virtual Additional
         void setAlignment(Alignment align);
 
     protected:
-        void setSize(Size size);
-        void updateAbsPosition(Point pos);
+        void updateAbsPosition(const Point pos);
 
         void drawText(MonitorDevice *const pMonitorDevice);
         void drawText(MonitorDevice *const pMonitorDevice, const u_color textColor,

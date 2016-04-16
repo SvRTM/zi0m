@@ -18,7 +18,7 @@
 
 namespace zi0m
 {
-class Widget: public virtual Additional
+class Widget : public virtual Additional
 {
     public:
         explicit Widget(Point pos, Size size, Widget *const m_parent = nullptr);
@@ -53,7 +53,7 @@ class Widget: public virtual Additional
         {
             return m_size;
         }
-        void setSize(Size size);
+        void setSize(const Size size);
 
         // This property holds whether the widget is visible.
         inline bool isVisible() const
@@ -62,13 +62,15 @@ class Widget: public virtual Additional
         }
         void setVisible(bool visible);
 
-        virtual void event(EventType type) = 0;
+        void setEnabled(bool enabled);
+
+        virtual void event(const EventType type) = 0;
         EventType eventType() const;
 
         Widget *const findWidget(int16_t x, int16_t y) const;
 
     protected:
-        void updateAllPosition();
+        void updateAllPosition() override;
 
     private:
         void refreshChilds();
@@ -80,14 +82,14 @@ class Widget: public virtual Additional
     protected:
         EventType type;
         Point absolutePos;
-        std::vector<Widget *> widgets;
 
     private:
         Point m_pos;
         Size m_size;
         Widget *const m_parent;
-
         bool visible = true;
+
+        std::vector<Widget *> widgets;
 };
 }
 #endif /* WIDGETS_WIDGET_H_ */

@@ -11,27 +11,23 @@ namespace zi0m
 {
 
 Label::Label(Point pos, Size size, Widget *const parent, Alignment align)
-    : Widget(pos, size, parent)
-    , TextCharacters({0, 0}, {size.width, size.height}, align)
+    : AbstractTextWidget(pos, size, align, parent)
 {
-    if (parent)
-        setBackground(parent->background());
+    TextCharacters::m_pos = 0;
+    TextCharacters::m_size = {size.width, size.height};
     TextCharacters::updateAbsPosition(absolutePos);
 }
 
-void Label::setSize(Size size)
+void Label::p_setSize()
 {
-    TextCharacters::setSize({size.width, size.height});
-    Widget::setSize(size);
+    TextCharacters::m_size = {size().width, size().height};
 }
-
-void Label::updateAllPosition()
+void Label::p_updateAllPosition()
 {
-    Widget::updateAllPosition();
     TextCharacters::updateAbsPosition(absolutePos);
 }
 
-void Label::event(EventType type)
+void Label::event(const EventType type)
 {
     this->type = type;
 }

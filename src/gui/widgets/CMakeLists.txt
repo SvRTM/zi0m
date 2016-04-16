@@ -1,6 +1,7 @@
 set(SOURCES
     ${SOURCES}
     "${CMAKE_CURRENT_SOURCE_DIR}/AbstractButton.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/AbstractTextWidget.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/Button.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/CheckBox.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/GroupBox.cpp"
@@ -13,6 +14,7 @@ set(SOURCES
 set(HEADERS
     ${HEADERS}
     "${CMAKE_CURRENT_SOURCE_DIR}/AbstractButton.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/AbstractTextWidget.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/Button.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/CheckBox.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/GroupBox.h"

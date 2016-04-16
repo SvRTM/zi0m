@@ -66,8 +66,8 @@ class CheckBox : public AbstractButton
             0b00100000          // 0x20U
         };
 
-        const uint8_t borderWidth = 1;
-        const uint8_t boxWidth = 14;
+        static constexpr uint8_t borderWidth = 1;
+        static constexpr uint8_t boxWidth = 14;
 
         State state = State::Unchecked;
         bool tristate = false;

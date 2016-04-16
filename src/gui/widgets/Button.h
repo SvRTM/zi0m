@@ -9,32 +9,34 @@
 #define BUTTON_H_
 
 #include "Widget.h"
-#include "gui/text/TextCharacters.h"
+#include "AbstractButton.h"
 
 #include <functional>
 
 namespace zi0m
 {
-class Button: public Widget, public TextCharacters
+class Button: public AbstractTextWidget
 {
     public:
         explicit Button(Point pos, Size size, Widget *const parent);
         virtual ~Button() {}
 
     public:
-        void setSize(Size size);
-
         void setCbPressed(const std::function<void ()> &func);
         void setCbReleased(const std::function<void ()> &func);
         void setCbMoved(const std::function<void (uint16_t x, uint16_t y)> &func);
 
     private:
-        void updateAllPosition() override;
-        void event(EventType type) override;
+        void p_setSize() override;
+        void p_setFont() override {}
+        void p_setText() override {}
+        void p_updateAllPosition() override;
+
+        void event(const EventType type) override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:
-        const uint8_t borderWidth = 1;
+        static constexpr uint8_t borderWidth = 1;
 
         std::function<void (void)> cbPressed;
         std::function<void (void)> cbReleased;

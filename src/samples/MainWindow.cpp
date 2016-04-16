@@ -28,7 +28,7 @@ void MainWindow::setupUi()
     addWidget(new Body(this));
 }
 
-void MainWindow::event(EventType type)
+void MainWindow::event(const EventType type)
 {
     this->type = type;
 }
@@ -100,7 +100,7 @@ MainWindow::Header::Header(Widget *parent) :
     });
 }
 
-void MainWindow::Header::event(EventType type)
+void MainWindow::Header::event(const EventType type)
 {
     this->type = type;
 }
@@ -132,7 +132,7 @@ MainWindow::Body::Body(Widget *parent)
     static_cast<MainWindow *>(parent)->bodys = {pGrBoxs, pButtons, pLabels};
 }
 
-void MainWindow::Body::event(EventType type)
+void MainWindow::Body::event(const EventType type)
 {
     this->type = type;
 }

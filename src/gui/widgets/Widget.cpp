@@ -12,9 +12,9 @@ namespace zi0m
 {
 
 Widget::Widget(Point pos, Size size, Widget *const parent)
-    :  type(EventType::None),
-       absolutePos(parent ? parent->absolutePos + pos : pos),
-       m_pos(pos), m_size(size), m_parent(parent)
+    :  type(EventType::None)
+    , absolutePos(parent ? parent->absolutePos + pos : pos)
+    , m_pos(pos), m_size(size), m_parent(parent)
 {
     updateAllPosition();
 }
@@ -47,10 +47,19 @@ void Widget::setPosition(Point pos)
     updateAllPosition();
 }
 
-void Widget::setSize(Size size)
+void Widget::setSize(const Size size)
 {
     m_size = size;
     updateAllPosition();
+}
+
+void Widget::setEnabled(bool enabled)
+{
+    for (Widget *const w : widgets)
+        w->setEnabled(enabled);
+
+    this->enabled = enabled;
+    refresh();
 }
 
 void Widget::updateAllPosition()
@@ -75,7 +84,7 @@ void Widget::refreshChilds()
         w->refreshChilds();
 }
 
-//FIXME: implement the by other visible or not visible elements
+//FIXME: implement other option visible or not visible elements
 void Widget::setVisible(bool visible)
 {
     this->visible = visible;

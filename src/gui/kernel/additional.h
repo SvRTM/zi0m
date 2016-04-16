@@ -37,8 +37,6 @@ class Additional
             return enabled;
         }
 
-        void setEnabled(bool enabled);
-
     protected:
         inline void refresh(bool refresh = true)
         {
@@ -48,9 +46,9 @@ class Additional
     protected:
         const IFont *pFont;
         bool m_refresh = true;
+        bool enabled = true;
     private:
         u_color m_background;
-        bool enabled = true;
 };
 }
 #endif // ADDITIONAL_H

@@ -4,11 +4,8 @@ namespace zi0m
 {
 
 AbstractButton::AbstractButton(Point pos, Widget *const parent)
-    : Widget(pos, 0, parent)
-    , TextCharacters(Alignment(Alignment::Left | Alignment::VCenter))
+    : AbstractTextWidget(pos, 0, Alignment(Alignment::Left | Alignment::VCenter), parent)
 {
-    if (parent)
-        setBackground(parent->background());
 }
 void AbstractButton::init()
 {
@@ -22,26 +19,6 @@ void AbstractButton::setAutoSize(bool autoSize)
     m_autoSize = autoSize;
 }
 
-void AbstractButton::setSize(Size size)
-{
-    TextCharacters::setSize({uint16_t(size.width - marginLeftRight + elementWidth() + marginLeftRight),
-                             size.height
-                            });
-    Widget::setSize(size);
-}
-
-void AbstractButton::setFont(const IFont &font)
-{
-    TextCharacters::setFont(font);
-    autoSize();
-}
-
-void AbstractButton::setText(const std::u16string text)
-{
-    TextCharacters::setText(text);
-    autoSize();
-}
-
 void AbstractButton::autoSize()
 {
     if (!m_autoSize)
@@ -52,13 +29,26 @@ void AbstractButton::autoSize()
     setSize(size);
 }
 
-void AbstractButton::updateAllPosition()
+void AbstractButton::p_setSize()
 {
-    Widget::updateAllPosition();
+    TextCharacters::m_size = {uint16_t(size().width - marginLeftRight + elementWidth() + marginLeftRight),
+                              size().height
+                             };
+}
+void AbstractButton::p_setFont()
+{
+    autoSize();
+}
+void AbstractButton::p_setText()
+{
+    autoSize();
+}
+void AbstractButton::p_updateAllPosition()
+{
     TextCharacters::updateAbsPosition(absolutePos);
 }
 
-void AbstractButton::event(EventType type)
+void AbstractButton::event(const EventType type)
 {
     if (!isEnabled())
         return;

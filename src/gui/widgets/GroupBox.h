@@ -2,32 +2,29 @@
 #define GROUPBOX_H
 
 #include "Widget.h"
-#include "gui/text/TextCharacters.h"
+#include "AbstractButton.h"
 
 namespace zi0m
 {
-class GroupBox : public Widget, public TextCharacters
+class GroupBox : public AbstractTextWidget
 {
     public:
         explicit GroupBox(Point pos, Size size, Widget *const parent);
         virtual ~GroupBox() {}
 
-    public:
-        void setSize(Size size);
-        void setFont(const IFont &font);
-        void setText(const std::u16string text);
-        void setEnabled(bool enabled);
-
     private:
         void calcPosition();
+        void p_setSize() override;
+        void p_setFont() override;
+        void p_setText() override;
+        void p_updateAllPosition() override;
 
-        void updateAllPosition() override;
-        void event(EventType type) override;
+        void event(const EventType type) override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:
-        const uint8_t textPadding = 3;
-        const uint8_t indent = 5;
+        static constexpr uint8_t textPadding = 3;
+        static constexpr uint8_t indent = 5;
 
         bool isWholeBottomLine;
         bool isVisibleRightLine, isVisibleLeftLine;

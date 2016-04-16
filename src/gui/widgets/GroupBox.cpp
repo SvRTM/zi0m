@@ -5,45 +5,28 @@ namespace zi0m
 {
 
 GroupBox::GroupBox(Point pos, Size size, Widget *const parent)
-    : Widget(pos, size, parent)
-    , TextCharacters(Alignment(Alignment::VCenter | Alignment::Left))
+    : AbstractTextWidget(pos, size, Alignment(Alignment::VCenter | Alignment::Left), parent)
 {
-    //if (parent)
-    //setBackground(parent->background());
 }
 
-void GroupBox::setSize(Size size)
+void GroupBox::p_setSize()
 {
-    Widget::setSize(size);
+    calcPosition();
+}
+void GroupBox::p_setFont()
+{
+    updateAllPosition();
+}
+void GroupBox::p_setText()
+{
+    calcPosition();
+}
+void GroupBox::p_updateAllPosition()
+{
     calcPosition();
 }
 
-void GroupBox::setFont(const IFont &font)
-{
-    TextCharacters::setFont(font);
-    calcPosition();
-}
-
-void GroupBox::setText(const std::u16string text)
-{
-    TextCharacters::setText(text);
-    calcPosition();
-}
-
-void GroupBox::setEnabled(bool enabled)
-{
-    for (Widget *const w : widgets)
-        w->setEnabled(enabled);
-    Additional::setEnabled(enabled);
-}
-
-void GroupBox::updateAllPosition()
-{
-    Widget::updateAllPosition();
-    calcPosition();
-}
-
-void GroupBox::event(EventType type)
+void GroupBox::event(const EventType type)
 {
     if (!isEnabled())
         return;

@@ -75,12 +75,12 @@ void Buttons::setupUi()
 void Buttons::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
 {
     const IFont &font = *data.first;
-    for (zi0m::TextCharacters *const w : smplWidgets)
-        dynamic_cast<AbstractButton *const>(w)->setFont(font);
+    for (AbstractTextWidget *const w : smplWidgets)
+        w->setFont(font);
     refresh();
 }
 
-void Buttons::event(EventType type)
+void Buttons::event(const EventType type)
 {
     this->type = type;
 }
