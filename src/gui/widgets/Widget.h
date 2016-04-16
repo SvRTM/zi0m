@@ -25,13 +25,15 @@ class Widget: public virtual Additional
         virtual ~Widget();
 
     public:
+        void eventPaint(MonitorDevice *const pMonitorDevice);
+        virtual void paint(MonitorDevice *const pMonitorDevice) = 0;
+
         const Widget *parent() const
         {
             return m_parent;
         }
 
-        void eventPaint(MonitorDevice *const pMonitorDevice);
-        virtual void paint(MonitorDevice *const pMonitorDevice) = 0;
+        void addWidget(Widget *const w);
 
         // Returns current position in absolute screen coordinates.
         inline const Rect screen() const
@@ -66,7 +68,6 @@ class Widget: public virtual Additional
         Widget *const findWidget(int16_t x, int16_t y) const;
 
     protected:
-        void addWidget(Widget *const w);
         void updateAllPosition();
 
     private:
@@ -79,6 +80,7 @@ class Widget: public virtual Additional
     protected:
         EventType type;
         Point absolutePos;
+        std::vector<Widget *> widgets;
 
     private:
         Point m_pos;
@@ -86,8 +88,6 @@ class Widget: public virtual Additional
         Widget *const m_parent;
 
         bool visible = true;
-
-        std::vector<Widget *> widgets;
 };
 }
 #endif /* WIDGETS_WIDGET_H_ */

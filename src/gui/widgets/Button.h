@@ -11,7 +11,6 @@
 #include "Widget.h"
 #include "gui/text/TextCharacters.h"
 
-#include <string>
 #include <functional>
 
 namespace zi0m

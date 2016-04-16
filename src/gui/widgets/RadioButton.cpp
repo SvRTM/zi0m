@@ -27,7 +27,6 @@ void RadioButton::paint(MonitorDevice *const pMonitorDevice)
         case EventType::TouchMove:
             return;
         case EventType::TouchEnd:
-            checked = !checked;
         default:
             circleBg = {isEnabled() ? COLOR_WHITE : COLOR_SILVER};
     }

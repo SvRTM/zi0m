@@ -9,6 +9,7 @@
 #include "gui/widgets/Button.h"
 
 #include "Buttons.h"
+#include "GroupBoxs.h"
 #include "Labels.h"
 
 #include "gui/text/font/PT_Serif_AA_14pt_Regular.h"
@@ -119,12 +120,16 @@ MainWindow::Body::Body(Widget *parent)
     // FIXME: replace (320/240) on MAX_WIDTH / MAX_HEIGHT
 
     Buttons *pButtons =  new Buttons({0, 0}, size(), this);
+    GroupBoxs *pGrBoxs = new GroupBoxs({0, 0}, size(), this);
     Labels *pLabels = new Labels({0, 0}, size(), this);
     pLabels->setVisible(false);
+    pButtons->setVisible(false);
+
+    addWidget(pGrBoxs);
     addWidget(pButtons);
     addWidget(pLabels);
 
-    static_cast<MainWindow *>(parent)->bodys = {pButtons, pLabels};
+    static_cast<MainWindow *>(parent)->bodys = {pGrBoxs, pButtons, pLabels};
 }
 
 void MainWindow::Body::event(EventType type)
