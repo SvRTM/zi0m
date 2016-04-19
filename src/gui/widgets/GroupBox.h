@@ -12,6 +12,25 @@ class GroupBox : public AbstractTextWidget
         explicit GroupBox(Point pos, Size size, Widget *const parent);
         virtual ~GroupBox() {}
 
+    public:
+        bool isCheckable() const
+        {
+            return checkable;
+        }
+        void setCheckable(bool checkable);
+        bool isChecked() const
+        {
+            return checked;
+        }
+        void setChecked(bool checked);
+
+        void setAlignment(Alignment align);
+        inline Alignment alignment()
+        {
+            return alignCenter ? Alignment((alignment()^Alignment::Left) | Alignment::HCenter) :
+                   alignment();
+        }
+
     private:
         void calcPosition();
         void p_setSize() override;
@@ -22,8 +41,10 @@ class GroupBox : public AbstractTextWidget
         void event(const EventType type) override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
+        void checkBox(MonitorDevice *const pMonitorDevice);
+
     private:
-        static constexpr uint8_t textPadding = 3;
+        static constexpr uint8_t textPadding = 2;
         static constexpr uint8_t indent = 5;
 
         bool isWholeBottomLine;
@@ -31,6 +52,50 @@ class GroupBox : public AbstractTextWidget
         uint8_t indentFrameTop = 0;
         int16_t x2Left = 0, x1Right = 0;
         uint8_t y1Left = 0, y1Right = 0;
+
+        bool checkable = false;
+        bool checked = true;
+
+        bool alignCenter = false;
+
+
+        void drawCheckmark(const Point chPos, const u_color color,
+                           MonitorDevice *const pMonitorDevice)
+        {
+            int16_t y  = chPos.y + 1 + 2 * borderWidth;
+            for (uint8_t  nRow = 0; nRow < sizeof(checkmark); ++nRow)
+            {
+                int16_t x = chPos.x + 1 + 2 * borderWidth;
+                for (uint8_t width = 0; width < 8; ++width)
+                {
+                    const uint8_t nBit = 7 - (width % 8);
+                    const bool px = checkmark[nRow] >> nBit & 0x01;
+                    if (px)
+                        pMonitorDevice->drawPoint(x, y, color);
+                    x++;
+                }
+                y++;
+            }
+        }
+
+    private:
+        static constexpr uint8_t checkmark[8] =
+        {
+            0b00000001,         // 0x01U
+            0b00000011,         // 0x03U
+            0b00000111,         // 0x07U
+            0b10001110,         // 0x8EU
+            0b11011100,         // 0xDCU
+            0b11111000,         // 0xF8U
+            0b01110000,         // 0x70U
+            0b00100000          // 0x20U
+        };
+
+        static constexpr uint8_t borderWidth = 1;
+        static constexpr uint8_t boxWidth = 14;
+
+        //
+        static constexpr uint8_t marginLeftRight = 5;
 };
 }
 #endif // GROUPBOX_H

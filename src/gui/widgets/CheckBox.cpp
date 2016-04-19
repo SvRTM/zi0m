@@ -79,6 +79,14 @@ void CheckBox::paint(MonitorDevice *const pMonitorDevice)
         drawCheckmark(chPos, chmarkClr, pMonitorDevice );
     }
 
+    u_color colorTL = {COLOR_GRAY};
+    // left
+    pMonitorDevice->fillRect({chPos.x, chPos.y, borderWidth, uint16_t(elementWidth() - borderWidth)
+                             }, colorTL);
+    // top
+    pMonitorDevice->fillRect({chPos.x, chPos.y, uint16_t(elementWidth() - borderWidth), borderWidth
+                             }, colorTL);
+
     u_color colorTL2({COLOR_GRAYD});
     // left
     pMonitorDevice->fillRect({int16_t(chPos.x + borderWidth), int16_t(chPos.y + borderWidth),
@@ -109,14 +117,6 @@ void CheckBox::paint(MonitorDevice *const pMonitorDevice)
     pMonitorDevice->fillRect({int16_t(chPos.x + elementWidth() - borderWidth), chPos.y,
                               borderWidth, elementWidth()
                              }, colorBR);
-
-    u_color colorTL = {COLOR_GRAY};
-    // left
-    pMonitorDevice->fillRect({chPos.x, chPos.y, borderWidth, uint16_t(elementWidth() - borderWidth)
-                             }, colorTL);
-    // top
-    pMonitorDevice->fillRect({chPos.x, chPos.y, uint16_t(elementWidth() - borderWidth), borderWidth
-                             }, colorTL);
 
     drawText(pMonitorDevice);
 }

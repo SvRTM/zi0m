@@ -37,13 +37,14 @@ void TextCharacters::setAlignment(Alignment align)
     refresh();
 }
 
-void TextCharacters::drawText(MonitorDevice *const pMonitorDevice)
+void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
+                              const int16_t horizontalShift)
 {
     if (!isEnabled())
-        drawText(pMonitorDevice, {COLOR_WHITE}, 1, 1);
+        drawText(pMonitorDevice, {COLOR_WHITE}, 1, 1, horizontalShift);
 
     u_color xcolor = { isEnabled() ? color().value : COLOR_GRAY };
-    drawText(pMonitorDevice, xcolor);
+    drawText(pMonitorDevice, xcolor, 0, 0, horizontalShift);
 }
 
 void TextCharacters::updateAbsPosition(const Point pos)
@@ -52,7 +53,8 @@ void TextCharacters::updateAbsPosition(const Point pos)
 }
 
 void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
-                              const u_color textColor, const uint8_t shiftX, const uint8_t shiftY)
+                              const u_color textColor, const uint8_t shiftX, const uint8_t shiftY,
+                              const int16_t horizontalShift)
 {
     if (m_size.width == 0 || m_size.height == 0)
         return;
@@ -72,6 +74,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
         hAlign = (m_size.width - m_pxTextWidth) / 2 ;
     else // if (align & Alignment::Left)
         hAlign = 0;
+    hAlign += horizontalShift;
 
 
     const uint8_t vAlignPos = vAlign < 0 ? abs(vAlign) : 0;
