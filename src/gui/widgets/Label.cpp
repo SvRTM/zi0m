@@ -27,7 +27,7 @@ void Label::p_updateAllPosition()
     TextCharacters::updateAbsPosition(absolutePos);
 }
 
-void Label::event(const EventType type)
+void Label::event(const EventType type, const Point &pos)
 {
     this->type = type;
 }

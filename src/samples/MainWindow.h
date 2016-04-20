@@ -24,7 +24,7 @@ class MainWindow final : public Widget
 
     private:
         void paint(MonitorDevice *const pMonitorDevice) override;
-        void event(const EventType type) override;
+        void event(const EventType type, const Point &pos) override;
 
         void setupUi();
 
@@ -41,7 +41,7 @@ class MainWindow final : public Widget
 
             private:
                 void paint(MonitorDevice *const pMonitorDevice) override;
-                void event(const EventType type) override;
+                void event(const EventType type, const Point &pos) override;
 
             private:
                 uint8_t iWidget = 0;
@@ -58,7 +58,7 @@ class MainWindow final : public Widget
 
             private:
                 void paint(MonitorDevice *const pMonitorDevice) override;
-                void event(const EventType type) override;
+                void event(const EventType type, const Point &pos) override;
         };
 };
 

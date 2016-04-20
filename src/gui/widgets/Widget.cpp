@@ -53,10 +53,15 @@ void Widget::setSize(const Size size)
     updateAllPosition();
 }
 
-void Widget::setEnabled(bool enabled)
+void Widget::setEnabledChilds(bool enabled)
 {
     for (Widget *const w : widgets)
         w->setEnabled(enabled);
+}
+
+void Widget::setEnabled(bool enabled)
+{
+    setEnabledChilds(enabled);
 
     this->enabled = enabled;
     refresh();

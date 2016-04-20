@@ -3,6 +3,7 @@
 
 namespace zi0m
 {
+constexpr uint8_t GroupBox::checkmark[8];
 
 GroupBox::GroupBox(Point pos, Size size, Widget *const parent)
     : AbstractTextWidget(pos, size, Alignment(Alignment::VCenter | Alignment::Left), parent)
@@ -28,33 +29,49 @@ void GroupBox::p_updateAllPosition()
     calcPosition();
 }
 
-void GroupBox::event(const EventType type)
+void GroupBox::event(const EventType type, const Point &pos)
 {
     if (!isEnabled())
         return;
 
     this->type = type;
+    if (!checkable)
+        return;
+
+    Rect rect = {int16_t(x2Left < 0 ? 0 : x2Left), 0, uint16_t(x2Left < 0 ? x1Right : x1Right - x2Left ), font().height};
+    Rect r = {{screen().x, screen().y}, 0};
+    rect =  r + rect;
+    if (rect.contains(pos.x, pos.y))
+    {
+        if (isEnableTouchLeave)
+        {
+            typeCheckBox = EventType::TouchEnter;
+            isEnableTouchLeave = false;
+        }
+        else
+        {
+            typeCheckBox = type;
+            if (EventType::TouchEnd == type)
+            {
+                checked = !checked;
+                setEnabledChilds(checked);
+            }
+        }
+    }
+    else if (!isEnableTouchLeave)
+    {
+        typeCheckBox = EventType::TouchLeave;
+        isEnableTouchLeave = true;
+    }
+    else
+        typeCheckBox =  EventType::TouchMove;
+
+    refresh();
 }
 
 void GroupBox::setCheckable(bool checkable)
 {
     this->checkable = checkable;
-    if (checkable)
-    {
-        //        pCheckBox = new CheckBox(0, this);
-        //        pCheckBox->setState(CheckBox::State::Checked);
-        //        pCheckBox->setBackground({COLOR_GRAYL});
-
-        //        pCheckBox->setText(TextCharacters::text());
-        //        TextCharacters::setText(std::u16string());
-    }
-    //else if (pCheckBox)
-    {
-        //        TextCharacters::setText(pCheckBox->text());
-
-        //        delete pCheckBox;
-        //        pCheckBox = nullptr;
-    }
     calcPosition();
 }
 
@@ -214,167 +231,189 @@ void GroupBox::calcPosition()
 
 void GroupBox::paint(MonitorDevice *const pMonitorDevice)
 {
-    pMonitorDevice->fillRect(screen(), background());
-    //u_color colorTL, colorBR;
-
-    Point chPos = {0, indentFrameTop};
-    chPos.x += screen().x;
-    chPos.y += screen().y;
-
-    if (x2Left > 1)
+    if (typeCheckBox == EventType::TouchMove)
     {
-        //top-left
-        pMonitorDevice->drawLine(chPos.x , chPos.y, chPos.x + x2Left , chPos.y, {COLOR_GRAY});
-        pMonitorDevice->drawLine(chPos.x , chPos.y + 1, chPos.x + x2Left , chPos.y + 1, {COLOR_WHITE});
-    }
-    if (y1Right == 0)
-    {
-        //top-right
-        pMonitorDevice->drawLine(chPos.x + x1Right , chPos.y,
-                                 chPos.x + size().width - 1 - 1, chPos.y, {COLOR_GRAY});
-        //if (TextCharacters::m_size.width >= )
-        pMonitorDevice->drawLine(chPos.x  + x1Right, chPos.y + 1,
-                                 chPos.x + size().width - 1 - 1 - 1, chPos.y + 1, {COLOR_WHITE});
+        typeCheckBox = EventType::None;
+        return;
     }
 
-    if (isVisibleLeftLine)
+    if (typeCheckBox == EventType::TouchEnd || typeCheckBox == EventType::None)
     {
-        // left
-        pMonitorDevice->drawLine(chPos.x, chPos.y + y1Left, chPos.x,
-                                 chPos.y + size().height - indentFrameTop - 1 - 1, {COLOR_GRAY});
-        pMonitorDevice->drawLine(chPos.x + 1, chPos.y + 1 + y1Left, chPos.x + 1,
-                                 chPos.y + 1 + size().height - indentFrameTop - 1 - 1 - 1, {COLOR_WHITE});
-    }
+        pMonitorDevice->fillRect(screen(), background());
+        //u_color colorTL, colorBR;
 
-    if (isVisibleRightLine)
-    {
-        // right
-        pMonitorDevice->drawLine(chPos.x + size().width - 1, chPos.y + y1Right,
-                                 chPos.x + size().width - 1, chPos.y + size().height - indentFrameTop - 1,
-        {COLOR_WHITE});
-        pMonitorDevice->drawLine(chPos.x + size().width - 1 - 1, chPos.y + y1Right,
-                                 chPos.x + size().width - 1 - 1, chPos.y + size().height - indentFrameTop - 1 - 1,
-        {COLOR_GRAY});
-    }
+        Point chPos = {0, indentFrameTop};
+        chPos.x += screen().x;
+        chPos.y += screen().y;
 
-    if (isVisibleLeftLine && isVisibleRightLine)
-    {
-        // bottom
-        uint16_t x2 = isWholeBottomLine ? size().width - 1 - 1 : x2Left;
-        pMonitorDevice->drawLine(chPos.x, chPos.y + size().height - indentFrameTop - 1 - 1,
-                                 chPos.x + x2 , chPos.y + size().height - indentFrameTop - 1 - 1,
-        {COLOR_GRAY});
-        pMonitorDevice->drawLine(chPos.x, chPos.y + size().height - indentFrameTop - 1 ,
-                                 chPos.x + x2, chPos.y + size().height - indentFrameTop - 1,
-        {COLOR_WHITE});
-
-        if ( !isWholeBottomLine)
+        if (x2Left > 1)
         {
-            pMonitorDevice->drawLine(chPos.x + x1Right,
-                                     chPos.y + size().height - indentFrameTop - 1 - 1,
+            //top-left
+            pMonitorDevice->drawLine(chPos.x , chPos.y, chPos.x + x2Left , chPos.y, {COLOR_GRAY});
+            pMonitorDevice->drawLine(chPos.x , chPos.y + 1, chPos.x + x2Left , chPos.y + 1, {COLOR_WHITE});
+        }
+        if (y1Right == 0)
+        {
+            //top-right
+            pMonitorDevice->drawLine(chPos.x + x1Right , chPos.y,
+                                     chPos.x + size().width - 1 - 1, chPos.y, {COLOR_GRAY});
+            //if (TextCharacters::m_size.width >= )
+            pMonitorDevice->drawLine(chPos.x  + x1Right, chPos.y + 1,
+                                     chPos.x + size().width - 1 - 1 - 1, chPos.y + 1, {COLOR_WHITE});
+        }
+
+        if (isVisibleLeftLine)
+        {
+            // left
+            pMonitorDevice->drawLine(chPos.x, chPos.y + y1Left, chPos.x,
+                                     chPos.y + size().height - indentFrameTop - 1 - 1, {COLOR_GRAY});
+            pMonitorDevice->drawLine(chPos.x + 1, chPos.y + 1 + y1Left, chPos.x + 1,
+                                     chPos.y + 1 + size().height - indentFrameTop - 1 - 1 - 1, {COLOR_WHITE});
+        }
+
+        if (isVisibleRightLine)
+        {
+            // right
+            pMonitorDevice->drawLine(chPos.x + size().width - 1, chPos.y + y1Right,
+                                     chPos.x + size().width - 1, chPos.y + size().height - indentFrameTop - 1,
+            {COLOR_WHITE});
+            pMonitorDevice->drawLine(chPos.x + size().width - 1 - 1, chPos.y + y1Right,
                                      chPos.x + size().width - 1 - 1, chPos.y + size().height - indentFrameTop - 1 - 1,
             {COLOR_GRAY});
-
-            pMonitorDevice->drawLine(chPos.x + x1Right,
-                                     chPos.y + size().height - indentFrameTop - 1 ,
-                                     chPos.x + size().width - 1 , chPos.y + size().height - indentFrameTop - 1,
-            {COLOR_WHITE});
         }
+
+        if (isVisibleLeftLine && isVisibleRightLine)
+        {
+            // bottom
+            uint16_t x2 = isWholeBottomLine ? size().width - 1 - 1 : x2Left;
+            pMonitorDevice->drawLine(chPos.x, chPos.y + size().height - indentFrameTop - 1 - 1,
+                                     chPos.x + x2 , chPos.y + size().height - indentFrameTop - 1 - 1,
+            {COLOR_GRAY});
+            pMonitorDevice->drawLine(chPos.x, chPos.y + size().height - indentFrameTop - 1 ,
+                                     chPos.x + x2, chPos.y + size().height - indentFrameTop - 1,
+            {COLOR_WHITE});
+
+            if ( !isWholeBottomLine)
+            {
+                pMonitorDevice->drawLine(chPos.x + x1Right,
+                                         chPos.y + size().height - indentFrameTop - 1 - 1,
+                                         chPos.x + size().width - 1 - 1, chPos.y + size().height - indentFrameTop - 1 - 1,
+                {COLOR_GRAY});
+
+                pMonitorDevice->drawLine(chPos.x + x1Right,
+                                         chPos.y + size().height - indentFrameTop - 1 ,
+                                         chPos.x + size().width - 1 , chPos.y + size().height - indentFrameTop - 1,
+                {COLOR_WHITE});
+            }
+        }
+
+        drawText(pMonitorDevice, alignCenter && x2Left < 0 ? x2Left : 0);
     }
 
-    drawText(pMonitorDevice, alignCenter && x2Left < 0 ? x2Left : 0);
-    if (checkable)
-        checkBox(pMonitorDevice);
+    if (!checkable)
+        return;
+    paintCheckBox(pMonitorDevice);
 }
 
-void GroupBox::checkBox(MonitorDevice *const pMonitorDevice)
+void GroupBox::paintCheckBox(MonitorDevice *const pMonitorDevice)
 {
-    u_color boxBg = {COLOR_WHITE};
+    u_color boxBg;
+    switch (typeCheckBox)
+    {
+        case EventType::TouchStart:
+        case EventType::TouchEnter:
+            boxBg = {COLOR_SILVER};
+            break;
+        case EventType::TouchEnd:
+        default:
+            boxBg = { (isEnabled() ? COLOR_WHITE : COLOR_SILVER) };
+    }
+    typeCheckBox = EventType::None;
+
 
     Point chPos = {int16_t(x2Left + marginLeftRight) , int16_t(indentFrameTop - boxWidth / 2 + 1)};
     if (chPos.x + boxWidth < 0)
         return;
-    uint16_t w, xd;
+    uint16_t bxWidth, subzero;
     if (chPos.x < 0)
     {
-        w = boxWidth + chPos.x ; //abs(chPos.x) +2 * borderWidth ;
-        //chPos.x = -2 * borderWidth;
-        xd =  abs(chPos.x);//2 * borderWidth;
+        bxWidth = boxWidth + chPos.x ;
+        subzero =  -chPos.x;
     }
     else
     {
-        //chPos.x = 0;//chPos.x+2 * borderWidth;
-        w = boxWidth - 4 * borderWidth;
-        xd = 0;
+        bxWidth = boxWidth;
+        subzero = 0;
     }
 
     chPos.x += screen().x;
     chPos.y += screen().y;
 
-    if (w > 2)
-        pMonitorDevice->fillRect({int16_t(chPos.x + 2 * borderWidth + (xd == 0 ? 0 : xd - 2 * borderWidth) ), int16_t(chPos.y + 2 * borderWidth),
-                                  uint16_t(w), uint16_t(boxWidth - 4 * borderWidth)
-                                 }, boxBg);
-
-    //    if (State::Unchecked != state)
-    //    {
-    //        u_color chmarkClr;
-    //        chmarkClr =  {isEnabled()
-    //                      ? (State::PartiallyChecked == state
-    //                         ? COLOR_GRAY_ARSENIC : COLOR_BLACK)
-    //                      : (State::PartiallyChecked == state
-    //                         ? COLOR_GRAYL : COLOR_GRAY)
-    //                     };
-    //        drawCheckmark(chPos, chmarkClr, pMonitorDevice );
-    //    }
-
-    u_color colorTL = {COLOR_GRAY};
-    u_color colorTL2({COLOR_GRAYD});
-    if (chPos.x >= absolutePos.x)
+    if (bxWidth > 0)
     {
-        // left
-        pMonitorDevice->fillRect({chPos.x, chPos.y, borderWidth, uint16_t(boxWidth - borderWidth)
-                                 }, colorTL);
-        // left
-        pMonitorDevice->fillRect({int16_t(chPos.x + borderWidth), int16_t(chPos.y + borderWidth),
-                                  borderWidth, uint16_t(boxWidth - 3 * borderWidth)
-                                 }, colorTL2);
-    }
+        u_color colorBR = {COLOR_WHITE};
+        u_color colorBR2 = {COLOR_SILVER};
+        u_color colorTL = {COLOR_GRAY};
+        u_color colorTL2({COLOR_GRAYD});
 
-    //if (boxWidth - borderWidth - xd >0)
-
-    if (w > 1)
-        // top
-        pMonitorDevice->fillRect({int16_t(chPos.x + xd), chPos.y, uint16_t(boxWidth - borderWidth - xd), borderWidth
-                                 }, colorTL);
-    if (w > 2)
-        // top
-        pMonitorDevice->fillRect({int16_t(chPos.x + (xd == 0 ? 2 * borderWidth : xd)), int16_t(chPos.y + borderWidth),
-                                  uint16_t(boxWidth - 2 * borderWidth - (xd == 0 ? 2 * borderWidth : xd)), borderWidth
-                                 }, colorTL2);
-
-    u_color colorBR = {COLOR_WHITE};
-    u_color colorBR2 = {COLOR_SILVER};
-    if (w > 0)
         // right
         pMonitorDevice->fillRect({int16_t(chPos.x + boxWidth - borderWidth), chPos.y,
                                   borderWidth, boxWidth
                                  }, colorBR);
-    if (w > 1)
-        // right
-        pMonitorDevice->fillRect({int16_t(chPos.x + boxWidth - 2 * borderWidth), int16_t(chPos.y + borderWidth),
-                                  borderWidth, uint16_t(boxWidth - 2 * borderWidth)
-                                 }, colorBR2);
-    if (w > 1)
-        // bottom
-        pMonitorDevice->fillRect({int16_t(chPos.x + (xd == 0 ? 0 : xd)), int16_t(chPos.y + boxWidth - borderWidth),
-                                  uint16_t(boxWidth - borderWidth - (xd == 0 ? 0 : xd)), borderWidth
-                                 }, colorBR);
-    if (w > 2)
-        // bottom
-        pMonitorDevice->fillRect({int16_t(chPos.x + (xd == 0 ? borderWidth : xd)), int16_t(chPos.y + boxWidth - 2 * borderWidth),
-                                  uint16_t(boxWidth - (xd == 0 ? 3 * borderWidth : xd + borderWidth)), borderWidth
-                                 }, colorBR2);
+        if (bxWidth > 1)
+        {
+            // top
+            pMonitorDevice->fillRect({int16_t(chPos.x + subzero), chPos.y, uint16_t(boxWidth - borderWidth - subzero), borderWidth
+                                     }, colorTL);
+            // right
+            pMonitorDevice->fillRect({int16_t(chPos.x + boxWidth - 2 * borderWidth), int16_t(chPos.y + borderWidth),
+                                      borderWidth, uint16_t(boxWidth - 2 * borderWidth)
+                                     }, colorBR2);
+            // bottom
+            pMonitorDevice->fillRect({int16_t(chPos.x + (subzero == 0 ? 0 : subzero)), int16_t(chPos.y + boxWidth - borderWidth),
+                                      uint16_t(boxWidth - borderWidth - (subzero == 0 ? 0 : subzero)), borderWidth
+                                     }, colorBR);
+        }
+
+        if (bxWidth > 2)
+        {
+            // box
+            pMonitorDevice->fillRect({int16_t(chPos.x + (subzero == 0 ? 2 * borderWidth : subzero)), int16_t(chPos.y + 2 * borderWidth),
+                                      uint16_t(bxWidth - (subzero == 0 ? 4 * borderWidth : 2 * borderWidth)), uint16_t(boxWidth - 4 * borderWidth)
+                                     }, boxBg);
+
+            if (subzero <= 1)
+            {
+                // left
+                if (subzero == 0)
+                    pMonitorDevice->fillRect({chPos.x, chPos.y, borderWidth, uint16_t(boxWidth - borderWidth)
+                                             }, colorTL);
+                // left
+                pMonitorDevice->fillRect({int16_t(chPos.x + borderWidth), int16_t(chPos.y + borderWidth),
+                                          borderWidth, uint16_t(boxWidth - 3 * borderWidth)
+                                         }, colorTL2);
+            }
+
+            // top
+            pMonitorDevice->fillRect({int16_t(chPos.x + (subzero == 0 ? 2 * borderWidth : subzero)), int16_t(chPos.y + borderWidth),
+                                      uint16_t(boxWidth - 2 * borderWidth - (subzero == 0 ? 2 * borderWidth : subzero)), borderWidth
+                                     }, colorTL2);
+            // bottom
+            pMonitorDevice->fillRect({int16_t(chPos.x + (subzero == 0 ? borderWidth : subzero)), int16_t(chPos.y + boxWidth - 2 * borderWidth),
+                                      uint16_t(boxWidth - (subzero == 0 ? 3 * borderWidth : subzero + borderWidth)), borderWidth
+                                     }, colorBR2);
+
+
+            if (checked)
+            {
+                u_color chmarkClr;
+                chmarkClr =  {isEnabled() ? COLOR_BLACK : COLOR_GRAY};
+                drawCheckmark(chPos, subzero < 3 ? 0 : subzero -  3, chmarkClr, pMonitorDevice);
+            }
+        }
+    }
+
+
 }
 
 }

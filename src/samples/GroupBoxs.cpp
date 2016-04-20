@@ -68,6 +68,7 @@ void GroupBoxs::setupUi()
     gr = new GroupBox({5, 145}, {60, 50}, this);
     gr->setText(u"ⓧⓧⓧ");
     gr->setCheckable(true);
+    gr->setEnabled(false);
     addWidget(gr);
     smplWidgets.push_back(gr);
     gr = new GroupBox({75, 145}, {60, 50}, this);
@@ -75,6 +76,10 @@ void GroupBoxs::setupUi()
     //gr->setText(u"Center GroupBox");
     gr->setText(u"55");
     gr->setCheckable(true);
+    gr->setChecked(true);
+    bt = new Button({5, 15}, {50, 25}, gr);
+    bt->setText(u"Button");
+    gr->addWidget(bt);
     addWidget(gr);
     smplWidgets.push_back(gr);
     gr = new GroupBox({145, 145}, {60, 50}, this);
@@ -93,7 +98,7 @@ void GroupBoxs::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
     refresh();
 }
 
-void GroupBoxs::event(const EventType type)
+void GroupBoxs::event(const EventType type, const Point &pos)
 {
     this->type = type;
 }

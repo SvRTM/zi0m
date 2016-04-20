@@ -64,13 +64,14 @@ class Widget : public virtual Additional
 
         void setEnabled(bool enabled);
 
-        virtual void event(const EventType type) = 0;
+        virtual void event(const EventType type, const Point &pos) = 0;
         EventType eventType() const;
 
         Widget *const findWidget(int16_t x, int16_t y) const;
 
     protected:
         void updateAllPosition() override;
+        void setEnabledChilds(bool enabled);
 
     private:
         void refreshChilds();
@@ -82,6 +83,7 @@ class Widget : public virtual Additional
     protected:
         EventType type;
         Point absolutePos;
+
 
     private:
         Point m_pos;

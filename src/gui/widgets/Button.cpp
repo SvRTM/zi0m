@@ -34,7 +34,7 @@ void Button::p_updateAllPosition()
     TextCharacters::updateAbsPosition(absolutePos);
 }
 
-void Button::event(const EventType type)
+void Button::event(const EventType type, const Point &pos)
 {
     if (!isEnabled())
         return;
@@ -67,7 +67,7 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
 {
     u_color colorTL, colorBR;
 
-    switch (eventType())
+    switch (type)
     {
         case EventType::TouchStart:
         case EventType::TouchEnter:

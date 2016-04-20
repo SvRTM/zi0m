@@ -60,6 +60,7 @@ struct Rect final
     }
 };
 
+// TODO: enum_vale https://www.reddit.com/r/cpp/comments/14oqo9/a_nice_helper_function_for_c11s_enum_classes/
 enum class EventType
 {
     None,

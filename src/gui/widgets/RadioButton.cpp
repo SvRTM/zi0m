@@ -18,7 +18,7 @@ void  RadioButton::setChecked(bool checked)
 void RadioButton::paint(MonitorDevice *const pMonitorDevice)
 {
     u_color circleBg;
-    switch (eventType())
+    switch (type)
     {
         case EventType::TouchStart:
         case EventType::TouchEnter:

@@ -38,10 +38,10 @@ class GroupBox : public AbstractTextWidget
         void p_setText() override;
         void p_updateAllPosition() override;
 
-        void event(const EventType type) override;
+        void event(const EventType type, const Point &pos) override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
-        void checkBox(MonitorDevice *const pMonitorDevice);
+        void paintCheckBox(MonitorDevice *const pMonitorDevice);
 
     private:
         static constexpr uint8_t textPadding = 2;
@@ -59,14 +59,14 @@ class GroupBox : public AbstractTextWidget
         bool alignCenter = false;
 
 
-        void drawCheckmark(const Point chPos, const u_color color,
+        void drawCheckmark(const Point chPos, const uint8_t stColumn , const u_color color,
                            MonitorDevice *const pMonitorDevice)
         {
             int16_t y  = chPos.y + 1 + 2 * borderWidth;
             for (uint8_t  nRow = 0; nRow < sizeof(checkmark); ++nRow)
             {
-                int16_t x = chPos.x + 1 + 2 * borderWidth;
-                for (uint8_t width = 0; width < 8; ++width)
+                int16_t x = chPos.x + 1 + 2 * borderWidth + stColumn;
+                for (uint8_t width = stColumn; width < 8; ++width)
                 {
                     const uint8_t nBit = 7 - (width % 8);
                     const bool px = checkmark[nRow] >> nBit & 0x01;
@@ -96,6 +96,9 @@ class GroupBox : public AbstractTextWidget
 
         //
         static constexpr uint8_t marginLeftRight = 5;
+
+        EventType typeCheckBox = EventType::None;
+        bool isEnableTouchLeave = false;
 };
 }
 #endif // GROUPBOX_H

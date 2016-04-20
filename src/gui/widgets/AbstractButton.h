@@ -27,7 +27,7 @@ class AbstractButton : public AbstractTextWidget
         void p_setText() override;
         void p_updateAllPosition() override;
 
-        void event(const EventType type) override;
+        void event(const EventType type, const Point &pos) override;
 
 
     protected:

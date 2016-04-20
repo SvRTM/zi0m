@@ -26,7 +26,7 @@ void CheckBox::setTristate(bool tristate)
 void CheckBox::paint(MonitorDevice *const pMonitorDevice)
 {
     u_color boxBg;
-    switch (eventType())
+    switch (type)
     {
         case EventType::TouchStart:
         case EventType::TouchEnter:

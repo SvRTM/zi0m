@@ -32,7 +32,7 @@ class Button: public AbstractTextWidget
         void p_setText() override {}
         void p_updateAllPosition() override;
 
-        void event(const EventType type) override;
+        void event(const EventType type, const Point &pos) override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:

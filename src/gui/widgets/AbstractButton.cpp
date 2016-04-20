@@ -48,7 +48,7 @@ void AbstractButton::p_updateAllPosition()
     TextCharacters::updateAbsPosition(absolutePos);
 }
 
-void AbstractButton::event(const EventType type)
+void AbstractButton::event(const EventType type, const Point &pos)
 {
     if (!isEnabled())
         return;
