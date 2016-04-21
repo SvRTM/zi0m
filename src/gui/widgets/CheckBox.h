@@ -31,7 +31,6 @@ class CheckBox : public AbstractButton
         }
 
     private:
-        const uint8_t elementWidth() const override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
         void drawCheckmark(const Point chPos, const u_color color,
@@ -71,6 +70,12 @@ class CheckBox : public AbstractButton
 
         State state = State::Unchecked;
         bool tristate = false;
+
+        static const Rect border;
+        inline const Rect &Border() const
+        {
+            return border;
+        }
 };
 }
 #endif // CHECKBOX_H

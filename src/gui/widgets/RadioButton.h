@@ -19,13 +19,18 @@ class RadioButton : public AbstractButton
         void setChecked(bool checked);
 
     private:
-        const uint8_t elementWidth() const override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:
         static constexpr uint8_t radius = 6;
 
         bool checked = false;
+
+        static const Rect border;
+        const Rect &Border() const
+        {
+            return border;
+        }
 };
 }
 #endif // RADIOBUTTON_H

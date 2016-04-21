@@ -24,12 +24,17 @@ class MainWindow final : public Widget
 
     private:
         void paint(MonitorDevice *const pMonitorDevice) override;
-        void event(const EventType type) override;
+        void event(const EventType type, const Point &pos) override;
 
         void setupUi();
 
     private:
         std::vector<Widget *> bodys;
+
+        inline const Rect &Border() const
+        {
+            return zeroBorder;
+        }
 
     private:
         // # # # # # # # # # # # # # # # #
@@ -41,13 +46,18 @@ class MainWindow final : public Widget
 
             private:
                 void paint(MonitorDevice *const pMonitorDevice) override;
-                void event(const EventType type) override;
+                void event(const EventType type, const Point &pos) override;
 
             private:
                 uint8_t iWidget = 0;
                 Common  *pVisibleBody = nullptr;
                 uint8_t nFont = 0;
                 std::vector<std::pair<const IFont *, std::u16string>> fonts;
+
+                inline const Rect &Border() const
+                {
+                    return zeroBorder;
+                }
         };
 
         class Body final : public Widget
@@ -58,7 +68,12 @@ class MainWindow final : public Widget
 
             private:
                 void paint(MonitorDevice *const pMonitorDevice) override;
-                void event(const EventType type) override;
+                void event(const EventType type, const Point &pos) override;
+
+                inline const Rect &Border() const
+                {
+                    return zeroBorder;
+                }
         };
 };
 

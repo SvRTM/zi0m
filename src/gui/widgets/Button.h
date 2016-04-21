@@ -24,7 +24,7 @@ class Button: public AbstractTextWidget
     public:
         void setCbPressed(const std::function<void ()> &func);
         void setCbReleased(const std::function<void ()> &func);
-        void setCbMoved(const std::function<void (uint16_t x, uint16_t y)> &func);
+        void setCbMoved(const std::function<void (const Point &)> &func);
 
     private:
         void p_setSize() override;
@@ -32,7 +32,7 @@ class Button: public AbstractTextWidget
         void p_setText() override {}
         void p_updateAllPosition() override;
 
-        void event(const EventType type) override;
+        void event(const EventType type, const Point &pos) override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:
@@ -40,7 +40,13 @@ class Button: public AbstractTextWidget
 
         std::function<void (void)> cbPressed;
         std::function<void (void)> cbReleased;
-        std::function<void (uint16_t x, uint16_t y)> cbMoved;
+        std::function<void (const Point &pos)> cbMoved;
+
+        static const Rect border;
+        inline const Rect &Border() const
+        {
+            return border;
+        }
 };
 }
 #endif /* BUTTON_H_ */

@@ -45,9 +45,9 @@ class TextCharacters: public virtual Additional
     protected:
         void updateAbsPosition(const Point pos);
 
-        void drawText(MonitorDevice *const pMonitorDevice);
+        void drawText(MonitorDevice *const pMonitorDevice, const int16_t horizontalShift = 0);
         void drawText(MonitorDevice *const pMonitorDevice, const u_color textColor,
-                      const uint8_t shiftX = 0, const uint8_t shiftY = 0);
+                      const uint8_t shiftX, const uint8_t shiftY, const int16_t horizontalShift = 0);
 
     private:
         inline const IFont::CHAR_INFO *descriptor(const wchar_t ch) const

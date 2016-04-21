@@ -24,7 +24,7 @@ class Labels: public Widget, public Common
 
     private:
         void paint(MonitorDevice *const pMonitorDevice) override;
-        void event(const EventType type) override;
+        void event(const EventType type, const Point &pos) override;
 
         void setupUi();
         void setFontWidgtes(std::pair<const IFont *, std::u16string> data) override;
@@ -32,6 +32,11 @@ class Labels: public Widget, public Common
     private:
         bool isEnabledLabels;
         Label *pLblFontName;
+
+        inline const Rect &Border() const
+        {
+            return zeroBorder;
+        }
 };
 
 #endif /* LABELS_H_ */

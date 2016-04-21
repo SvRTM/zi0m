@@ -80,7 +80,7 @@ void Buttons::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
     refresh();
 }
 
-void Buttons::event(const EventType type)
+void Buttons::event(const EventType type, const Point &pos)
 {
     this->type = type;
 }

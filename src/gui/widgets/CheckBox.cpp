@@ -2,11 +2,13 @@
 
 namespace zi0m
 {
+const Rect CheckBox::border = AbstractButton::marginLeftRight + CheckBox::boxWidth
+                              + AbstractButton::marginLeftRight;
 
 constexpr uint8_t CheckBox::checkmark[8];
 
 CheckBox::CheckBox(Point pos, Widget *const parent)
-    : AbstractButton(pos, parent)
+    : AbstractButton(pos, border, parent)
 {
     init();
 }
@@ -26,7 +28,7 @@ void CheckBox::setTristate(bool tristate)
 void CheckBox::paint(MonitorDevice *const pMonitorDevice)
 {
     u_color boxBg;
-    switch (eventType())
+    switch (type)
     {
         case EventType::TouchStart:
         case EventType::TouchEnter:
@@ -58,13 +60,13 @@ void CheckBox::paint(MonitorDevice *const pMonitorDevice)
                          ? COLOR_WHITE : COLOR_SILVER)
                 };
     }
-    pMonitorDevice->fillRect(screen(), background());
+    pMonitorDevice->fillRect(screenClient(), background());
 
-    Point chPos = {marginLeftRight, int16_t((size().height - elementWidth()) / 2)};
-    chPos.x += screen().x;
-    chPos.y += screen().y;
+    Point chPos = {marginLeftRight, int16_t((size().height - boxWidth) / 2)};
+    chPos.x += screenClient().x;
+    chPos.y += screenClient().y;
     pMonitorDevice->fillRect({int16_t(chPos.x + 2 * borderWidth), int16_t(chPos.y + 2 * borderWidth),
-                              uint16_t(elementWidth() - 4 * borderWidth), uint16_t(elementWidth() - 4 * borderWidth)
+                              uint16_t(boxWidth - 4 * borderWidth), uint16_t(boxWidth - 4 * borderWidth)
                              }, boxBg);
 
     if (State::Unchecked != state)
@@ -79,51 +81,46 @@ void CheckBox::paint(MonitorDevice *const pMonitorDevice)
         drawCheckmark(chPos, chmarkClr, pMonitorDevice );
     }
 
+    u_color colorTL = {COLOR_GRAY};
+    // left
+    pMonitorDevice->fillRect({chPos.x, chPos.y, borderWidth, uint16_t(boxWidth - borderWidth)
+                             }, colorTL);
+    // top
+    pMonitorDevice->fillRect({chPos.x, chPos.y, uint16_t(boxWidth - borderWidth), borderWidth
+                             }, colorTL);
+
     u_color colorTL2({COLOR_GRAYD});
     // left
     pMonitorDevice->fillRect({int16_t(chPos.x + borderWidth), int16_t(chPos.y + borderWidth),
-                              borderWidth, uint16_t(elementWidth()  - 3 * borderWidth)
+                              borderWidth, uint16_t(boxWidth - 3 * borderWidth)
                              }, colorTL2);
     // top
     pMonitorDevice->fillRect({int16_t(chPos.x + 2 * borderWidth), int16_t(chPos.y + borderWidth),
-                              uint16_t(elementWidth() - 4 * borderWidth), borderWidth
+                              uint16_t(boxWidth - 4 * borderWidth), borderWidth
                              }, colorTL2);
 
 
     u_color colorBR2 = {COLOR_SILVER};
     // bottom
-    pMonitorDevice->fillRect({int16_t(chPos.x + borderWidth), int16_t(chPos.y + elementWidth() - 2 * borderWidth),
-                              uint16_t(elementWidth() - 3 * borderWidth), borderWidth
+    pMonitorDevice->fillRect({int16_t(chPos.x + borderWidth), int16_t(chPos.y + boxWidth - 2 * borderWidth),
+                              uint16_t(boxWidth - 3 * borderWidth), borderWidth
                              }, colorBR2);
     // right
-    pMonitorDevice->fillRect({int16_t(chPos.x + elementWidth() - 2 * borderWidth), int16_t(chPos.y + borderWidth),
-                              borderWidth, uint16_t(elementWidth() - 2 * borderWidth)
+    pMonitorDevice->fillRect({int16_t(chPos.x + boxWidth - 2 * borderWidth), int16_t(chPos.y + borderWidth),
+                              borderWidth, uint16_t(boxWidth - 2 * borderWidth)
                              }, colorBR2);
 
     u_color colorBR = {COLOR_WHITE};
     // bottom
-    pMonitorDevice->fillRect({chPos.x, int16_t(chPos.y + elementWidth() - borderWidth),
-                              uint16_t(elementWidth() - borderWidth), borderWidth
+    pMonitorDevice->fillRect({chPos.x, int16_t(chPos.y + boxWidth - borderWidth),
+                              uint16_t(boxWidth - borderWidth), borderWidth
                              }, colorBR);
     // right
-    pMonitorDevice->fillRect({int16_t(chPos.x + elementWidth() - borderWidth), chPos.y,
-                              borderWidth, elementWidth()
+    pMonitorDevice->fillRect({int16_t(chPos.x + boxWidth - borderWidth), chPos.y,
+                              borderWidth, boxWidth
                              }, colorBR);
 
-    u_color colorTL = {COLOR_GRAY};
-    // left
-    pMonitorDevice->fillRect({chPos.x, chPos.y, borderWidth, uint16_t(elementWidth() - borderWidth)
-                             }, colorTL);
-    // top
-    pMonitorDevice->fillRect({chPos.x, chPos.y, uint16_t(elementWidth() - borderWidth), borderWidth
-                             }, colorTL);
-
     drawText(pMonitorDevice);
-}
-
-const uint8_t CheckBox::elementWidth() const
-{
-    return boxWidth;
 }
 
 }

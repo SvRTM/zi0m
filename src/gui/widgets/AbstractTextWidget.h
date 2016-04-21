@@ -9,7 +9,8 @@ namespace zi0m
 class AbstractTextWidget: public Widget, public TextCharacters
 {
     public:
-        explicit AbstractTextWidget(Point pos, Size size, Alignment align, Widget *const parent);
+        explicit AbstractTextWidget(Point pos, Size size, Alignment align, Widget *const parent,
+                                    const Rect &border = zeroBorder);
         virtual ~AbstractTextWidget() {}
 
     public:

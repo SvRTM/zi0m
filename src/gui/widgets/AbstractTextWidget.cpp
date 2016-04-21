@@ -4,8 +4,8 @@ namespace zi0m
 {
 
 AbstractTextWidget::AbstractTextWidget(Point pos, Size size, Alignment align,
-                                       Widget *const parent)
-    : Widget(pos, size, parent)
+                                       Widget *const parent, const Rect &border)
+    : Widget(pos, size, parent, border)
     , TextCharacters(align)
 {
     if (parent)

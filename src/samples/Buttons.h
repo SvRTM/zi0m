@@ -22,10 +22,15 @@ class Buttons: public Widget, public Common
 
     private:
         void paint(MonitorDevice *const pMonitorDevice) override;
-        void event(const EventType type) override;
+        void event(const EventType type, const Point &pos) override;
 
         void setupUi();
         void setFontWidgtes(std::pair<const IFont *, std::u16string> data) override;
+
+        inline const Rect &Border() const
+        {
+            return zeroBorder;
+        }
 };
 
 #endif /* BUTTONS_H_ */

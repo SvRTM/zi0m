@@ -9,9 +9,10 @@
 
 namespace zi0m
 {
+const Rect Button::border = {2, 2, 2, 2};
 
 Button::Button(Point pos, Size size, Widget *const parent)
-    : AbstractTextWidget(pos, size, Alignment::Center, parent)
+    : AbstractTextWidget(pos, size, Alignment::Center, parent, border)
 {
     setBackground(
 #ifdef RGB888
@@ -20,21 +21,22 @@ Button::Button(Point pos, Size size, Widget *const parent)
     {0xD69AU}
 #endif
     );
-    TextCharacters::m_pos = {int16_t(2 * borderWidth), int16_t(2 * borderWidth)};
-    TextCharacters::m_size = {uint16_t(size.width - 4 * borderWidth), uint16_t(size.height - 4 * borderWidth)};
-    TextCharacters::updateAbsPosition(absolutePos);
+
+    TextCharacters::m_pos = 0;
+    TextCharacters::m_size = {geometry().width, geometry().height};
+    TextCharacters::updateAbsPosition(absoluteClientPos);
 }
 
 void Button::p_setSize()
 {
-    TextCharacters::m_size = {uint16_t(size().width - 4 * borderWidth), uint16_t(size().height - 4 * borderWidth)};
+    TextCharacters::m_size = {geometry().width, geometry().height};
 }
 void Button::p_updateAllPosition()
 {
-    TextCharacters::updateAbsPosition(absolutePos);
+    TextCharacters::updateAbsPosition(absoluteClientPos);
 }
 
-void Button::event(const EventType type)
+void Button::event(const EventType type, const Point &pos)
 {
     if (!isEnabled())
         return;
@@ -54,7 +56,7 @@ void Button::event(const EventType type)
             goto L;
         case EventType::TouchLeave:
             if (cbMoved)
-                cbMoved(0, 0);
+                cbMoved(pos);
         L:
             refresh();
             break;
@@ -67,12 +69,12 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
 {
     u_color colorTL, colorBR;
 
-    switch (eventType())
+    switch (type)
     {
         case EventType::TouchStart:
         case EventType::TouchEnter:
         {
-            pMonitorDevice->fillRect(screen(), background());
+            pMonitorDevice->fillRect(screenClient(), background());
 
             colorBR = {COLOR_WHITE};
             colorTL = {COLOR_GRAYD};
@@ -80,12 +82,12 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
             u_color colorTL2({COLOR_GRAY});
 
             // left
-            pMonitorDevice->fillRect({int16_t(screen().x + borderWidth), int16_t(screen().y + borderWidth),
-                                      borderWidth, uint16_t(screen().height - 3 * borderWidth)
+            pMonitorDevice->fillRect({int16_t(screenClient().x + borderWidth), int16_t(screenClient().y + borderWidth),
+                                      borderWidth, uint16_t(screenClient().height - 3 * borderWidth)
                                      }, colorTL2);
             // top
-            pMonitorDevice->fillRect({int16_t(screen().x + 2 * borderWidth), int16_t(screen().y + borderWidth),
-                                      uint16_t(screen().width - 4 * borderWidth), borderWidth
+            pMonitorDevice->fillRect({int16_t(screenClient().x + 2 * borderWidth), int16_t(screenClient().y + borderWidth),
+                                      uint16_t(screenClient().width - 4 * borderWidth), borderWidth
                                      }, colorTL2);
 
             drawText(pMonitorDevice, color(), 1, 1);
@@ -96,7 +98,7 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
         case EventType::TouchEnd:
         default:
         {
-            pMonitorDevice->fillRect(screen(), background());
+            pMonitorDevice->fillRect(screenClient(), background());
 
             colorBR = {COLOR_GRAYD};
             colorTL = {COLOR_WHITE};
@@ -104,12 +106,12 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
             u_color colorBR2({COLOR_GRAY});
 
             // bottom
-            pMonitorDevice->fillRect({int16_t(screen().x + borderWidth), int16_t(screen().y + screen().height - 2 * borderWidth),
+            pMonitorDevice->fillRect({int16_t(screenClient().x + borderWidth), int16_t(screenClient().y + screenClient().height - 2 * borderWidth),
                                       uint16_t(screen().width - 3 * borderWidth), borderWidth
                                      }, colorBR2);
             // right
-            pMonitorDevice->fillRect({int16_t(screen().x + screen().width - 2 * borderWidth), int16_t(screen().y + borderWidth),
-                                      borderWidth, uint16_t(screen().height - 2 * borderWidth)
+            pMonitorDevice->fillRect({int16_t(screenClient().x + screenClient().width - 2 * borderWidth), int16_t(screenClient().y + borderWidth),
+                                      borderWidth, uint16_t(screenClient().height - 2 * borderWidth)
                                      }, colorBR2);
 
             drawText(pMonitorDevice);
@@ -117,25 +119,25 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
     }
 
     // bottom
-    pMonitorDevice->fillRect({screen().x, int16_t(screen().y + screen().height - borderWidth),
-                              uint16_t(screen().width - borderWidth), borderWidth
+    pMonitorDevice->fillRect({screenClient().x, int16_t(screenClient().y + screenClient().height - borderWidth),
+                              uint16_t(screenClient().width - borderWidth), borderWidth
                              }, colorBR);
     // right
-    pMonitorDevice->fillRect({int16_t(screen().x + screen().width - borderWidth), screen().y,
-                              borderWidth, screen().height
+    pMonitorDevice->fillRect({int16_t(screenClient().x + screenClient().width - borderWidth), screenClient().y,
+                              borderWidth, screenClient().height
                              }, colorBR);
 
     // left
-    pMonitorDevice->fillRect({screen().x, screen().y, borderWidth,
-                              uint16_t(screen().height - borderWidth)
+    pMonitorDevice->fillRect({screenClient().x, screenClient().y, borderWidth,
+                              uint16_t(screenClient().height - borderWidth)
                              }, colorTL);
     // top
-    pMonitorDevice->fillRect({screen().x, screen().y,
-                              uint16_t(screen().width - borderWidth), borderWidth
+    pMonitorDevice->fillRect({screenClient().x, screenClient().y,
+                              uint16_t(screenClient().width - borderWidth), borderWidth
                              }, colorTL);
 }
 
-void Button::setCbMoved(const std::function<void (uint16_t, uint16_t)> &func)
+void Button::setCbMoved(const std::function<void (const Point &pos)> &func)
 {
     cbMoved = func;
 }

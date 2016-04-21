@@ -28,7 +28,7 @@ void MainWindow::setupUi()
     addWidget(new Body(this));
 }
 
-void MainWindow::event(const EventType type)
+void MainWindow::event(const EventType type, const Point &pos)
 {
     this->type = type;
 }
@@ -100,7 +100,7 @@ MainWindow::Header::Header(Widget *parent) :
     });
 }
 
-void MainWindow::Header::event(const EventType type)
+void MainWindow::Header::event(const EventType type, const Point &pos)
 {
     this->type = type;
 }
@@ -119,8 +119,8 @@ MainWindow::Body::Body(Widget *parent)
 {
     // FIXME: replace (320/240) on MAX_WIDTH / MAX_HEIGHT
 
-    Buttons *pButtons =  new Buttons({0, 0}, size(), this);
     GroupBoxs *pGrBoxs = new GroupBoxs({0, 0}, size(), this);
+    Buttons *pButtons =  new Buttons({0, 0}, size(), this);
     Labels *pLabels = new Labels({0, 0}, size(), this);
     pLabels->setVisible(false);
     pButtons->setVisible(false);
@@ -132,7 +132,7 @@ MainWindow::Body::Body(Widget *parent)
     static_cast<MainWindow *>(parent)->bodys = {pGrBoxs, pButtons, pLabels};
 }
 
-void MainWindow::Body::event(const EventType type)
+void MainWindow::Body::event(const EventType type, const Point &pos)
 {
     this->type = type;
 }

@@ -94,7 +94,7 @@ void Labels::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
         w->setFont(font);
 }
 
-void Labels::event(const EventType type)
+void Labels::event(const EventType type, const Point &pos)
 {
     this->type = type;
 }

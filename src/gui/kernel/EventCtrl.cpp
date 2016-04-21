@@ -24,7 +24,7 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
 
             if (prevWidget == nullptr)
             {
-                currWidget->event(EventType::TouchStart);
+                currWidget->event(EventType::TouchStart, msg.pt);
                 //process
                 prevWidget = currWidget;
             }
@@ -34,11 +34,11 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
                 {
                     if (isEnableTouchLeave)
                     {
-                        currWidget->event(EventType::TouchEnter);
+                        currWidget->event(EventType::TouchEnter, msg.pt);
                         isEnableTouchLeave = false;
                     }
                     else
-                        currWidget->event(EventType::TouchMove);
+                        currWidget->event(EventType::TouchMove, msg.pt);
                     // process
                 }
             }
@@ -46,11 +46,11 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
             {
                 if (!isEnableTouchLeave && EventType::TouchLeave != prevWidget->eventType())
                 {
-                    prevWidget->event(EventType::TouchLeave);
+                    prevWidget->event(EventType::TouchLeave, msg.pt);
                     isEnableTouchLeave = true;
                 }
                 else
-                    prevWidget->event(EventType::TouchMove);
+                    prevWidget->event(EventType::TouchMove, msg.pt);
                 // process prevWidget
             }
             break;
@@ -64,7 +64,7 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
                 currWidget = widget;
 
             if (prevWidget == currWidget)
-                prevWidget->event(EventType::TouchEnd);
+                prevWidget->event(EventType::TouchEnd, msg.pt);
             //process prevWidget/currWidget
             prevWidget = nullptr;
             isEnableTouchLeave = false;
