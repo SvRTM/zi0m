@@ -32,6 +32,11 @@ class Labels: public Widget, public Common
     private:
         bool isEnabledLabels;
         Label *pLblFontName;
+
+        inline const Rect &Border() const
+        {
+            return zeroBorder;
+        }
 };
 
 #endif /* LABELS_H_ */

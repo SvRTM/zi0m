@@ -28,6 +28,11 @@ class Label: public AbstractTextWidget
 
         void event(const EventType type, const Point &pos) override;
         void paint(MonitorDevice *const pMonitorDevice) override;
+
+        inline const Rect &Border() const
+        {
+            return zeroBorder;
+        }
 };
 }
 #endif /* LABEL_H_ */

@@ -10,13 +10,17 @@
 
 namespace zi0m
 {
+const Rect Widget::zeroBorder = 0;
 
-Widget::Widget(Point pos, Size size, Widget *const parent)
-    :  type(EventType::None)
-    , absolutePos(parent ? parent->absolutePos + pos : pos)
-    , m_pos(pos), m_size(size), m_parent(parent)
+Widget::Widget(Point pos, Size size, Widget *const parent, const Rect &border)
+    : m_pos(pos), m_size(size), m_parent(parent),
+    absolutePos({int16_t(parent ? parent->absoluteClientPos.x + parent->Border().x + m_pos.x : m_pos.x + border.x),
+                int16_t(parent ? parent->absoluteClientPos.y + parent->Border().y + m_pos.y : m_pos.y + border.y)
+})
 {
-    updateAllPosition();
+    absoluteClientPos = {int16_t(m_parent ? m_parent->absoluteClientPos.x + m_parent->Border().x + m_pos.x : m_pos.x + border.x),
+                         int16_t(m_parent ? m_parent->absoluteClientPos.y + m_parent->Border().y + m_pos.y : m_pos.y + border.y)
+                        };
 }
 Widget::~Widget()
 {
@@ -58,7 +62,6 @@ void Widget::setEnabledChilds(bool enabled)
     for (Widget *const w : widgets)
         w->setEnabled(enabled);
 }
-
 void Widget::setEnabled(bool enabled)
 {
     setEnabledChilds(enabled);
@@ -69,7 +72,13 @@ void Widget::setEnabled(bool enabled)
 
 void Widget::updateAllPosition()
 {
-    absolutePos = m_parent ? m_parent->absolutePos + m_pos : m_pos;
+    absolutePos = {int16_t(m_parent ? m_parent->absolutePos.x  + m_parent->Border().x + m_pos.x : m_pos.x),
+                   int16_t(m_parent ? m_parent->absolutePos.y  + m_parent->Border().y + m_pos.y : m_pos.y)
+                  };
+
+    absoluteClientPos = {int16_t(m_parent ? m_parent->absoluteClientPos.x + m_parent->Border().x + m_pos.x : m_pos.x + Border().x),
+                         int16_t(m_parent ? m_parent->absoluteClientPos.y + m_parent->Border().y + m_pos.y : m_pos.y + Border().y)
+                        };
 
     for (Widget *const w : widgets)
     {
@@ -93,16 +102,16 @@ void Widget::refreshChilds()
 void Widget::setVisible(bool visible)
 {
     this->visible = visible;
-    if (m_parent)
+    if (m_parent == nullptr)
+        return;
+
+    if (visible)
     {
-        if (visible)
-        {
-            m_parent->refresh(false);
-            refreshChilds();
-        }
-        else
-            m_parent->refresh();
+        m_parent->refresh(false);
+        refreshChilds();
     }
+    else
+        m_parent->refresh();
 }
 
 EventType Widget::eventType() const

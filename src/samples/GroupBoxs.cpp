@@ -16,9 +16,10 @@ GroupBoxs::GroupBoxs(Point pos, Size size, Widget *parent)
 
 void GroupBoxs::setupUi()
 {
-    //u_color bg = {COLOR_SNOW};
+    u_color bg = {COLOR_SNOW};
 
     GroupBox *gr = new GroupBox({5, 5}, {uint16_t(size().width - 10), 20}, this);
+    gr->setBackground(bg);
     addWidget(gr);
     smplWidgets.push_back(gr);
     gr = new GroupBox({5, 30}, {60, 50}, this);
@@ -53,7 +54,7 @@ void GroupBoxs::setupUi()
     gr = new GroupBox({5, 85}, {210, 60}, this);
     gr->setAlignment(Alignment::HCenter);
     gr->setText(u"GroupBox");
-    Button *bt = new Button({15, 15}, {50, 25}, gr);
+    Button *bt = new Button({0, 0}, {50, 25}, gr);
     bt->setText(u"Button");
     gr->addWidget(bt);
     gr->setEnabled(false);
@@ -61,7 +62,7 @@ void GroupBoxs::setupUi()
     smplWidgets.push_back(gr);
     gr = new GroupBox({220, 105}, {80, 80}, this);
     gr->setAlignment(Alignment::Center);
-    //gr->setText(u"X");
+    gr->setText(u"X");
     gr->setCheckable(true);
     addWidget(gr);
     smplWidgets.push_back(gr);
@@ -77,7 +78,7 @@ void GroupBoxs::setupUi()
     gr->setText(u"55");
     gr->setCheckable(true);
     gr->setChecked(true);
-    bt = new Button({5, 15}, {50, 25}, gr);
+    bt = new Button({0, 0}, {50, 25}, gr);
     bt->setText(u"Button");
     gr->addWidget(bt);
     addWidget(gr);
@@ -85,6 +86,7 @@ void GroupBoxs::setupUi()
     gr = new GroupBox({145, 145}, {60, 50}, this);
     gr->setAlignment(Alignment::Right);
     gr->setText(u"ⓧⓧⓧⓧⓧ");
+    gr->setBackground(bg);
     gr->setCheckable(true);
     addWidget(gr);
     smplWidgets.push_back(gr);

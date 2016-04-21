@@ -100,7 +100,7 @@ void EmuLcd::fillRect(const Rect &rect, const u_color &color)
  * @version 1.1
  * @see http://members.chello.at/~easyfilter/bresenham.html
  */
-void EmuLcd::circle(int16_t cx, int16_t cy, uint16_t radius, const u_color &color)
+void EmuLcd::drawCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color &color)
 {
     setColor(color);
 
@@ -125,8 +125,8 @@ void EmuLcd::circle(int16_t cx, int16_t cy, uint16_t radius, const u_color &colo
     while (x < 0);
 }
 
-void EmuLcd::circle(int16_t cx, int16_t cy, uint16_t radius, int16_t dy,
-                    const u_color &color1, const u_color &color2)
+void EmuLcd::drawCircle(int16_t cx, int16_t cy, uint16_t radius, int16_t dy,
+                        const u_color &color1, const u_color &color2)
 {
     int16_t x = -radius, y = 0, err = 2 - 2 * radius;   /* bottom left to top right */
     do
@@ -203,6 +203,11 @@ void EmuLcd::drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
 {
     setColor(color);
     drawLine(x1, y1, x2, y2);
+}
+void EmuLcd::drawLine(Point &pos, Size &size, const u_color &color)
+{
+    setColor(color);
+    drawLine(pos.x, pos.y, pos.x + size.width, pos.y + size.height);
 }
 
 /**

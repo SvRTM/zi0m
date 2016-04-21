@@ -6,10 +6,12 @@ namespace zi0m
 constexpr uint8_t GroupBox::checkmark[8];
 
 GroupBox::GroupBox(Point pos, Size size, Widget *const parent)
-    : AbstractTextWidget(pos, size, Alignment(Alignment::VCenter | Alignment::Left), parent)
+    : AbstractTextWidget(pos, size, Alignment(Alignment::VCenter | Alignment::Left), parent,
+                         border)
+    , border({2, font().height, 2, font().height})
 {
-    setBackground({COLOR_GREEN});
-    TextCharacters::m_pos.y = 0;
+    //    TextCharacters::m_pos = 0;
+    //    TextCharacters::m_size = {geometry().width, geometry().height};
 }
 
 void GroupBox::p_setSize()
@@ -18,6 +20,7 @@ void GroupBox::p_setSize()
 }
 void GroupBox::p_setFont()
 {
+    border.y = font().height;
     updateAllPosition();
 }
 void GroupBox::p_setText()
@@ -38,8 +41,8 @@ void GroupBox::event(const EventType type, const Point &pos)
     if (!checkable)
         return;
 
-    Rect rect = {int16_t(x2Left < 0 ? 0 : x2Left), 0, uint16_t(x2Left < 0 ? x1Right : x1Right - x2Left ), font().height};
-    Rect r = {{screen().x, screen().y}, 0};
+    Rect rect = {int16_t(x2Left < 0 ? 0 : x2Left), 0, uint16_t(x2Left < 0 ? x1Right : x1Right - x2Left), font().height};
+    Rect r = {{screenClient().x, screenClient().y}, 0};
     rect =  r + rect;
     if (rect.contains(pos.x, pos.y))
     {
@@ -82,7 +85,7 @@ void GroupBox::setChecked(bool checked)
 
 void GroupBox::setAlignment(Alignment align)
 {
-    //     TextCharacters::setAlignment(align);
+    //TextCharacters::setAlignment(align);
     alignCenter = align & Alignment::HCenter;
     TextCharacters::setAlignment(align & Alignment::HCenter ? Alignment((
                                      align ^ Alignment::HCenter) | Alignment::Left) : align);
@@ -226,7 +229,7 @@ void GroupBox::calcPosition()
     else
         TextCharacters::m_pos.x = x2Left <= 0 ? 0 :  x2Left + textPadding;
 
-    TextCharacters::updateAbsPosition(absolutePos);
+    TextCharacters::updateAbsPosition(absoluteClientPos);
 }
 
 void GroupBox::paint(MonitorDevice *const pMonitorDevice)
@@ -239,12 +242,11 @@ void GroupBox::paint(MonitorDevice *const pMonitorDevice)
 
     if (typeCheckBox == EventType::TouchEnd || typeCheckBox == EventType::None)
     {
-        pMonitorDevice->fillRect(screen(), background());
-        //u_color colorTL, colorBR;
+        pMonitorDevice->fillRect(screenClient(), background());
 
         Point chPos = {0, indentFrameTop};
-        chPos.x += screen().x;
-        chPos.y += screen().y;
+        chPos.x += screenClient().x;
+        chPos.y += screenClient().y;
 
         if (x2Left > 1)
         {
@@ -346,8 +348,8 @@ void GroupBox::paintCheckBox(MonitorDevice *const pMonitorDevice)
         subzero = 0;
     }
 
-    chPos.x += screen().x;
-    chPos.y += screen().y;
+    chPos.x += screenClient().x;
+    chPos.y += screenClient().y;
 
     if (bxWidth > 0)
     {
@@ -412,8 +414,6 @@ void GroupBox::paintCheckBox(MonitorDevice *const pMonitorDevice)
             }
         }
     }
-
-
 }
 
 }

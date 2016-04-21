@@ -21,7 +21,8 @@ namespace zi0m
 class Widget : public virtual Additional
 {
     public:
-        explicit Widget(Point pos, Size size, Widget *const m_parent = nullptr);
+        explicit Widget(Point pos, Size size, Widget *const parent = nullptr,
+                        const Rect &border = zeroBorder);
         virtual ~Widget();
 
     public:
@@ -35,7 +36,7 @@ class Widget : public virtual Additional
 
         void addWidget(Widget *const w);
 
-        // Returns current position in absolute screen coordinates.
+        // Returns the current position in absolute coordinates of the screen.
         inline const Rect screen() const
         {
             return {absolutePos, m_size};
@@ -55,6 +56,19 @@ class Widget : public virtual Additional
         }
         void setSize(const Size size);
 
+        // [client area] This property holds the geometry of the widget relative to its parent and excluding the widget frame
+        const Rect geometry() const
+        {
+            return {int16_t(m_pos.x + Border().x), int16_t(m_pos.y + Border().y),
+                    uint16_t(m_size.width - Border().width), uint16_t(m_size.height - Border().height)
+                   };
+        }
+        // Returns the current position in absolute coordinates of the client area of the screen.
+        const Rect screenClient() const
+        {
+            return {absoluteClientPos.x, absoluteClientPos.y, m_size.width, m_size.height};
+        }
+
         // This property holds whether the widget is visible.
         inline bool isVisible() const
         {
@@ -70,25 +84,28 @@ class Widget : public virtual Additional
         Widget *const findWidget(int16_t x, int16_t y) const;
 
     protected:
+        virtual const Rect &Border() const = 0;
         void updateAllPosition() override;
         void setEnabledChilds(bool enabled);
 
     private:
         void refreshChilds();
-        void resetEvent()
+        inline void resetEvent()
         {
             type = EventType::None;
         }
 
     protected:
-        EventType type;
-        Point absolutePos;
+        static const Rect zeroBorder;
 
+        EventType type = EventType::None;
+        Point absoluteClientPos;
 
     private:
         Point m_pos;
         Size m_size;
         Widget *const m_parent;
+        Point absolutePos;
         bool visible = true;
 
         std::vector<Widget *> widgets;

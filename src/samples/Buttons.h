@@ -26,6 +26,11 @@ class Buttons: public Widget, public Common
 
         void setupUi();
         void setFontWidgtes(std::pair<const IFont *, std::u16string> data) override;
+
+        inline const Rect &Border() const
+        {
+            return zeroBorder;
+        }
 };
 
 #endif /* BUTTONS_H_ */

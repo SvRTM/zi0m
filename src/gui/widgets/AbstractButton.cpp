@@ -3,14 +3,14 @@
 namespace zi0m
 {
 
-AbstractButton::AbstractButton(Point pos, Widget *const parent)
-    : AbstractTextWidget(pos, 0, Alignment(Alignment::Left | Alignment::VCenter), parent)
+AbstractButton::AbstractButton(Point pos, const Rect &border, Widget *const parent)
+    : AbstractTextWidget(pos, 0, Alignment(Alignment::Left | Alignment::VCenter), parent,
+                         border)
 {
+    TextCharacters::m_pos = border.x;
 }
 void AbstractButton::init()
 {
-    setSize(marginLeftRight + elementWidth());
-    TextCharacters::m_pos = marginLeftRight + elementWidth() + marginLeftRight;
     autoSize();
 }
 
@@ -24,16 +24,14 @@ void AbstractButton::autoSize()
     if (!m_autoSize)
         return;
     Size size;
-    size.width = pxTextWidth() + marginLeftRight + elementWidth() + marginLeftRight;
+    size.width = pxTextWidth() + Border().x;
     size.height = font().height;
     setSize(size);
 }
 
 void AbstractButton::p_setSize()
 {
-    TextCharacters::m_size = {uint16_t(size().width - marginLeftRight + elementWidth() + marginLeftRight),
-                              size().height
-                             };
+    TextCharacters::m_size = {geometry().width, geometry().height};
 }
 void AbstractButton::p_setFont()
 {
@@ -45,7 +43,7 @@ void AbstractButton::p_setText()
 }
 void AbstractButton::p_updateAllPosition()
 {
-    TextCharacters::updateAbsPosition(absolutePos);
+    TextCharacters::updateAbsPosition(absoluteClientPos);
 }
 
 void AbstractButton::event(const EventType type, const Point &pos)

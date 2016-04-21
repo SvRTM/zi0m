@@ -99,6 +99,12 @@ class GroupBox : public AbstractTextWidget
 
         EventType typeCheckBox = EventType::None;
         bool isEnableTouchLeave = false;
+
+        Rect border;
+        inline const Rect &Border() const
+        {
+            return border;
+        }
 };
 }
 #endif // GROUPBOX_H

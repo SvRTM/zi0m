@@ -119,8 +119,8 @@ MainWindow::Body::Body(Widget *parent)
 {
     // FIXME: replace (320/240) on MAX_WIDTH / MAX_HEIGHT
 
-    Buttons *pButtons =  new Buttons({0, 0}, size(), this);
     GroupBoxs *pGrBoxs = new GroupBoxs({0, 0}, size(), this);
+    Buttons *pButtons =  new Buttons({0, 0}, size(), this);
     Labels *pLabels = new Labels({0, 0}, size(), this);
     pLabels->setVisible(false);
     pButtons->setVisible(false);

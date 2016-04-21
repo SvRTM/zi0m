@@ -31,13 +31,17 @@ class EmuLcd: public MonitorDevice
 
     public:
         void drawPoint(int16_t x, int16_t y, const u_color &color) override;
-        void drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
-                      const u_color &color) override;
+
+        inline void drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
+                             const u_color &color) override;
+        inline void drawLine(Point &pos, Size &size, const u_color &color) override;
+
         void fillRect(const Rect &rect, const u_color &color) override;
+
         void fillCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color &color) override;
-        void circle(int16_t cx, int16_t cy, uint16_t radius, const u_color &color) override;
-        void circle(int16_t cx, int16_t cy, uint16_t radius, int16_t dy, const u_color &color1,
-                    const u_color &color2) override;
+        void drawCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color &color) override;
+        void drawCircle(int16_t cx, int16_t cy, uint16_t radius, int16_t dy,
+                        const u_color &color1, const u_color &color2) override;
 
 
         inline const uint16_t getWidth() const override
