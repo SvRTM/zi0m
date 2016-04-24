@@ -53,6 +53,11 @@ struct Rect final
     {
         return (this->x <= x && this->x + width >= x) && (this->y <= y && this->y + height >= y);
     }
+    bool contains(const Point &pos) const
+    {
+        return (this->x <= pos.x && this->x + width >= pos.x)
+               && (this->y <= pos.y && this->y + height >= pos.y);
+    }
 
     Rect operator+(const Rect &rect) const
     {

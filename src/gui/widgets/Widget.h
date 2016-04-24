@@ -41,6 +41,10 @@ class Widget : public virtual Additional
         {
             return {absolutePos, m_size};
         }
+        inline const Point screenPosition() const
+        {
+            return absolutePos;
+        }
 
         // This property holds the position of the widget within its parent widget.
         inline const Point &pos() const
@@ -81,7 +85,7 @@ class Widget : public virtual Additional
         virtual void event(const EventType type, const Point &pos) = 0;
         EventType eventType() const;
 
-        Widget *const findWidget(int16_t x, int16_t y) const;
+        Widget *const findWidget(const Point &pos) const;
 
     protected:
         virtual const Rect &Border() const = 0;

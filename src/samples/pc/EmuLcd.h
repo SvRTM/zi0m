@@ -34,7 +34,10 @@ class EmuLcd: public MonitorDevice
 
         inline void drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
                              const u_color &color) override;
-        inline void drawLine(Point &pos, Size &size, const u_color &color) override;
+        inline void drawHLine(int16_t x, int16_t y, uint16_t width,
+                              const u_color &color) override;
+        inline void drawVLine(int16_t x, int16_t y, uint16_t height,
+                              const u_color &color) override;
 
         void fillRect(const Rect &rect, const u_color &color) override;
 

@@ -107,7 +107,7 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
 
             // bottom
             pMonitorDevice->fillRect({int16_t(screenClient().x + borderWidth), int16_t(screenClient().y + screenClient().height - 2 * borderWidth),
-                                      uint16_t(screen().width - 3 * borderWidth), borderWidth
+                                      uint16_t(screenClient().width - 3 * borderWidth), borderWidth
                                      }, colorBR2);
             // right
             pMonitorDevice->fillRect({int16_t(screenClient().x + screenClient().width - 2 * borderWidth), int16_t(screenClient().y + borderWidth),

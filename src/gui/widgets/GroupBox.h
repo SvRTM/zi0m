@@ -13,12 +13,12 @@ class GroupBox : public AbstractTextWidget
         virtual ~GroupBox() {}
 
     public:
-        bool isCheckable() const
+        inline bool isCheckable() const
         {
             return checkable;
         }
         void setCheckable(bool checkable);
-        bool isChecked() const
+        inline bool isChecked() const
         {
             return checked;
         }
@@ -32,6 +32,7 @@ class GroupBox : public AbstractTextWidget
         }
 
     private:
+        void prepareAlignHCenter(Alignment align);
         void calcPosition();
         void p_setSize() override;
         void p_setFont() override;
@@ -47,8 +48,8 @@ class GroupBox : public AbstractTextWidget
         static constexpr uint8_t textPadding = 2;
         static constexpr uint8_t indent = 5;
 
-        bool isWholeBottomLine;
-        bool isVisibleRightLine, isVisibleLeftLine;
+        bool isWholeBottomLine = true;
+        bool isVisibleRightLine = true, isVisibleLeftLine = true;
         uint8_t indentFrameTop = 0;
         int16_t x2Left = 0, x1Right = 0;
         uint8_t y1Left = 0, y1Right = 0;
@@ -59,44 +60,7 @@ class GroupBox : public AbstractTextWidget
         bool alignCenter = false;
 
 
-        void drawCheckmark(const Point chPos, const uint8_t stColumn , const u_color color,
-                           MonitorDevice *const pMonitorDevice)
-        {
-            int16_t y  = chPos.y + 1 + 2 * borderWidth;
-            for (uint8_t  nRow = 0; nRow < sizeof(checkmark); ++nRow)
-            {
-                int16_t x = chPos.x + 1 + 2 * borderWidth + stColumn;
-                for (uint8_t width = stColumn; width < 8; ++width)
-                {
-                    const uint8_t nBit = 7 - (width % 8);
-                    const bool px = checkmark[nRow] >> nBit & 0x01;
-                    if (px)
-                        pMonitorDevice->drawPoint(x, y, color);
-                    x++;
-                }
-                y++;
-            }
-        }
-
     private:
-        static constexpr uint8_t checkmark[8] =
-        {
-            0b00000001,         // 0x01U
-            0b00000011,         // 0x03U
-            0b00000111,         // 0x07U
-            0b10001110,         // 0x8EU
-            0b11011100,         // 0xDCU
-            0b11111000,         // 0xF8U
-            0b01110000,         // 0x70U
-            0b00100000          // 0x20U
-        };
-
-        static constexpr uint8_t borderWidth = 1;
-        static constexpr uint8_t boxWidth = 14;
-
-        //
-        static constexpr uint8_t marginLeftRight = 5;
-
         EventType typeCheckBox = EventType::None;
         bool isEnableTouchLeave = false;
 

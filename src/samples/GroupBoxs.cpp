@@ -18,17 +18,28 @@ void GroupBoxs::setupUi()
 {
     u_color bg = {COLOR_SNOW};
 
+//    {
+//       GroupBox *gr = new GroupBox({5, 30}, {60-21, 25}, this);
+//       gr->setAlignment(Alignment::Left);
+//        gr->setText(u"ⓧⓧⓧ");
+//        addWidget(gr);
+//        smplWidgets.push_back(gr);
+//    }
     GroupBox *gr = new GroupBox({5, 5}, {uint16_t(size().width - 10), 20}, this);
     gr->setBackground(bg);
     addWidget(gr);
     smplWidgets.push_back(gr);
     gr = new GroupBox({5, 30}, {60, 50}, this);
     gr->setText(u"Left GroupBox");
+    gr->setText(u"ⓧⓧⓧ");
     addWidget(gr);
     smplWidgets.push_back(gr);
     gr = new GroupBox({75, 30}, {60, 50}, this);
     gr->setAlignment(Alignment::HCenter);
-    gr->setText(u"Center GroupBox");
+    //gr->setText(u"Center GroupBox");
+    //gr->setText(u"ⓧ.. ⓧⓧⓧⓧⓧⓧⓧⓧ");
+    //gr->setText(u"ⓧ");
+    gr->setText(u".. ⓧ12345ⓧ");
     addWidget(gr);
     smplWidgets.push_back(gr);
     gr = new GroupBox({145, 30}, {60, 50}, this);
@@ -41,7 +52,7 @@ void GroupBoxs::setupUi()
     gr->setText(u"GroupBox");
     addWidget(gr);
     smplWidgets.push_back(gr);
-    gr = new GroupBox({220, 55}, {80, 20}, this);
+    gr = new GroupBox({220, 55}, {80+1, 20}, this);
     gr->setAlignment(Alignment::Left);
     gr->setText(u"GroupBox");
     addWidget(gr);
@@ -62,7 +73,7 @@ void GroupBoxs::setupUi()
     smplWidgets.push_back(gr);
     gr = new GroupBox({220, 105}, {80, 80}, this);
     gr->setAlignment(Alignment::Center);
-    gr->setText(u"X");
+    //gr->setText(u"X");
     gr->setCheckable(true);
     addWidget(gr);
     smplWidgets.push_back(gr);
@@ -75,7 +86,8 @@ void GroupBoxs::setupUi()
     gr = new GroupBox({75, 145}, {60, 50}, this);
     gr->setAlignment(Alignment::HCenter);
     //gr->setText(u"Center GroupBox");
-    gr->setText(u"55");
+   // gr->setText(u"ⓧⓧⓧⓧⓧⓧⓧⓧ");
+    gr->setText(u"ⓧ12345ⓧ");
     gr->setCheckable(true);
     gr->setChecked(true);
     bt = new Button({0, 0}, {50, 25}, gr);
@@ -85,7 +97,7 @@ void GroupBoxs::setupUi()
     smplWidgets.push_back(gr);
     gr = new GroupBox({145, 145}, {60, 50}, this);
     gr->setAlignment(Alignment::Right);
-    gr->setText(u"ⓧⓧⓧⓧⓧ");
+    gr->setText(u"12345");
     gr->setBackground(bg);
     gr->setCheckable(true);
     addWidget(gr);

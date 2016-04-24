@@ -124,16 +124,16 @@ void Widget::addWidget(Widget *const w)
     widgets.push_back(w);
 }
 
-Widget *const Widget::findWidget(int16_t x, int16_t y) const
+Widget *const Widget::findWidget(const Point &pos) const
 {
     for (Widget *const w : widgets)
     {
         Point &absPos = w->absolutePos;
-        if ((absPos.x <= x && absPos.x + w->m_size.width >= x)
-                && (absPos.y <= y && absPos.y + w->m_size.height >= y)
+        if ((absPos.x <= pos.x && absPos.x + w->m_size.width >= pos.x)
+                && (absPos.y <= pos.y && absPos.y + w->m_size.height >= pos.y)
                 && w->visible)
         {
-            Widget *const chd = w->findWidget(x, y);
+            Widget *const chd = w->findWidget(pos);
             if (chd == nullptr)
                 return w;
             return chd;

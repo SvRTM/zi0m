@@ -1,14 +1,13 @@
 #include "GroupBox.h"
-
+#include "p_checkbox.h"
 
 namespace zi0m
 {
-constexpr uint8_t GroupBox::checkmark[8];
 
 GroupBox::GroupBox(Point pos, Size size, Widget *const parent)
     : AbstractTextWidget(pos, size, Alignment(Alignment::VCenter | Alignment::Left), parent,
                          border)
-    , border({2, font().height, 2, font().height})
+    , x2Left(size.width), border({2, font().height, 2, font().height})
 {
     //    TextCharacters::m_pos = 0;
     //    TextCharacters::m_size = {geometry().width, geometry().height};
@@ -38,13 +37,14 @@ void GroupBox::event(const EventType type, const Point &pos)
         return;
 
     this->type = type;
+
     if (!checkable)
         return;
 
-    Rect rect = {int16_t(x2Left < 0 ? 0 : x2Left), 0, uint16_t(x2Left < 0 ? x1Right : x1Right - x2Left), font().height};
-    Rect r = {{screenClient().x, screenClient().y}, 0};
-    rect =  r + rect;
-    if (rect.contains(pos.x, pos.y))
+    Rect rect = {int16_t(screenClient().x + (x2Left < 0 ? 0 : x2Left)), screenClient().y,
+                 uint16_t(x2Left < 0 ? x1Right : x1Right - x2Left), font().height
+                };
+    if (rect.contains(pos))
     {
         if (isEnableTouchLeave)
         {
@@ -75,6 +75,7 @@ void GroupBox::event(const EventType type, const Point &pos)
 void GroupBox::setCheckable(bool checkable)
 {
     this->checkable = checkable;
+    prepareAlignHCenter(align);
     calcPosition();
 }
 
@@ -83,21 +84,39 @@ void GroupBox::setChecked(bool checked)
     this->checked = checked;
 }
 
+void GroupBox::prepareAlignHCenter(Alignment align)
+{
+    //    if (alignCenter)
+    //        if (checkable)
+    //            TextCharacters::setAlignment(Alignment((align ^ Alignment::HCenter) | Alignment::Left) );
+    //        else if (align & Alignment::Left)
+    //            TextCharacters::setAlignment(Alignment((align ^ Alignment::Left) | Alignment::HCenter) );
+    //        else
+    //            TextCharacters::setAlignment(align);
+    //    else
+    //        TextCharacters::setAlignment(align);
+
+    TextCharacters::setAlignment(alignCenter
+                                 ? (checkable
+                                    ? Alignment((align ^ Alignment::HCenter) | Alignment::Left)
+                                    : (align & Alignment::Left
+                                       ? Alignment((align ^ Alignment::Left) | Alignment::HCenter)
+                                       : align))
+                                 : align);
+}
 void GroupBox::setAlignment(Alignment align)
 {
-    //TextCharacters::setAlignment(align);
     alignCenter = align & Alignment::HCenter;
-    TextCharacters::setAlignment(align & Alignment::HCenter ? Alignment((
-                                     align ^ Alignment::HCenter) | Alignment::Left) : align);
+    prepareAlignHCenter(align);
 }
 
 /*
-[y1Left]             [x2Left] --------------------------------------------------[x1Right] --- [y1Right]  <-- ..................................,
-   ^---( i n d e n t )-^{ marg. CheckBox marg.} (textPadding) {T E X T}^--------------^         <-- indentFrameTop -`
-    |                        --------------------------------------------------------------                 |
-    |                                                                                                                   |
-    |                                                                                                                   |
-    --------------------|-------------------------------------------------------------|----------------
+[y1Left]             [x2Left] ------------------------------------------------------------------[x1Right] --- [y1Right]  <-- ..................................,
+   ^---( i n d e n t )-^{ marg. CheckBox marg.} (textPadding) {T E X T} (textPadding)^--------------^        <-- indentFrameTop -`
+    |          ^             ------------------------------------------------------------------------------                  |
+    |   Alignment::(Left/Right)                                                                                                   |
+    |                                                                                                                                       |
+    --------------------|-------------------------------------------------------------------------------|--------------
 */
 void GroupBox::calcPosition()
 {
@@ -110,15 +129,17 @@ void GroupBox::calcPosition()
 
     TextCharacters::m_size.width = pxTextWidth();
     TextCharacters::m_size.height = font().height > size().height
-                                    ? size().height : (
-                                        checkable && font().height < boxWidth
-                                        ? boxWidth : font().height);
+                                    ? size().height
+                                    : (checkable && font().height < p_checkbox::boxWidth
+                                       ? p_checkbox::boxWidth
+                                       : font().height);
 
     if (align & Alignment::Right)
     {
         if (checkable)
-            x2Left = size().width - (marginLeftRight + boxWidth + marginLeftRight) - textPadding -
-                     pxTextWidth() - indent;
+            x2Left = size().width - (p_checkbox::marginLeftRight + p_checkbox::boxWidth +
+                                     p_checkbox::marginLeftRight) -
+                     textPadding - pxTextWidth() - indent;
         else
             x2Left = size().width - textPadding - pxTextWidth() - indent;
         if (x2Left <= 0)
@@ -128,8 +149,9 @@ void GroupBox::calcPosition()
                 if (size().width - indent < pxTextWidth())
                     TextCharacters::m_size.width = size().width - indent;
                 else
-                    TextCharacters::m_size.width = size().width - x2Left - (marginLeftRight + boxWidth +
-                                                   marginLeftRight) - textPadding - indent;
+                    TextCharacters::m_size.width = size().width - x2Left
+                                                   - (p_checkbox::marginLeftRight + p_checkbox::boxWidth + p_checkbox::marginLeftRight)
+                                                   - textPadding - indent;
             else
                 TextCharacters::m_size.width = size().width - textPadding - indent;
         }
@@ -137,30 +159,35 @@ void GroupBox::calcPosition()
             y1Left = 0;
         x1Right = size().width - indent;
 
-        if (font().height >= size().height)
-            isVisibleLeftLine = false;
-        else
+        if (font().height < size().height)
         {
             isWholeBottomLine = true;
             isVisibleLeftLine = true;
         }
+        else
+        {
+            isWholeBottomLine = false;
+            isVisibleLeftLine = false;
+        }
     }
-    //else if (align & Alignment::HCenter)
     else if (alignCenter)
     {
         if (checkable)
-            x2Left = (size().width - (marginLeftRight + boxWidth + marginLeftRight) - textPadding -
-                      pxTextWidth()) / 2;
+            x2Left = (size().width
+                      - (p_checkbox::marginLeftRight + p_checkbox::boxWidth + p_checkbox::marginLeftRight)
+                      - textPadding - pxTextWidth() - textPadding) / 2 ;
         else
-            x2Left = (size().width - textPadding - pxTextWidth()) / 2;
+            x2Left = (size().width  - textPadding - pxTextWidth() - textPadding) / 2;
         if (x2Left <= 0)
         {
-            //x1Right = size().width - 1 - 1;
+            x1Right = size().width;
             y1Right = y1Left = font().height / 2;
             if (checkable)
             {
-                TextCharacters::m_size.width = size().width - (marginLeftRight + x2Left + boxWidth +
-                                               marginLeftRight) - textPadding;
+                TextCharacters::m_size.width = size().width
+                                               - (p_checkbox::marginLeftRight + x2Left + p_checkbox::boxWidth +
+                                                  p_checkbox::marginLeftRight)
+                                               - textPadding - textPadding;
                 if (TextCharacters::m_size.width > size().width)
                     TextCharacters::m_size.width = size().width;
             }
@@ -169,65 +196,72 @@ void GroupBox::calcPosition()
         }
         else
         {
-            if (x2Left <= marginLeftRight)
+            //if (x2Left <= marginLeftRight)
+            if (x2Left < 0)
                 y1Right = y1Left = font().height / 2;
             else
                 y1Right = y1Left = 0;
             x1Right = size().width - x2Left;
         }
 
-        if (font().height >= size().height)
-        {
-            isWholeBottomLine = false;
-            isVisibleRightLine = false;
-            isVisibleLeftLine = false;
-        }
-        else
+        if (font().height < size().height)
         {
             isWholeBottomLine = true;
             isVisibleRightLine = true;
             isVisibleLeftLine = true;
+        }
+        else
+        {
+            isWholeBottomLine = false;
+            isVisibleRightLine = false;
+            isVisibleLeftLine = false;
         }
     }
     else // if (align & Alignment::Left)
     {
         x2Left = indent;
         if (checkable)
-            x1Right = indent + (marginLeftRight + boxWidth + marginLeftRight) + textPadding +
-                      pxTextWidth();
+            x1Right = indent
+                      + (p_checkbox::marginLeftRight + p_checkbox::boxWidth + p_checkbox::marginLeftRight)
+                      + textPadding + pxTextWidth() + textPadding;
         else
-            x1Right = indent + textPadding + pxTextWidth();
-        if (x1Right >= size().width - 2)
+            x1Right = indent + textPadding + pxTextWidth() + textPadding;
+        if (x1Right >= size().width - 1)
         {
-            x1Right = size().width - 1 - 1;
+            x1Right = size().width;
             y1Right = font().height / 2;
             if (checkable)
-                TextCharacters::m_size.width = size().width - indent - (marginLeftRight + boxWidth +
-                                               marginLeftRight) - textPadding;
+                TextCharacters::m_size.width = size().width - indent
+                                               - (p_checkbox::marginLeftRight + p_checkbox::boxWidth + p_checkbox::marginLeftRight)
+                                               - textPadding - textPadding;
             else
-                TextCharacters::m_size.width = size().width - indent - textPadding;
+                TextCharacters::m_size.width = size().width - indent - textPadding - textPadding;
         }
         else
             y1Right = 0;
 
-        if (font().height >= size().height)
-            isVisibleRightLine = false;
-        else
+        if (font().height < size().height)
         {
             isWholeBottomLine = true;
             isVisibleRightLine = true;
+        }
+        else
+        {
+            isWholeBottomLine = false;
+            isVisibleRightLine = false;
         }
     }
 
     if (checkable)
     {
-        TextCharacters::m_pos.x = x2Left + marginLeftRight + boxWidth + marginLeftRight +
-                                  textPadding;
+        TextCharacters::m_pos.x = x2Left
+                                  + p_checkbox::marginLeftRight + p_checkbox::boxWidth + p_checkbox::marginLeftRight
+                                  + textPadding;
         if (TextCharacters::m_pos.x < 0)
             TextCharacters::m_pos.x = 0;
     }
     else
-        TextCharacters::m_pos.x = x2Left <= 0 ? 0 :  x2Left + textPadding;
+        TextCharacters::m_pos.x = x2Left <= 0 ? 0 : x2Left + textPadding;
 
     TextCharacters::updateAbsPosition(absoluteClientPos);
 }
@@ -251,70 +285,69 @@ void GroupBox::paint(MonitorDevice *const pMonitorDevice)
         if (x2Left > 1)
         {
             //top-left
-            pMonitorDevice->drawLine(chPos.x , chPos.y, chPos.x + x2Left , chPos.y, {COLOR_GRAY});
-            pMonitorDevice->drawLine(chPos.x , chPos.y + 1, chPos.x + x2Left , chPos.y + 1, {COLOR_WHITE});
+            pMonitorDevice->drawHLine(chPos.x + 1, chPos.y, x2Left - 1, {COLOR_GRAY});
+            if (x2Left > 2)
+                pMonitorDevice->drawHLine(chPos.x + 2, chPos.y + 1, x2Left - 2, {COLOR_WHITE});
         }
-        if (y1Right == 0)
+        if (y1Right == 0 )
         {
             //top-right
-            pMonitorDevice->drawLine(chPos.x + x1Right , chPos.y,
-                                     chPos.x + size().width - 1 - 1, chPos.y, {COLOR_GRAY});
-            //if (TextCharacters::m_size.width >= )
-            pMonitorDevice->drawLine(chPos.x  + x1Right, chPos.y + 1,
-                                     chPos.x + size().width - 1 - 1 - 1, chPos.y + 1, {COLOR_WHITE});
+            pMonitorDevice->drawHLine(chPos.x + x1Right, chPos.y,
+                                      size().width - x1Right - 1, {COLOR_GRAY});
+            if (size().width - x1Right - 1 - 1 > 0)
+                pMonitorDevice->drawHLine(chPos.x + x1Right, chPos.y + 1,
+                                          size().width - x1Right - 1 - 1, {COLOR_WHITE});
         }
 
         if (isVisibleLeftLine)
         {
             // left
-            pMonitorDevice->drawLine(chPos.x, chPos.y + y1Left, chPos.x,
-                                     chPos.y + size().height - indentFrameTop - 1 - 1, {COLOR_GRAY});
-            pMonitorDevice->drawLine(chPos.x + 1, chPos.y + 1 + y1Left, chPos.x + 1,
-                                     chPos.y + 1 + size().height - indentFrameTop - 1 - 1 - 1, {COLOR_WHITE});
+            pMonitorDevice->drawVLine(chPos.x, chPos.y + y1Left,
+                                      size().height - y1Left - indentFrameTop - 1 - 1, {COLOR_GRAY});
+            pMonitorDevice->drawVLine(chPos.x + 1, chPos.y + 1 + y1Left,
+                                      1 + size().height - y1Left - indentFrameTop - 1 - 1 - 1 - 1, {COLOR_WHITE});
         }
 
         if (isVisibleRightLine)
         {
             // right
-            pMonitorDevice->drawLine(chPos.x + size().width - 1, chPos.y + y1Right,
-                                     chPos.x + size().width - 1, chPos.y + size().height - indentFrameTop - 1,
-            {COLOR_WHITE});
-            pMonitorDevice->drawLine(chPos.x + size().width - 1 - 1, chPos.y + y1Right,
-                                     chPos.x + size().width - 1 - 1, chPos.y + size().height - indentFrameTop - 1 - 1,
-            {COLOR_GRAY});
+            pMonitorDevice->drawVLine(chPos.x + size().width - 1, chPos.y + y1Right,
+                                      size().height - y1Right - indentFrameTop - 1 , {COLOR_WHITE});
+            pMonitorDevice->drawVLine(chPos.x + size().width - 1 - 1, chPos.y + y1Right + 1,
+                                      size().height - y1Right - indentFrameTop - 1 - 1 - 1, {COLOR_GRAY});
         }
 
         if (isVisibleLeftLine && isVisibleRightLine)
         {
             // bottom
-            uint16_t x2 = isWholeBottomLine ? size().width - 1 - 1 : x2Left;
-            pMonitorDevice->drawLine(chPos.x, chPos.y + size().height - indentFrameTop - 1 - 1,
-                                     chPos.x + x2 , chPos.y + size().height - indentFrameTop - 1 - 1,
-            {COLOR_GRAY});
-            pMonitorDevice->drawLine(chPos.x, chPos.y + size().height - indentFrameTop - 1 ,
-                                     chPos.x + x2, chPos.y + size().height - indentFrameTop - 1,
-            {COLOR_WHITE});
+            uint16_t x2 = isWholeBottomLine ? size().width : x2Left;
+            pMonitorDevice->drawHLine(chPos.x, chPos.y + size().height - indentFrameTop - 1 - 1,
+                                      x2 - 1, {COLOR_GRAY});
+            pMonitorDevice->drawHLine(chPos.x, chPos.y + size().height - indentFrameTop - 1,
+                                      x2, {COLOR_WHITE});
 
             if ( !isWholeBottomLine)
             {
-                pMonitorDevice->drawLine(chPos.x + x1Right,
-                                         chPos.y + size().height - indentFrameTop - 1 - 1,
-                                         chPos.x + size().width - 1 - 1, chPos.y + size().height - indentFrameTop - 1 - 1,
-                {COLOR_GRAY});
-
-                pMonitorDevice->drawLine(chPos.x + x1Right,
-                                         chPos.y + size().height - indentFrameTop - 1 ,
-                                         chPos.x + size().width - 1 , chPos.y + size().height - indentFrameTop - 1,
-                {COLOR_WHITE});
+                pMonitorDevice->drawHLine(chPos.x + x1Right,
+                                          chPos.y + size().height - indentFrameTop - 1 - 1,
+                                          size().width - x1Right - 1, {COLOR_GRAY});
+                pMonitorDevice->drawHLine(chPos.x + x1Right,
+                                          chPos.y + size().height - indentFrameTop - 1,
+                                          size().width - x1Right, {COLOR_WHITE});
             }
         }
 
-        drawText(pMonitorDevice, alignCenter && x2Left < 0 ? x2Left : 0);
+        drawText(pMonitorDevice,
+                 checkable && alignCenter && x2Left < 0
+                 ? (TextCharacters::m_pos.x == 0
+                    ? x2Left + p_checkbox::marginLeftRight + p_checkbox::boxWidth +
+                    p_checkbox::marginLeftRight + textPadding
+                    : 0)
+                 : 0);
     }
 
-    if (!checkable)
-        return;
-    paintCheckBox(pMonitorDevice);
+    if (checkable)
+        paintCheckBox(pMonitorDevice);
 }
 
 void GroupBox::paintCheckBox(MonitorDevice *const pMonitorDevice)
@@ -333,86 +366,31 @@ void GroupBox::paintCheckBox(MonitorDevice *const pMonitorDevice)
     typeCheckBox = EventType::None;
 
 
-    Point chPos = {int16_t(x2Left + marginLeftRight) , int16_t(indentFrameTop - boxWidth / 2 + 1)};
-    if (chPos.x + boxWidth < 0)
+    Point chPos = {int16_t(x2Left + p_checkbox::marginLeftRight) , int16_t(indentFrameTop - p_checkbox::boxWidth / 2 + 1)};
+    if (chPos.x + p_checkbox::boxWidth < 0)
         return;
     uint16_t bxWidth, subzero;
     if (chPos.x < 0)
     {
-        bxWidth = boxWidth + chPos.x ;
+        bxWidth = p_checkbox::boxWidth + chPos.x ;
         subzero =  -chPos.x;
     }
     else
     {
-        bxWidth = boxWidth;
+        bxWidth = p_checkbox::boxWidth;
         subzero = 0;
     }
 
     chPos.x += screenClient().x;
     chPos.y += screenClient().y;
 
-    if (bxWidth > 0)
+    p_checkbox::drawCheckBox(chPos, boxBg, pMonitorDevice, bxWidth, subzero);
+    if (checked && bxWidth > 2)
     {
-        u_color colorBR = {COLOR_WHITE};
-        u_color colorBR2 = {COLOR_SILVER};
-        u_color colorTL = {COLOR_GRAY};
-        u_color colorTL2({COLOR_GRAYD});
-
-        // right
-        pMonitorDevice->fillRect({int16_t(chPos.x + boxWidth - borderWidth), chPos.y,
-                                  borderWidth, boxWidth
-                                 }, colorBR);
-        if (bxWidth > 1)
-        {
-            // top
-            pMonitorDevice->fillRect({int16_t(chPos.x + subzero), chPos.y, uint16_t(boxWidth - borderWidth - subzero), borderWidth
-                                     }, colorTL);
-            // right
-            pMonitorDevice->fillRect({int16_t(chPos.x + boxWidth - 2 * borderWidth), int16_t(chPos.y + borderWidth),
-                                      borderWidth, uint16_t(boxWidth - 2 * borderWidth)
-                                     }, colorBR2);
-            // bottom
-            pMonitorDevice->fillRect({int16_t(chPos.x + (subzero == 0 ? 0 : subzero)), int16_t(chPos.y + boxWidth - borderWidth),
-                                      uint16_t(boxWidth - borderWidth - (subzero == 0 ? 0 : subzero)), borderWidth
-                                     }, colorBR);
-        }
-
-        if (bxWidth > 2)
-        {
-            // box
-            pMonitorDevice->fillRect({int16_t(chPos.x + (subzero == 0 ? 2 * borderWidth : subzero)), int16_t(chPos.y + 2 * borderWidth),
-                                      uint16_t(bxWidth - (subzero == 0 ? 4 * borderWidth : 2 * borderWidth)), uint16_t(boxWidth - 4 * borderWidth)
-                                     }, boxBg);
-
-            if (subzero <= 1)
-            {
-                // left
-                if (subzero == 0)
-                    pMonitorDevice->fillRect({chPos.x, chPos.y, borderWidth, uint16_t(boxWidth - borderWidth)
-                                             }, colorTL);
-                // left
-                pMonitorDevice->fillRect({int16_t(chPos.x + borderWidth), int16_t(chPos.y + borderWidth),
-                                          borderWidth, uint16_t(boxWidth - 3 * borderWidth)
-                                         }, colorTL2);
-            }
-
-            // top
-            pMonitorDevice->fillRect({int16_t(chPos.x + (subzero == 0 ? 2 * borderWidth : subzero)), int16_t(chPos.y + borderWidth),
-                                      uint16_t(boxWidth - 2 * borderWidth - (subzero == 0 ? 2 * borderWidth : subzero)), borderWidth
-                                     }, colorTL2);
-            // bottom
-            pMonitorDevice->fillRect({int16_t(chPos.x + (subzero == 0 ? borderWidth : subzero)), int16_t(chPos.y + boxWidth - 2 * borderWidth),
-                                      uint16_t(boxWidth - (subzero == 0 ? 3 * borderWidth : subzero + borderWidth)), borderWidth
-                                     }, colorBR2);
-
-
-            if (checked)
-            {
-                u_color chmarkClr;
-                chmarkClr =  {isEnabled() ? COLOR_BLACK : COLOR_GRAY};
-                drawCheckmark(chPos, subzero < 3 ? 0 : subzero -  3, chmarkClr, pMonitorDevice);
-            }
-        }
+        u_color chmarkClr;
+        chmarkClr =  {isEnabled() ? COLOR_BLACK : COLOR_GRAY};
+        p_checkbox::drawCheckmark(chPos, chmarkClr, pMonitorDevice,
+                                  subzero < 3 ? 0 : subzero -  3);
     }
 }
 

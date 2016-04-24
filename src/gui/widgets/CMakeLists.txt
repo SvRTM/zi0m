@@ -8,6 +8,7 @@ set(SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/Label.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/RadioButton.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/Widget.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/p_checkbox.cpp"
     PARENT_SCOPE
 )
 
@@ -21,5 +22,6 @@ set(HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/Label.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/RadioButton.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/Widget.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/p_checkbox.h"
     PARENT_SCOPE
 )

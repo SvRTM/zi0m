@@ -18,7 +18,7 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
         case EventType::TouchStart:
         {
             // FIXME: optimize
-            Widget *currWidget = widget->findWidget(msg.pt.x, msg.pt.y);
+            Widget *currWidget = widget->findWidget(msg.pt);
             if (currWidget == nullptr)
                 currWidget = widget;
 
@@ -30,7 +30,7 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
             }
             else if (prevWidget == currWidget)
             {
-                if (currWidget->screen().contains(prevWidget->screen().x, prevWidget->screen().y))
+                if (currWidget->screen().contains(prevWidget->screenPosition()))
                 {
                     if (isEnableTouchLeave)
                     {
@@ -59,7 +59,7 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
         case EventType::TouchEnd:
         {
             // FIXME: optimize
-            Widget *currWidget = widget->findWidget(msg.pt.x, msg.pt.y);
+            Widget *currWidget = widget->findWidget(msg.pt);
             if (currWidget == nullptr)
                 currWidget = widget;
 

@@ -204,10 +204,15 @@ void EmuLcd::drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
     setColor(color);
     drawLine(x1, y1, x2, y2);
 }
-void EmuLcd::drawLine(Point &pos, Size &size, const u_color &color)
+void EmuLcd::drawHLine(int16_t x, int16_t y, uint16_t width, const u_color &color)
 {
     setColor(color);
-    drawLine(pos.x, pos.y, pos.x + size.width, pos.y + size.height);
+    drawLine(x, y, x + width - 1, y);
+}
+void EmuLcd::drawVLine(int16_t x, int16_t y, uint16_t height, const u_color &color)
+{
+    setColor(color);
+    drawLine(x, y, x, y + height - 1);
 }
 
 /**
