@@ -14,7 +14,7 @@
 
 #ifdef PLATFORM_WIN32
     #include <windows.h>
-    #undef min
+#undef min
 #elif PLATFORM_LINUX
     #include "samples/pc/linux/x11.h"
 #endif
@@ -34,7 +34,7 @@ class Application final : public ApplicationBase
         virtual ~Application() {}
 
     public:
-        void setMessage(_MSG msg);
+        void setMessage(Message msg);
 
     private:
 #if PLATFORM_LINUX

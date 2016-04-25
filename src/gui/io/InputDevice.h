@@ -15,11 +15,11 @@ namespace zi0m
 class InputDevice
 {
     public:
-        InputDevice();
+        InputDevice() {}
         virtual ~InputDevice() {}
 
     public:
-        virtual _MSG getMessage() const = 0;
+        virtual Message getMessage() const = 0;
 };
 }
 #endif /* IO_INPUTDEVICE_H_ */

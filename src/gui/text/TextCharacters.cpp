@@ -6,10 +6,6 @@ namespace zi0m
 TextCharacters::TextCharacters(Alignment align) : align(align)
 {
 }
-//TextCharacters::TextCharacters(Point pos, Size size, Alignment align) :
-//    m_pos(pos), m_size(size), align(align)
-//{
-//}
 
 void TextCharacters::setText(const std::u16string text)
 {
@@ -47,7 +43,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
     drawText(pMonitorDevice, xcolor, 0, 0, horizontalShift);
 }
 
-void TextCharacters::updateAbsPosition(const Point pos)
+void TextCharacters::updateAbsPosition(const Point &pos)
 {
     new_textAbsPosition = m_pos + pos;
 }
@@ -100,7 +96,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
             int16_t x = posX;
             for (uint8_t width = 0; width < pDescriptor->width; ++width)
             {
-                if (IFont::Mode::Bitmap ==  font().mode)
+                if (IFont::Mode::Bitmap == font().mode)
                 {
                     if (x >= cx)
                     {

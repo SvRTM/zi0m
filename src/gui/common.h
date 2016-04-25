@@ -78,7 +78,7 @@ enum class EventType
     TouchLeave
 };
 
-struct _MSG final
+struct Message final
 {
     EventType touchEvent;
     Point pt;

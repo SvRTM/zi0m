@@ -18,24 +18,23 @@ namespace zi0m
 class MonitorDevice
 {
     public:
-        MonitorDevice();
+        MonitorDevice() {}
         virtual ~MonitorDevice() {}
 
     public:
-        virtual void drawPoint(int16_t x, int16_t y, const u_color &color) = 0;
+        virtual void drawPoint(int16_t x, int16_t y, const u_color color) = 0;
 
         virtual void drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
-                              const u_color &color) = 0;
-        virtual void drawHLine(int16_t x, int16_t y, uint16_t width, const u_color &color) = 0;
-        virtual void drawVLine(int16_t x, int16_t y, uint16_t height, const u_color &color) = 0;
+                              const u_color color) = 0;
+        virtual void drawHLine(int16_t x, int16_t y, uint16_t width, const u_color color) = 0;
+        virtual void drawVLine(int16_t x, int16_t y, uint16_t height, const u_color color) = 0;
 
-        virtual void fillRect(const Rect &rect, const u_color &color) = 0;
+        virtual void fillRect(const Rect &rect, const u_color color) = 0;
 
-        virtual void drawCircle(int16_t cx, int16_t cy, uint16_t radius,
-                                const u_color &color) = 0;
+        virtual void drawCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color color) = 0;
         virtual void drawCircle(int16_t cx, int16_t cy, uint16_t radius, int16_t dy,
-                                const u_color &color1, const u_color &color2) = 0;
-        virtual void fillCircle(int16_t x, int16_t y, uint16_t radius, const u_color &color) = 0;
+                                const u_color color1, const u_color color2) = 0;
+        virtual void fillCircle(int16_t x, int16_t y, uint16_t radius, const u_color color) = 0;
 
 
         virtual const uint16_t getWidth() const = 0;

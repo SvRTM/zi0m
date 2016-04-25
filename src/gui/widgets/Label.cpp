@@ -26,11 +26,6 @@ void Label::p_updateAllPosition()
     TextCharacters::updateAbsPosition(absoluteClientPos);
 }
 
-void Label::event(const EventType type, const Point &pos)
-{
-    this->type = type;
-}
-
 void Label::paint(MonitorDevice *const pMonitorDevice)
 {
     if (text().length() == 0)

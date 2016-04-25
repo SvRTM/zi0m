@@ -34,15 +34,16 @@ void Widget::eventPaint(MonitorDevice *const pMonitorDevice)
     {
         paint(pMonitorDevice);
         m_refresh = false;
+        resetEvent();
     }
 
     for (Widget *const w : widgets)
     {
         if (w->isVisible())
             w->eventPaint(pMonitorDevice);
-        w->resetEvent();
+        else
+            w->resetEvent();
     }
-    resetEvent();
 }
 
 void Widget::setPosition(Point pos)

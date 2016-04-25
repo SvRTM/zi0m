@@ -41,7 +41,7 @@ class Widget : public virtual Additional
         {
             return {absolutePos, m_size};
         }
-        inline const Point screenPosition() const
+        inline const Point &screenPosition() const
         {
             return absolutePos;
         }
@@ -61,14 +61,14 @@ class Widget : public virtual Additional
         void setSize(const Size size);
 
         // [client area] This property holds the geometry of the widget relative to its parent and excluding the widget frame
-        const Rect geometry() const
+        inline const Rect geometry() const
         {
             return {int16_t(m_pos.x + Border().x), int16_t(m_pos.y + Border().y),
                     uint16_t(m_size.width - Border().width), uint16_t(m_size.height - Border().height)
                    };
         }
         // Returns the current position in absolute coordinates of the client area of the screen.
-        const Rect screenClient() const
+        inline const Rect screenClient() const
         {
             return {absoluteClientPos.x, absoluteClientPos.y, m_size.width, m_size.height};
         }

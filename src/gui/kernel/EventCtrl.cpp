@@ -11,13 +11,13 @@
 namespace zi0m
 {
 
-void EventCtrl::process(const _MSG msg, Widget *const widget)
+void EventCtrl::process(const Message msg, Widget *const widget)
 {
     switch (msg.touchEvent)
     {
         case EventType::TouchStart:
         {
-            // FIXME: optimize
+            // TODO: optimize
             Widget *currWidget = widget->findWidget(msg.pt);
             if (currWidget == nullptr)
                 currWidget = widget;
@@ -58,7 +58,7 @@ void EventCtrl::process(const _MSG msg, Widget *const widget)
 
         case EventType::TouchEnd:
         {
-            // FIXME: optimize
+            // TODO: optimize
             Widget *currWidget = widget->findWidget(msg.pt);
             if (currWidget == nullptr)
                 currWidget = widget;

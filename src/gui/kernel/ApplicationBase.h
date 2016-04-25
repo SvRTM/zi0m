@@ -35,7 +35,7 @@ class ApplicationBase
         EventCtrl *pEventCtrl;
 
         std::vector<InputDevice *> devices;
-        MonitorDevice *pMonitorDevice;
+        MonitorDevice *pMonitorDevice = nullptr;
 };
 }
 #endif /* APPLICATIONBASE_H_ */

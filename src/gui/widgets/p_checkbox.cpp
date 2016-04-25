@@ -24,35 +24,29 @@ void p_checkbox::drawCheckmark(const Point &pos, const u_color color,
     }
 }
 
-void p_checkbox::drawCheckBox(Point &pos,
-                              u_color boxBg, MonitorDevice *const pMonitorDevice, uint16_t bxWidth, uint16_t subzero)
+void p_checkbox::drawCheckBox(Point &pos, u_color boxBg,
+                              MonitorDevice *const pMonitorDevice, uint16_t bxWidth, uint16_t subzero)
 {
     if (bxWidth == 0)
         return;
 
-    u_color colorBR = {COLOR_WHITE};
-    u_color colorBR2 = {COLOR_SILVER};
-    u_color colorTL = {COLOR_GRAY};
-    u_color colorTL2({COLOR_GRAYD});
-
     // right
-    pMonitorDevice->fillRect({int16_t(pos.x + boxWidth - borderWidth), pos.y,
-                              borderWidth, boxWidth
-                             }, colorBR);
+    pMonitorDevice->drawVLine(int16_t(pos.x + boxWidth - borderWidth), pos.y,
+                              boxWidth, {COLOR_WHITE});
     if (bxWidth > 1)
     {
         // top
-        pMonitorDevice->fillRect({int16_t(pos.x + subzero), pos.y,
-                                  uint16_t(boxWidth - borderWidth - subzero), borderWidth
-                                 }, colorTL);
+        pMonitorDevice->drawHLine(int16_t(pos.x + subzero), pos.y,
+                                  uint16_t(boxWidth - borderWidth - subzero), {COLOR_GRAY});
         // right
-        pMonitorDevice->fillRect({int16_t(pos.x + boxWidth - 2 * borderWidth), int16_t(pos.y + borderWidth),
-                                  borderWidth, uint16_t(boxWidth - 2 * borderWidth)
-                                 }, colorBR2);
+        pMonitorDevice->drawVLine(int16_t(pos.x + boxWidth - 2 * borderWidth),
+                                  int16_t(pos.y + borderWidth), uint16_t(boxWidth - 2 * borderWidth),
+        {COLOR_SILVER});
         // bottom
-        pMonitorDevice->fillRect({int16_t(pos.x + (subzero == 0 ? 0 : subzero)), int16_t(pos.y + boxWidth - borderWidth),
-                                  uint16_t(boxWidth - borderWidth - (subzero == 0 ? 0 : subzero)), borderWidth
-                                 }, colorBR);
+        pMonitorDevice->drawHLine(int16_t(pos.x + (subzero == 0 ? 0 : subzero)),
+                                  int16_t(pos.y + boxWidth - borderWidth),
+                                  uint16_t(boxWidth - borderWidth - (subzero == 0 ? 0 : subzero)),
+        {COLOR_WHITE});
     }
 
     if (bxWidth > 2)
@@ -66,22 +60,22 @@ void p_checkbox::drawCheckBox(Point &pos,
         {
             // left
             if (subzero == 0)
-                pMonitorDevice->fillRect({pos.x, pos.y, borderWidth, uint16_t(boxWidth - borderWidth)
-                                         }, colorTL);
+                pMonitorDevice->drawVLine(pos.x, pos.y, uint16_t(boxWidth - borderWidth), {COLOR_GRAY});
             // left
-            pMonitorDevice->fillRect({int16_t(pos.x + borderWidth), int16_t(pos.y + borderWidth),
-                                      borderWidth, uint16_t(boxWidth - 3 * borderWidth)
-                                     }, colorTL2);
+            pMonitorDevice->drawVLine(int16_t(pos.x + borderWidth), int16_t(pos.y + borderWidth),
+                                      uint16_t(boxWidth - 3 * borderWidth), {COLOR_GRAYD});
         }
 
         // top
-        pMonitorDevice->fillRect({int16_t(pos.x + (subzero == 0 ? 2 * borderWidth : subzero)), int16_t(pos.y + borderWidth),
-                                  uint16_t(boxWidth - 2 * borderWidth - (subzero == 0 ? 2 * borderWidth : subzero)), borderWidth
-                                 }, colorTL2);
+        pMonitorDevice->drawHLine(int16_t(pos.x + (subzero == 0 ? 2 * borderWidth : subzero)),
+                                  int16_t(pos.y + borderWidth),
+                                  uint16_t(boxWidth - 2 * borderWidth - (subzero == 0 ? 2 * borderWidth : subzero)),
+        {COLOR_GRAYD});
         // bottom
-        pMonitorDevice->fillRect({int16_t(pos.x + (subzero == 0 ? borderWidth : subzero)), int16_t(pos.y + boxWidth - 2 * borderWidth),
-                                  uint16_t(boxWidth - (subzero == 0 ? 3 * borderWidth : subzero + borderWidth)), borderWidth
-                                 }, colorBR2);
+        pMonitorDevice->drawHLine(int16_t(pos.x + (subzero == 0 ? borderWidth : subzero)),
+                                  int16_t(pos.y + boxWidth - 2 * borderWidth),
+                                  uint16_t(boxWidth - (subzero == 0 ? 3 * borderWidth : subzero + borderWidth)),
+        {COLOR_SILVER});
     }
 }
 

@@ -7,14 +7,7 @@
 
 #include "EmuTouch.h"
 
-EmuTouch::EmuTouch()
-{
-}
-EmuTouch::~EmuTouch()
-{
-}
-
-void EmuTouch::setMessage(_MSG msg)
+void EmuTouch::setMessage(Message msg)
 {
     this->msg = msg;
 }
@@ -24,7 +17,7 @@ bool EmuTouch::isPressed()
     return EventType::TouchStart == msg.touchEvent || EventType::TouchEnd == msg.touchEvent;
 }
 
-_MSG EmuTouch::getMessage() const
+Message EmuTouch::getMessage() const
 {
     return msg;
 }

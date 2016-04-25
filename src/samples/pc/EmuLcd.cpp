@@ -20,7 +20,7 @@ EmuLcd::EmuLcd(const RenderData *x11data)
 }
 #endif
 
-void EmuLcd::setColor(const u_color &color)
+void EmuLcd::setColor(const u_color color)
 {
     XColor xcolour;
 
@@ -45,7 +45,7 @@ void EmuLcd::setColor(const u_color &color)
     XSetForeground(x11data->dsp, x11data->ctx, xcolour.pixel);
 }
 
-void EmuLcd::drawPoint(int16_t x, int16_t y, const u_color &color)
+void EmuLcd::drawPoint(int16_t x, int16_t y, const u_color color)
 {
 #ifdef PLATFORM_WIN32
     HDC hdc = GetDC(hWnd);
@@ -62,7 +62,7 @@ void EmuLcd::drawPoint(int16_t x, int16_t y, const u_color &color)
 #endif
 }
 
-void EmuLcd::fillRect(const Rect &rect, const u_color &color)
+void EmuLcd::fillRect(const Rect &rect, const u_color color)
 {
 #ifdef PLATFORM_WIN32
     HDC hdc = GetDC(hWnd);
@@ -100,7 +100,7 @@ void EmuLcd::fillRect(const Rect &rect, const u_color &color)
  * @version 1.1
  * @see http://members.chello.at/~easyfilter/bresenham.html
  */
-void EmuLcd::drawCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color &color)
+void EmuLcd::drawCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color color)
 {
     setColor(color);
 
@@ -126,7 +126,7 @@ void EmuLcd::drawCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color &
 }
 
 void EmuLcd::drawCircle(int16_t cx, int16_t cy, uint16_t radius, int16_t dy,
-                        const u_color &color1, const u_color &color2)
+                        const u_color color1, const u_color color2)
 {
     int16_t x = -radius, y = 0, err = 2 - 2 * radius;   /* bottom left to top right */
     do
@@ -175,7 +175,7 @@ void EmuLcd::drawCircle(int16_t cx, int16_t cy, uint16_t radius, int16_t dy,
  * @version 1.1
  * @see http://members.chello.at/~easyfilter/bresenham.html
  */
-void EmuLcd::fillCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color &color)
+void EmuLcd::fillCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color color)
 {
     setColor(color);
 
@@ -198,18 +198,17 @@ void EmuLcd::fillCircle(int16_t cx, int16_t cy, uint16_t radius, const u_color &
     while (x < 0);
 }
 
-void EmuLcd::drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
-                      const u_color &color)
+void EmuLcd::drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2, const u_color color)
 {
     setColor(color);
     drawLine(x1, y1, x2, y2);
 }
-void EmuLcd::drawHLine(int16_t x, int16_t y, uint16_t width, const u_color &color)
+void EmuLcd::drawHLine(int16_t x, int16_t y, uint16_t width, const u_color color)
 {
     setColor(color);
     drawLine(x, y, x + width - 1, y);
 }
-void EmuLcd::drawVLine(int16_t x, int16_t y, uint16_t height, const u_color &color)
+void EmuLcd::drawVLine(int16_t x, int16_t y, uint16_t height, const u_color color)
 {
     setColor(color);
     drawLine(x, y, x, y + height - 1);

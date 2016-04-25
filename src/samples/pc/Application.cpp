@@ -37,7 +37,7 @@ void Application::init()
 }
 #endif
 
-void Application::setMessage(_MSG msg)
+void Application::setMessage(Message msg)
 {
     for (InputDevice *device : getDevices())
     {

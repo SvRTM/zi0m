@@ -15,12 +15,14 @@ CheckBox::CheckBox(Point pos, Widget *const parent)
 void CheckBox::setState(State state)
 {
     this->state = state;
+    fullUpdate = m_refresh;
     refresh();
 }
 
 void CheckBox::setTristate(bool tristate)
 {
     this->tristate = tristate;
+    fullUpdate = m_refresh;
     refresh();
 }
 
@@ -32,6 +34,7 @@ void CheckBox::paint(MonitorDevice *const pMonitorDevice)
         case EventType::TouchStart:
         case EventType::TouchEnter:
             boxBg = {COLOR_SILVER};
+            fullUpdate = false;
             break;
         case EventType::TouchMove:
             return;
@@ -51,15 +54,25 @@ void CheckBox::paint(MonitorDevice *const pMonitorDevice)
                 case State::Checked:
                     state = State::Unchecked;
             }
+            fullUpdate = false;
         }
+        case EventType::TouchLeave:
+            fullUpdate = false;
         default:
             boxBg = { tristate &&State::PartiallyChecked == state
                       ? COLOR_LAVENDER_BLUSH
                       : (isEnabled()
-                         ? COLOR_WHITE : COLOR_SILVER)
+                         ? COLOR_WHITE
+                         : COLOR_SILVER)
                 };
     }
-    pMonitorDevice->fillRect(screenClient(), background());
+    if (fullUpdate)
+    {
+        pMonitorDevice->fillRect(screenClient(), background());
+        drawText(pMonitorDevice);
+    }
+    else
+        fullUpdate = true;
 
     Point chPos = {p_checkbox::marginLeftRight, int16_t((size().height - p_checkbox::boxWidth) / 2)};
     chPos.x += screenClient().x;
@@ -67,19 +80,17 @@ void CheckBox::paint(MonitorDevice *const pMonitorDevice)
 
     p_checkbox::drawCheckBox(chPos, boxBg, pMonitorDevice);
 
-    if (State::Unchecked != state)
-    {
-        u_color chmarkClr;
-        chmarkClr =  {isEnabled()
-                      ? (State::PartiallyChecked == state
-                         ? COLOR_GRAY_ARSENIC : COLOR_BLACK)
-                      : (State::PartiallyChecked == state
-                         ? COLOR_GRAYL : COLOR_GRAY)
-                     };
-        p_checkbox::drawCheckmark(chPos, chmarkClr, pMonitorDevice);
-    }
+    if (State::Unchecked == state)
+        return;
 
-    drawText(pMonitorDevice);
+    u_color chmarkClr;
+    chmarkClr =  {isEnabled()
+                  ? (State::PartiallyChecked == state
+                     ? COLOR_GRAY_ARSENIC : COLOR_BLACK)
+                  : (State::PartiallyChecked == state
+                     ? COLOR_GRAYL : COLOR_GRAY)
+                 };
+    p_checkbox::drawCheckmark(chPos, chmarkClr, pMonitorDevice);
 }
 
 }

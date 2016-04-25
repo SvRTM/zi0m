@@ -12,7 +12,7 @@ class RadioButton : public AbstractButtonASize
         virtual ~RadioButton() {}
 
     public:
-        bool isChecked() const
+        inline bool isChecked() const
         {
             return checked;
         }
@@ -20,16 +20,16 @@ class RadioButton : public AbstractButtonASize
 
     private:
         void p_cbReleased() override;
-
         void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:
         static constexpr uint8_t radius = 6;
 
         bool checked = false;
+        bool fullUpdate = true;
 
         static const Rect border;
-        const Rect &Border() const
+        inline const Rect &Border() const
         {
             return border;
         }

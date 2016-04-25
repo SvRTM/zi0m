@@ -14,6 +14,7 @@ RadioButton::RadioButton(Point pos, Widget *const parent)
 void  RadioButton::setChecked(bool checked)
 {
     this->checked = checked;
+    fullUpdate = m_refresh;
     refresh();
 }
 
@@ -51,14 +52,23 @@ void RadioButton::paint(MonitorDevice *const pMonitorDevice)
         case EventType::TouchStart:
         case EventType::TouchEnter:
             circleBg = {COLOR_SILVER};
+            fullUpdate = false;
             break;
         case EventType::TouchMove:
             return;
         case EventType::TouchEnd:
+        case EventType::TouchLeave:
+            fullUpdate = false;
         default:
             circleBg = {isEnabled() ? COLOR_WHITE : COLOR_SILVER};
     }
-    pMonitorDevice->fillRect(screenClient(), background());
+    if (fullUpdate)
+    {
+        pMonitorDevice->fillRect(screenClient(), background());
+        drawText(pMonitorDevice);
+    }
+    else
+        fullUpdate = true;
 
     Point chPos = {marginLeftRight, int16_t((size().height - 2 * radius) / 2)};
     chPos.x += screenClient().x + radius;
@@ -71,7 +81,5 @@ void RadioButton::paint(MonitorDevice *const pMonitorDevice)
 
     if (checked)
         pMonitorDevice->fillCircle(chPos.x, chPos.y, radius - 4, {isEnabled() ? COLOR_BLACK : COLOR_GRAY});
-
-    drawText(pMonitorDevice);
 }
 }

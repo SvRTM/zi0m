@@ -9,7 +9,7 @@
 
 namespace zi0m
 {
-const Rect Button::border = {2, 2, 2, 2};
+const Rect Button::border = {2, 2, 4, 4};
 
 Button::Button(Point pos, Size size, Widget *const parent)
     : AbstractButton(pos, size, Alignment::Center, border, parent)
@@ -22,7 +22,7 @@ Button::Button(Point pos, Size size, Widget *const parent)
 #endif
     );
 
-    TextCharacters::m_pos = 0;
+    TextCharacters::m_pos = {border.x, border.y};
     TextCharacters::m_size = {geometry().width, geometry().height};
     TextCharacters::updateAbsPosition(absoluteClientPos);
 }
@@ -45,21 +45,19 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
         case EventType::TouchStart:
         case EventType::TouchEnter:
         {
-            pMonitorDevice->fillRect(screenClient(), background());
-
             colorBR = {COLOR_WHITE};
             colorTL = {COLOR_GRAYD};
 
-            u_color colorTL2({COLOR_GRAY});
+            pMonitorDevice->fillRect(screenClient(), background());
 
             // left
-            pMonitorDevice->fillRect({int16_t(screenClient().x + borderWidth), int16_t(screenClient().y + borderWidth),
-                                      borderWidth, uint16_t(screenClient().height - 3 * borderWidth)
-                                     }, colorTL2);
+            pMonitorDevice->drawVLine(int16_t(screenClient().x + borderWidth),
+                                      int16_t(screenClient().y + borderWidth),
+                                      uint16_t(screenClient().height - 3 * borderWidth), {COLOR_GRAY});
             // top
-            pMonitorDevice->fillRect({int16_t(screenClient().x + 2 * borderWidth), int16_t(screenClient().y + borderWidth),
-                                      uint16_t(screenClient().width - 4 * borderWidth), borderWidth
-                                     }, colorTL2);
+            pMonitorDevice->drawHLine(int16_t(screenClient().x + 2 * borderWidth),
+                                      int16_t(screenClient().y + borderWidth),
+                                      uint16_t(screenClient().width - 4 * borderWidth), {COLOR_GRAY});
 
             drawText(pMonitorDevice, color(), 1, 1);
             break;
@@ -69,43 +67,39 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
         case EventType::TouchEnd:
         default:
         {
-            pMonitorDevice->fillRect(screenClient(), background());
-
             colorBR = {COLOR_GRAYD};
             colorTL = {COLOR_WHITE};
 
-            u_color colorBR2({COLOR_GRAY});
+            pMonitorDevice->fillRect(screenClient(), background());
 
             // bottom
-            pMonitorDevice->fillRect({int16_t(screenClient().x + borderWidth), int16_t(screenClient().y + screenClient().height - 2 * borderWidth),
-                                      uint16_t(screenClient().width - 3 * borderWidth), borderWidth
-                                     }, colorBR2);
+            pMonitorDevice->drawHLine(int16_t(screenClient().x + borderWidth),
+                                      int16_t(screenClient().y + screenClient().height - 2 * borderWidth),
+                                      uint16_t(screenClient().width - 3 * borderWidth), {COLOR_GRAY});
             // right
-            pMonitorDevice->fillRect({int16_t(screenClient().x + screenClient().width - 2 * borderWidth), int16_t(screenClient().y + borderWidth),
-                                      borderWidth, uint16_t(screenClient().height - 2 * borderWidth)
-                                     }, colorBR2);
+            pMonitorDevice->drawVLine(int16_t(screenClient().x + screenClient().width - 2 *
+                                              borderWidth), int16_t(screenClient().y + borderWidth),
+                                      uint16_t(screenClient().height - 2 * borderWidth), {COLOR_GRAY});
 
             drawText(pMonitorDevice);
         }
     }
 
+
     // bottom
-    pMonitorDevice->fillRect({screenClient().x, int16_t(screenClient().y + screenClient().height - borderWidth),
-                              uint16_t(screenClient().width - borderWidth), borderWidth
-                             }, colorBR);
+    pMonitorDevice->drawHLine(screenClient().x,
+                              int16_t(screenClient().y + screenClient().height - borderWidth),
+                              uint16_t(screenClient().width - borderWidth), colorBR);
     // right
-    pMonitorDevice->fillRect({int16_t(screenClient().x + screenClient().width - borderWidth), screenClient().y,
-                              borderWidth, screenClient().height
-                             }, colorBR);
+    pMonitorDevice->drawVLine(int16_t(screenClient().x + screenClient().width - borderWidth),
+                              screenClient().y, screenClient().height, colorBR);
 
     // left
-    pMonitorDevice->fillRect({screenClient().x, screenClient().y, borderWidth,
-                              uint16_t(screenClient().height - borderWidth)
-                             }, colorTL);
+    pMonitorDevice->drawVLine(screenClient().x, screenClient().y,
+                              uint16_t(screenClient().height - borderWidth), colorTL);
     // top
-    pMonitorDevice->fillRect({screenClient().x, screenClient().y,
-                              uint16_t(screenClient().width - borderWidth), borderWidth
-                             }, colorTL);
+    pMonitorDevice->drawHLine(screenClient().x, screenClient().y,
+                              uint16_t(screenClient().width - borderWidth), colorTL);
 }
 
 }

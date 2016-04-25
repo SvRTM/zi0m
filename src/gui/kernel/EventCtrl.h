@@ -20,7 +20,7 @@ class EventCtrl final
         virtual ~EventCtrl() {}
 
     public:
-        void process(const _MSG msg, Widget *const widget);
+        void process(const Message msg, Widget *const widget);
 
     private:
         Widget *prevWidget = nullptr;

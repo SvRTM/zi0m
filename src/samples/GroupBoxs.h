@@ -19,7 +19,7 @@ class GroupBoxs: public Widget, public Common
         void setupUi();
         void setFontWidgtes(std::pair<const IFont *, std::u16string> data) override;
 
-        const Rect &Border() const
+        inline const Rect &Border() const
         {
             return zeroBorder;
         }

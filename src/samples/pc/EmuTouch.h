@@ -15,16 +15,16 @@ using namespace zi0m;
 class EmuTouch final : public InputDevice
 {
     public:
-        EmuTouch();
-        virtual ~EmuTouch();
+        EmuTouch() = default;
+        virtual ~EmuTouch() {}
 
     public:
-        void setMessage(_MSG msg);
+        void setMessage(Message msg);
         bool isPressed();
-        _MSG getMessage() const override;
+        Message getMessage() const override;
 
     private:
-        _MSG msg;
+        Message msg;
 };
 
 #endif /* WIN32_TEST_EMUTOUCH_H_ */

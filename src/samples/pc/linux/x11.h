@@ -39,16 +39,16 @@ class x11 final
 
     private:
         void createWindow();
-        inline void clearMsg()
+        inline void clearMessage()
         {
-            msg = {EventType::None, {0, 0}};
+            msg = {EventType::None, 0};
         }
 
     public:
         RenderData param;
 
     private:
-        _MSG msg;
+        Message msg = {EventType::None, 0};
 };
 
 #endif /* SRC_WIN32_TEST_X11_H_ */

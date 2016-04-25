@@ -14,7 +14,6 @@ class TextCharacters: public virtual Additional
 {
     public:
         explicit TextCharacters(Alignment align);
-        //explicit TextCharacters(Point pos, Size size, Alignment align);
         virtual ~TextCharacters() {}
 
     public:
@@ -43,7 +42,7 @@ class TextCharacters: public virtual Additional
         void setAlignment(Alignment align);
 
     protected:
-        void updateAbsPosition(const Point pos);
+        void updateAbsPosition(const Point &pos);
 
         void drawText(MonitorDevice *const pMonitorDevice, const int16_t horizontalShift = 0);
         void drawText(MonitorDevice *const pMonitorDevice, const u_color textColor,

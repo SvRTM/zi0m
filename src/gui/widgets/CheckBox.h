@@ -20,12 +20,13 @@ class CheckBox : public AbstractButtonASize
 
     public:
         void setState(State state);
-        State checkState() const
+        inline State checkState() const
         {
             return state;
         }
+
         void setTristate(bool tristate = true);
-        bool isTristate() const
+        inline bool isTristate() const
         {
             return tristate;
         }
@@ -38,6 +39,7 @@ class CheckBox : public AbstractButtonASize
     private:
         State state = State::Unchecked;
         bool tristate = false;
+        bool fullUpdate = true;
 
         static const Rect border;
         inline const Rect &Border() const

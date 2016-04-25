@@ -47,7 +47,7 @@ void  Panic(const char *msg)
 }
 
 
-x11::x11() : msg({EventType::None, {0, 0}})
+x11::x11()
 {
     if (!(param.dsp = XOpenDisplay(nullptr)))
     {
@@ -102,7 +102,7 @@ void x11::exec()
     app.init();
     XMapWindow(param.dsp, param.win);
 
-    bool latch=true;
+    bool latch = true;
 
     bool isBtnPressed = false;
     while (!param.exit)
@@ -183,13 +183,13 @@ void x11::exec()
         if (latch)
         {
             usleep(16000);
-            latch=false;
+            latch = false;
         }
 
         app.setMessage(msg);
         app.quantum();
 
-        clearMsg();
+        clearMessage();
     }
 
 }

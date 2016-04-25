@@ -13,8 +13,7 @@ namespace zi0m
 
 ApplicationBase::ApplicationBase(Widget *const mainWidget)
     : pMainWidget(mainWidget),
-      pEventCtrl(new EventCtrl()),
-      pMonitorDevice(nullptr)
+      pEventCtrl(new EventCtrl())
 {
 }
 
@@ -44,7 +43,7 @@ const std::vector<InputDevice *> ApplicationBase::getDevices() const
 
 void ApplicationBase::quantum()
 {
-    _MSG msg;
+    Message msg;
     for (InputDevice *device : devices)
     {
         msg = device->getMessage();

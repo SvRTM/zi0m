@@ -8,6 +8,7 @@ AbstractButtonASize::AbstractButtonASize(Point pos, const Rect &border,
         Widget *const parent)
     : AbstractButton(pos, 0, Alignment(Alignment::Left | Alignment::VCenter), border, parent)
 {
+    TextCharacters::m_pos = border.x;
 }
 void AbstractButtonASize::init()
 {
@@ -23,10 +24,7 @@ void AbstractButtonASize::autoSize()
 {
     if (!m_autoSize)
         return;
-    Size size;
-    size.width = pxTextWidth() + Border().x;
-    size.height = font().height;
-    setSize(size);
+    setSize({uint16_t(pxTextWidth() + Border().x), font().height});
 }
 
 void AbstractButtonASize::p_setSize()
