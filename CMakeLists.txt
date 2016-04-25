@@ -7,6 +7,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
+#######################
+# Single Compilation Unit
+set(SCU OFF)
+#######################
+
 if (NOT DEFINED COLOR_DEPTH)
     set(COLOR_DEPTH RGB565)     # or RGB888
 endif ()
