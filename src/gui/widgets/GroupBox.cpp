@@ -9,8 +9,6 @@ GroupBox::GroupBox(Point pos, Size size, Widget *const parent)
                          border)
     , x2Left(size.width), border({2, font().height, 2, font().height})
 {
-    //    TextCharacters::m_pos = 0;
-    //    TextCharacters::m_size = {geometry().width, geometry().height};
 }
 
 void GroupBox::p_setSize()
@@ -196,11 +194,7 @@ void GroupBox::calcPosition()
         }
         else
         {
-            //if (x2Left <= marginLeftRight)
-            if (x2Left < 0)
-                y1Right = y1Left = font().height / 2;
-            else
-                y1Right = y1Left = 0;
+            y1Right = y1Left = x2Left < 0 ? font().height / 2 : 0;
             x1Right = size().width - x2Left;
         }
 

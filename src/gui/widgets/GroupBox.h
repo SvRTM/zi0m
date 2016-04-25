@@ -38,6 +38,7 @@ class GroupBox : public AbstractTextWidget
         void p_setFont() override;
         void p_setText() override;
         void p_updateAllPosition() override;
+        //void p_cbReleased() override {}
 
         void event(const EventType type, const Point &pos) override;
         void paint(MonitorDevice *const pMonitorDevice) override;

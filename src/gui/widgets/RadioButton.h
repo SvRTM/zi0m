@@ -1,11 +1,11 @@
 #ifndef RADIOBUTTON_H
 #define RADIOBUTTON_H
 
-#include "AbstractButton.h"
+#include "AbstractButtonASize.h"
 
 namespace zi0m
 {
-class RadioButton : public AbstractButton
+class RadioButton : public AbstractButtonASize
 {
     public:
         explicit RadioButton(Point pos, Widget *const parent);
@@ -19,6 +19,8 @@ class RadioButton : public AbstractButton
         void setChecked(bool checked);
 
     private:
+        void p_cbReleased() override;
+
         void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:

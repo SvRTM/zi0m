@@ -29,7 +29,7 @@ class Widget : public virtual Additional
         void eventPaint(MonitorDevice *const pMonitorDevice);
         virtual void paint(MonitorDevice *const pMonitorDevice) = 0;
 
-        const Widget *parent() const
+        inline const Widget *parent() const
         {
             return m_parent;
         }
@@ -86,6 +86,8 @@ class Widget : public virtual Additional
         EventType eventType() const;
 
         Widget *const findWidget(const Point &pos) const;
+
+        std::vector<Widget *> childs() const;
 
     protected:
         virtual const Rect &Border() const = 0;

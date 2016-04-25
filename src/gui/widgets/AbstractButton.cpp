@@ -3,47 +3,24 @@
 namespace zi0m
 {
 
-AbstractButton::AbstractButton(Point pos, const Rect &border, Widget *const parent)
-    : AbstractTextWidget(pos, 0, Alignment(Alignment::Left | Alignment::VCenter), parent,
-                         border)
+AbstractButton::AbstractButton(Point pos, Size size, Alignment align, const Rect &border,
+                               Widget *const parent)
+    : AbstractTextWidget(pos, size, align, parent, border)
 {
     TextCharacters::m_pos = border.x;
 }
-void AbstractButton::init()
-{
-    autoSize();
-}
 
-void AbstractButton::setAutoSize(bool autoSize)
+void AbstractButton::setCbMoved(const std::function<void (const Point &pos)> &func)
 {
-    m_autoSize = autoSize;
+    cbMoved = func;
 }
-
-void AbstractButton::autoSize()
+void AbstractButton::setCbReleased(const std::function<void ()> &func)
 {
-    if (!m_autoSize)
-        return;
-    Size size;
-    size.width = pxTextWidth() + Border().x;
-    size.height = font().height;
-    setSize(size);
+    cbReleased = func;
 }
-
-void AbstractButton::p_setSize()
+void AbstractButton::setCbPressed(const std::function<void ()> &func)
 {
-    TextCharacters::m_size = {geometry().width, geometry().height};
-}
-void AbstractButton::p_setFont()
-{
-    autoSize();
-}
-void AbstractButton::p_setText()
-{
-    autoSize();
-}
-void AbstractButton::p_updateAllPosition()
-{
-    TextCharacters::updateAbsPosition(absoluteClientPos);
+    cbPressed = func;
 }
 
 void AbstractButton::event(const EventType type, const Point &pos)
@@ -52,7 +29,28 @@ void AbstractButton::event(const EventType type, const Point &pos)
         return;
 
     this->type = type;
-    refresh();
+    switch (type)
+    {
+        case EventType::TouchStart:
+            if (cbPressed)
+                cbPressed();
+            goto L;
+        case EventType::TouchEnd:
+            p_cbReleased();
+            if (cbReleased)
+                cbReleased();
+            goto L;
+        case   EventType::TouchEnter:
+            goto L;
+        case EventType::TouchLeave:
+            if (cbMoved)
+                cbMoved(pos);
+        L:
+            refresh();
+            break;
+        default:
+            break;
+    }
 }
 
 }

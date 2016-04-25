@@ -98,6 +98,11 @@ void Widget::refreshChilds()
         w->refreshChilds();
 }
 
+std::vector<Widget *> Widget::childs() const
+{
+    return widgets;
+}
+
 //FIXME: implement other option visible or not visible elements
 void Widget::setVisible(bool visible)
 {

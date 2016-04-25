@@ -1,11 +1,11 @@
 #ifndef CHECKBOX_H
 #define CHECKBOX_H
 
-#include "AbstractButton.h"
+#include "AbstractButtonASize.h"
 
 namespace zi0m
 {
-class CheckBox : public AbstractButton
+class CheckBox : public AbstractButtonASize
 {
     public:
         explicit CheckBox(Point pos, Widget *const parent);
@@ -31,8 +31,9 @@ class CheckBox : public AbstractButton
         }
 
     private:
-        void paint(MonitorDevice *const pMonitorDevice) override;
+        void p_cbReleased() override {}
 
+        void paint(MonitorDevice *const pMonitorDevice) override;
 
     private:
         State state = State::Unchecked;

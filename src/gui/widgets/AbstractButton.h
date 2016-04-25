@@ -4,36 +4,31 @@
 #include "Widget.h"
 #include "AbstractTextWidget.h"
 
+#include <functional>
+
 namespace zi0m
 {
 class AbstractButton : public AbstractTextWidget
 {
     public:
-        explicit AbstractButton(Point pos, const Rect &border, Widget *const parent);
+        explicit AbstractButton(Point pos, Size size, Alignment align, const Rect &border,
+                                Widget *const parent);
         virtual ~AbstractButton() {}
 
     public:
-        void setAutoSize(bool autoSize);
-
-    protected:
-        void init();
+        void setCbPressed(const std::function<void ()> &func);
+        void setCbReleased(const std::function<void ()> &func);
+        void setCbMoved(const std::function<void (const Point &)> &func);
 
     private:
-        void autoSize();
-
-        void p_setSize() override;
-        void p_setFont() override;
-        void p_setText() override;
-        void p_updateAllPosition() override;
-
         void event(const EventType type, const Point &pos) override;
+        virtual void p_cbReleased() = 0;
 
-
-    protected:
-        static constexpr uint8_t marginLeftRight = 5;
 
     private:
-        bool m_autoSize = true;
+        std::function<void (void)> cbPressed = nullptr;
+        std::function<void (void)> cbReleased = nullptr;
+        std::function<void (const Point &pos)> cbMoved = nullptr;
 };
 }
 #endif // ABSTRACTBUTTON_H

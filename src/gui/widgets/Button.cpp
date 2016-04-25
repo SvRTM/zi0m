@@ -12,7 +12,7 @@ namespace zi0m
 const Rect Button::border = {2, 2, 2, 2};
 
 Button::Button(Point pos, Size size, Widget *const parent)
-    : AbstractTextWidget(pos, size, Alignment::Center, parent, border)
+    : AbstractButton(pos, size, Alignment::Center, border, parent)
 {
     setBackground(
 #ifdef RGB888
@@ -34,35 +34,6 @@ void Button::p_setSize()
 void Button::p_updateAllPosition()
 {
     TextCharacters::updateAbsPosition(absoluteClientPos);
-}
-
-void Button::event(const EventType type, const Point &pos)
-{
-    if (!isEnabled())
-        return;
-
-    this->type = type;
-    switch (type)
-    {
-        case EventType::TouchStart:
-            if (cbPressed)
-                cbPressed();
-            goto L;
-        case EventType::TouchEnd:
-            if (cbReleased)
-                cbReleased();
-            goto L;
-        case   EventType::TouchEnter:
-            goto L;
-        case EventType::TouchLeave:
-            if (cbMoved)
-                cbMoved(pos);
-        L:
-            refresh();
-            break;
-        default:
-            break;
-    }
 }
 
 void Button::paint(MonitorDevice *const pMonitorDevice)
@@ -135,21 +106,6 @@ void Button::paint(MonitorDevice *const pMonitorDevice)
     pMonitorDevice->fillRect({screenClient().x, screenClient().y,
                               uint16_t(screenClient().width - borderWidth), borderWidth
                              }, colorTL);
-}
-
-void Button::setCbMoved(const std::function<void (const Point &pos)> &func)
-{
-    cbMoved = func;
-}
-
-void Button::setCbReleased(const std::function<void ()> &func)
-{
-    cbReleased = func;
-}
-
-void Button::setCbPressed(const std::function<void ()> &func)
-{
-    cbPressed = func;
 }
 
 }

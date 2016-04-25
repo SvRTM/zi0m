@@ -2,11 +2,11 @@
 
 namespace zi0m
 {
-const Rect RadioButton::border = AbstractButton::marginLeftRight + 2 * RadioButton::radius
-                                 + AbstractButton::marginLeftRight;
+const Rect RadioButton::border = AbstractButtonASize::marginLeftRight
+                                 + 2 * RadioButton::radius + AbstractButtonASize::marginLeftRight;
 
 RadioButton::RadioButton(Point pos, Widget *const parent)
-    : AbstractButton(pos, border, parent)
+    : AbstractButtonASize(pos, border, parent)
 {
     init();
 }
@@ -15,6 +15,32 @@ void  RadioButton::setChecked(bool checked)
 {
     this->checked = checked;
     refresh();
+}
+
+void RadioButton::p_cbReleased()
+{
+    if (!parent())
+    {
+        checked = !checked;
+        return;
+    }
+    bool isEnableOtherRb = false;
+    for (Widget *w : parent()->childs())
+    {
+        RadioButton *const rb = dynamic_cast<RadioButton *const>(w);
+        if (rb == nullptr || rb == this)
+            continue;
+        if (rb->isChecked())
+            rb->setChecked(false);
+        isEnableOtherRb = true;
+    }
+    if (isEnableOtherRb)
+    {
+        if (!checked)
+            setChecked(true);
+    }
+    else
+        setChecked(!checked);
 }
 
 void RadioButton::paint(MonitorDevice *const pMonitorDevice)

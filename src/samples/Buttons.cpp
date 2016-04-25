@@ -59,17 +59,22 @@ void Buttons::setupUi()
     addWidget(ch);
     smplWidgets.push_back(ch);
 
-    RadioButton *rb  = new RadioButton({5, 125}, this);
-    rb->setText(u"RadioButton");
-    rb->setBackground(bg);
-    addWidget(rb);
-    smplWidgets.push_back(rb);
-    rb  = new RadioButton({5, 150}, this);
+    RadioButton *rb1  = new RadioButton({5, 125}, this);
+    rb1->setText(u"RadioButton 1");
+    rb1->setBackground(bg);
+    addWidget(rb1);
+    smplWidgets.push_back(rb1);
+    RadioButton *rb  = new RadioButton({5, 150}, this);
     rb->setText(u"Checked");
     rb->setChecked(true);
     rb->setEnabled(false);
     addWidget(rb);
     smplWidgets.push_back(rb);
+    RadioButton *rb2  = new RadioButton({135, 125}, this);
+    rb2->setText(u"RadioButton 2");
+    rb2->setBackground(bg);
+    addWidget(rb2);
+    smplWidgets.push_back(rb2);
 }
 
 void Buttons::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
