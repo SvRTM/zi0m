@@ -82,13 +82,8 @@ void Widget::updateAllPosition()
                         };
 
     for (Widget *const w : widgets)
-    {
-        TextCharacters *const txtCh  = dynamic_cast<TextCharacters *const>(w);
-        if (txtCh)
-            txtCh->updateAllPosition();
-        else
-            w->updateAllPosition();
-    }
+        w->updateAllPosition();
+
     refresh();
 }
 
