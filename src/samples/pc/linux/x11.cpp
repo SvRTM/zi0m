@@ -182,7 +182,7 @@ void x11::exec()
 
         if (latch)
         {
-            usleep(16000);
+            usleep(50000);
             latch = false;
         }
 
