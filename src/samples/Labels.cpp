@@ -10,7 +10,7 @@
 
 
 Labels::Labels(Point pos, Size size, Widget *parent)
-    : Widget(pos, size, parent), isEnabledLabels(true)
+    : AbstractBody(pos, size, parent), isEnabledLabels(true)
 {
 #ifdef RGB888
     setBackground({ 0X007092BEU });
@@ -92,13 +92,4 @@ void Labels::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
     pLblFontName->setText(data.second);
     for (AbstractTextWidget *const w : smplWidgets)
         w->setFont(font);
-}
-
-void Labels::event(const EventType type, const Point &pos)
-{
-    this->type = type;
-}
-void Labels::paint(MonitorDevice *const pMonitorDevice)
-{
-    pMonitorDevice->fillRect(screen(), background());
 }

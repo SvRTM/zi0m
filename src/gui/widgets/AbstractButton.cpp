@@ -7,6 +7,7 @@ AbstractButton::AbstractButton(Point pos, Size size, Alignment align, const Rect
                                Widget *const parent)
     : AbstractTextWidget(pos, size, align, parent, border)
 {
+    typeId = TypeTag(typeId | TypeTag::ABSTRACT_BUTTON);
 }
 
 void AbstractButton::setCbMoved(const std::function<void (const Point &pos)> &func)

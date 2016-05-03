@@ -40,12 +40,9 @@ void Application::init()
 void Application::setMessage(Message msg)
 {
     for (InputDevice *device : getDevices())
-    {
-        EmuTouch *emuTouch = dynamic_cast<EmuTouch *>(device);
-        if (emuTouch == nullptr)
-            continue;
-
-        emuTouch->setMessage(msg);
-        break;
-    }
+        if (TypeTag::TOUCH_DEVICE == device->typeID())
+        {
+            EmuTouch *emuTouch = static_cast<EmuTouch *>(device);
+            emuTouch->setMessage(msg);
+        }
 }

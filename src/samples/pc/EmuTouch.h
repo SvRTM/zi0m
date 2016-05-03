@@ -19,11 +19,18 @@ class EmuTouch final : public InputDevice
         virtual ~EmuTouch() {}
 
     public:
+        inline TypeTag typeID() const
+        {
+            return typeId;
+        }
+
         void setMessage(Message msg);
         bool isPressed();
         Message getMessage() const override;
 
     private:
+        static const TypeTag typeId;
+
         Message msg;
 };
 

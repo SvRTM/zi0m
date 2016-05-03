@@ -19,6 +19,7 @@ class InputDevice
         virtual ~InputDevice() {}
 
     public:
+        virtual TypeTag typeID() const = 0;
         virtual Message getMessage() const = 0;
 };
 }

@@ -10,7 +10,7 @@
 
 #include "gui/widgets/Widget.h"
 
-#include "common.h"
+#include "AbstractBody.h"
 
 #include <vector>
 
@@ -29,7 +29,7 @@ class MainWindow final : public Widget
         void setupUi();
 
     private:
-        std::vector<Widget *> bodys;
+        std::vector<AbstractBody *> bodys;
 
         inline const Rect &Border() const
         {
@@ -50,7 +50,7 @@ class MainWindow final : public Widget
 
             private:
                 uint8_t iWidget = 0;
-                Common  *pVisibleBody = nullptr;
+                AbstractBody  *pBodyWidget = nullptr;
                 uint8_t nFont = 0;
                 std::vector<std::pair<const IFont *, std::u16string>> fonts;
 

@@ -65,9 +65,8 @@ MainWindow::Header::Header(Widget *parent) :
     {
         const MainWindow *main = static_cast<const MainWindow *>(this->parent());
         main->bodys[iWidget-- % main->bodys.size()]->setVisible(false);
-        Widget *w = main->bodys[iWidget % main->bodys.size()];
-        w->setVisible(true);
-        pVisibleBody = dynamic_cast<Common *>(w);
+        pBodyWidget = main->bodys[iWidget % main->bodys.size()];
+        pBodyWidget->setVisible(true);
     });
 
     btn = new Button({135, 2}, {50, 25}, this);
@@ -77,13 +76,12 @@ MainWindow::Header::Header(Widget *parent) :
     {
         std::pair<const IFont *, std::u16string> p = fonts[++nFont % fonts.size()];
         // FIXME: initialize differently
-        if (pVisibleBody == nullptr)
+        if (pBodyWidget == nullptr)
         {
             const MainWindow *main = static_cast<const MainWindow *>(this->parent());
-            Widget *w = main->bodys[iWidget % main->bodys.size()];
-            pVisibleBody = dynamic_cast<Common *>(w);
+            pBodyWidget = main->bodys[iWidget % main->bodys.size()];
         }
-        pVisibleBody->setFontWidgtes(p);
+        pBodyWidget->setFontWidgtes(p);
     });
 
     btn = new Button({230, 2}, {80, 25}, this);
@@ -94,9 +92,8 @@ MainWindow::Header::Header(Widget *parent) :
     {
         const MainWindow *main = static_cast<const MainWindow *>(this->parent());
         main->bodys[iWidget++ % main->bodys.size()]->setVisible(false);
-        Widget *w = main->bodys[iWidget % main->bodys.size()];
-        w->setVisible(true);
-        pVisibleBody = dynamic_cast<Common *>(w);
+        pBodyWidget = main->bodys[iWidget % main->bodys.size()];
+        pBodyWidget->setVisible(true);
     });
 }
 

@@ -72,6 +72,7 @@ class TextCharacters: public virtual Additional
             }
         }
 
+
     protected:
         Point m_pos;
         Size m_size;

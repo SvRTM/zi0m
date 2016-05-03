@@ -9,6 +9,8 @@ const Rect CheckBox::border = p_checkbox::marginLeftRight + p_checkbox::boxWidth
 CheckBox::CheckBox(Point pos, Widget *const parent)
     : AbstractButtonASize(pos, border, parent)
 {
+    typeId = TypeTag(typeId | TypeTag::CHECKBOX);
+
     init();
 }
 

@@ -16,10 +16,6 @@ class Widget;
 class EventCtrl final
 {
     public:
-        explicit EventCtrl() {}
-        virtual ~EventCtrl() {}
-
-    public:
         void process(const Message msg, Widget *const widget);
 
     private:

@@ -5,6 +5,7 @@ namespace zi0m
 
 TextCharacters::TextCharacters(Alignment align) : align(align)
 {
+    typeId = TypeTag(typeId | TypeTag::TEXT_CHARACTERS);
 }
 
 void TextCharacters::setText(const std::u16string text)

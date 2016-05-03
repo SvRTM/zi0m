@@ -8,6 +8,8 @@ AbstractButtonASize::AbstractButtonASize(Point pos, const Rect &border,
         Widget *const parent)
     : AbstractButton(pos, 0, Alignment(Alignment::Left | Alignment::VCenter), border, parent)
 {
+    typeId = TypeTag(typeId | TypeTag::ABSTRACT_BUTTON_ASIZE);
+
     TextCharacters::m_pos = border.x;
 }
 void AbstractButtonASize::init()

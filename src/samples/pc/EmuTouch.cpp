@@ -7,6 +7,8 @@
 
 #include "EmuTouch.h"
 
+const TypeTag EmuTouch::typeId = TypeTag::TOUCH_DEVICE;
+
 void EmuTouch::setMessage(Message msg)
 {
     this->msg = msg;

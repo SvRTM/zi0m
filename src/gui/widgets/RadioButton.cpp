@@ -8,6 +8,8 @@ const Rect RadioButton::border = AbstractButtonASize::marginLeftRight
 RadioButton::RadioButton(Point pos, Widget *const parent)
     : AbstractButtonASize(pos, border, parent)
 {
+    typeId = TypeTag(typeId | TypeTag::RADIOBUTTON);
+
     init();
 }
 
@@ -28,9 +30,9 @@ void RadioButton::p_cbReleased()
     bool isEnableOtherRb = false;
     for (Widget *w : parent()->childs())
     {
-        RadioButton *const rb = dynamic_cast<RadioButton *const>(w);
-        if (rb == nullptr || rb == this)
+        if ((TypeTag::RADIOBUTTON & w->typeID()) == 0 || w == this)
             continue;
+        RadioButton *const rb = static_cast<RadioButton *const>(w);
         if (rb->isChecked())
             rb->setChecked(false);
         isEnableOtherRb = true;

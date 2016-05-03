@@ -101,6 +101,7 @@ class Widget : public virtual Additional
             type = EventType::None;
         }
 
+
     protected:
         static const Rect zeroBorder;
 

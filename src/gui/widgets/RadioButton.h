@@ -22,6 +22,7 @@ class RadioButton : public AbstractButtonASize
         void p_cbReleased() override;
         void paint(MonitorDevice *const pMonitorDevice) override;
 
+
     private:
         static constexpr uint8_t radius = 6;
 

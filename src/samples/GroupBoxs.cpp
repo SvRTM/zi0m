@@ -4,7 +4,7 @@
 #include "gui/widgets/Label.h"
 
 GroupBoxs::GroupBoxs(Point pos, Size size, Widget *parent)
-    : Widget(pos, size, parent)
+    : AbstractBody(pos, size, parent)
 {
 #ifdef RGB888
     setBackground({ 0x00DEC2B0U });
@@ -98,13 +98,3 @@ void GroupBoxs::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
         w->setFont(font);
     refresh();
 }
-
-void GroupBoxs::event(const EventType type, const Point &pos)
-{
-    this->type = type;
-}
-void GroupBoxs::paint(MonitorDevice *const pMonitorDevice)
-{
-    pMonitorDevice->fillRect(screen(), background());
-}
-

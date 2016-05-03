@@ -9,6 +9,7 @@ GroupBox::GroupBox(Point pos, Size size, Widget *const parent)
                          border)
     , x2Left(size.width), border({2, font().height, 2, font().height})
 {
+    typeId = TypeTag(typeId | TypeTag::GROUPBOX);
 }
 
 void GroupBox::p_setSize()

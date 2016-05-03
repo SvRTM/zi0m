@@ -37,16 +37,25 @@ class Additional
             return enabled;
         }
 
+        inline TypeTag typeID()
+        {
+            return typeId;
+        }
+
     protected:
         inline void refresh(bool refresh = true)
         {
             m_refresh = refresh;
         }
 
+
     protected:
         const IFont *pFont;
         bool m_refresh = true;
         bool enabled = true;
+
+        TypeTag typeId = TypeTag::ADDITIONAL;
+
     private:
         u_color m_background;
 };

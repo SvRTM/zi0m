@@ -12,6 +12,8 @@ namespace zi0m
 Label::Label(Point pos, Size size, Widget *const parent, Alignment align)
     : AbstractTextWidget(pos, size, align, parent)
 {
+    typeId = TypeTag(typeId | TypeTag::LABEL);
+
     TextCharacters::m_pos = 0;
     TextCharacters::m_size = {geometry().width, geometry().height};
     TextCharacters::updateAbsPosition(absoluteClientPos);

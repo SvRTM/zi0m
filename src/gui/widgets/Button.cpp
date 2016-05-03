@@ -14,6 +14,8 @@ const Rect Button::border = {2, 2, 4, 4};
 Button::Button(Point pos, Size size, Widget *const parent)
     : AbstractButton(pos, size, Alignment::Center, border, parent)
 {
+    typeId = TypeTag(typeId | TypeTag::BUTTON);
+
     setBackground(
 #ifdef RGB888
     {0x00D6D2D0U}

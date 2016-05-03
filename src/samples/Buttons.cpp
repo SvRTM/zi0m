@@ -10,7 +10,7 @@
 #include "gui/widgets/RadioButton.h"
 
 Buttons::Buttons(Point pos, Size size, Widget *parent)
-    : Widget(pos, size, parent)
+    : AbstractBody(pos, size, parent)
 {
 #ifdef RGB888
     setBackground({ 0x00EFE4B0U });
@@ -83,13 +83,4 @@ void Buttons::setFontWidgtes(std::pair<const IFont *, std::u16string> data)
     for (AbstractTextWidget *const w : smplWidgets)
         w->setFont(font);
     refresh();
-}
-
-void Buttons::event(const EventType type, const Point &pos)
-{
-    this->type = type;
-}
-void Buttons::paint(MonitorDevice *const pMonitorDevice)
-{
-    pMonitorDevice->fillRect(screen(), background());
 }

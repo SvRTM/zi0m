@@ -8,6 +8,8 @@ AbstractTextWidget::AbstractTextWidget(Point pos, Size size, Alignment align,
     : Widget(pos, size, parent, border)
     , TextCharacters(align)
 {
+    typeId = TypeTag(typeId | TypeTag::ABSTRACT_TEXT_WIDGET);
+
     if (parent)
         setBackground(parent->background());
 }

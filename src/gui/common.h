@@ -119,6 +119,23 @@ enum Alignment
     Center = HCenter | VCenter
 };
 
+enum TypeTag
+{
+    ADDITIONAL = 1,
+    TEXT_CHARACTERS = 1 << 1,
+    WIDGET = 1 << 2,
+    ABSTRACT_TEXT_WIDGET = 1 << 3,
+    ABSTRACT_BUTTON = 1 << 4,
+    ABSTRACT_BUTTON_ASIZE = 1 << 5,
+    CHECKBOX = 1 << 6,
+    RADIOBUTTON = 1 << 7,
+    BUTTON = 1 << 8,
+    GROUPBOX = 1 << 9,
+    LABEL = 1 << 10,
+
+    TOUCH_DEVICE = 1000
+};
+
 //////////
 #ifdef RGB888
 

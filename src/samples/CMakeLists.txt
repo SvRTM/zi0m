@@ -11,7 +11,7 @@ set(SOURCES
 
 set(HEADERS
     ${HEADERS}
-    "${CMAKE_CURRENT_SOURCE_DIR}/common.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/AbstractBody.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/Buttons.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/GroupBoxs.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/Labels.h"
