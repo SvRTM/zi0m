@@ -37,7 +37,7 @@ void Application::init()
 }
 #endif
 
-void Application::setMessage(Message msg)
+void Application::setMessage(const Message msg)
 {
     for (InputDevice *device : getDevices())
         if (TypeTag::TOUCH_DEVICE == device->typeID())

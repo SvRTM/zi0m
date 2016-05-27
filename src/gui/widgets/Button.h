@@ -17,7 +17,7 @@ class Button: public AbstractButton
 {
     public:
         explicit Button(Point pos, Size size, Widget *const parent);
-        virtual ~Button() {}
+        virtual ~Button() = default;
 
     private:
         void p_setSize() override;

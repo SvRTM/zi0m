@@ -15,7 +15,10 @@ class Additional
 #elif  RGB565
         explicit Additional(u_color bg = {0xEFBFU});
 #endif
-        virtual ~Additional() {}
+        virtual ~Additional() = default;
+    private:
+        Additional(const Additional &) = delete;
+        Additional &operator=(const Additional &) = delete;
 
     public:
         virtual void updateAllPosition() = 0;

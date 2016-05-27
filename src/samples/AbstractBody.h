@@ -14,7 +14,7 @@ class AbstractBody : public Widget
 {
     public:
         AbstractBody(Point pos, Size size, Widget *parent) : Widget(pos, size, parent) {}
-        virtual ~AbstractBody() {}
+        virtual ~AbstractBody() = default;
 
     public:
         virtual void setFontWidgtes(std::pair<const IFont *, std::u16string> data) = 0;
@@ -27,7 +27,7 @@ class AbstractBody : public Widget
         {
             pMonitorDevice->fillRect(screen(), background());
         }
-        void event(const EventType type, const Point &pos) override
+        void event(const EventType type, const Point &) override
         {
             this->type = type;
         }

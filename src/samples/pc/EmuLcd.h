@@ -27,7 +27,10 @@ class EmuLcd: public MonitorDevice
 #elif PLATFORM_LINUX
         explicit EmuLcd(const RenderData *x11data);
 #endif
-        virtual ~EmuLcd() {}
+        virtual ~EmuLcd() = default;
+    private:
+        EmuLcd(const EmuLcd &) = delete;
+        EmuLcd &operator=(const EmuLcd &) = delete;
 
     public:
         void drawPoint(int16_t x, int16_t y, const u_color color) override;
@@ -47,22 +50,37 @@ class EmuLcd: public MonitorDevice
                         const u_color color1, const u_color color2) override;
 
 
-        inline const uint16_t getWidth() const override
+        inline uint16_t getWidth() const override
         {
             return 320;
         }
-        inline const uint16_t getHight() const override
+        inline uint16_t getHight() const override
         {
             return 240;
         }
 
     private:
+#ifdef PLATFORM_WIN32
+        COLORREF toColorRef(const u_color color);
+#elif PLATFORM_LINUX
         void setColor(const u_color color);
-        void drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
+#endif
+
+        void p_drawLine(int16_t x1, int16_t y1, int16_t x2, int16_t y2
+#ifdef PLATFORM_WIN32
+                        , const u_color color
+#endif
+                       );
 
     private:
 #ifdef PLATFORM_WIN32
         HWND hWnd;
+
+#ifdef RGB565
+        /** Used information from the website: www.tune-it.ru/web/il/home/-/blogs/36120 */
+        static const uint8_t table5[32];
+        static const uint8_t table6[64];
+#endif
 #elif PLATFORM_LINUX
         const RenderData *x11data;
 #endif

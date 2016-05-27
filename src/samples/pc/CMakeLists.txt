@@ -10,6 +10,7 @@ set(SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/EmuLcd.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/EmuTouch.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/SimBase.cpp"
     PARENT_SCOPE
 )
 
@@ -18,5 +19,6 @@ set(HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/Application.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/EmuLcd.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/EmuTouch.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/SimBase.h"
     PARENT_SCOPE
 )

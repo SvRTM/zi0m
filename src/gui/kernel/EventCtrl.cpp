@@ -11,7 +11,7 @@
 namespace zi0m
 {
 
-void EventCtrl::process(const Message msg, Widget *const widget)
+void EventCtrl::process(const Message &msg, Widget *const widget)
 {
     switch (msg.touchEvent)
     {
@@ -70,6 +70,7 @@ void EventCtrl::process(const Message msg, Widget *const widget)
             isEnableTouchLeave = false;
             break;
         }
+
         default:
             break;
     }

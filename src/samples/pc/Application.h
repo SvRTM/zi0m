@@ -13,10 +13,10 @@
 #include "config.h"
 
 #ifdef PLATFORM_WIN32
-    #include <windows.h>
+#include <windows.h>
 #undef min
 #elif PLATFORM_LINUX
-    #include "samples/pc/linux/x11.h"
+#include "samples/pc/linux/x11.h"
 #endif
 
 using namespace zi0m;
@@ -31,10 +31,10 @@ class Application final : public ApplicationBase
         explicit Application(const x11 *x);
         void init();
 #endif
-        virtual ~Application() {}
+        virtual ~Application() = default;
 
     public:
-        void setMessage(Message msg);
+        void setMessage(const Message msg);
 
     private:
 #if PLATFORM_LINUX

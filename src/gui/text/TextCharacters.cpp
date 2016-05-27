@@ -40,7 +40,7 @@ void TextCharacters::drawText(MonitorDevice *const pMonitorDevice,
     if (!isEnabled())
         drawText(pMonitorDevice, {COLOR_WHITE}, 1, 1, horizontalShift);
 
-    u_color xcolor = { isEnabled() ? color().value : COLOR_GRAY };
+    u_color xcolor = { isEnabled() ? uint16_t(color().value) : COLOR_GRAY };
     drawText(pMonitorDevice, xcolor, 0, 0, horizontalShift);
 }
 

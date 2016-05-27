@@ -13,7 +13,7 @@ class AbstractButton : public AbstractTextWidget
     public:
         explicit AbstractButton(Point pos, Size size, Alignment align, const Rect &border,
                                 Widget *const parent);
-        virtual ~AbstractButton() {}
+        virtual ~AbstractButton() = default;
 
     public:
         void setCbPressed(const std::function<void ()> &func);

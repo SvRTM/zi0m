@@ -16,7 +16,11 @@ class Widget;
 class EventCtrl final
 {
     public:
-        void process(const Message msg, Widget *const widget);
+        EventCtrl() = default;
+        ~EventCtrl() = default;
+
+    public:
+        void process(const Message &msg, Widget *const widget);
 
     private:
         Widget *prevWidget = nullptr;

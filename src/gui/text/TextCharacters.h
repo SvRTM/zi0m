@@ -14,7 +14,7 @@ class TextCharacters: public virtual Additional
 {
     public:
         explicit TextCharacters(Alignment align);
-        virtual ~TextCharacters() {}
+        virtual ~TextCharacters() = default;
 
     public:
         inline const std::u16string &text() const

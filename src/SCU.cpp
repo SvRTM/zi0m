@@ -30,6 +30,7 @@
 #elif PLATFORM_LINUX
     #include "samples/pc/linux/x11.cpp"
 #endif
+#include "samples/pc/SimBase.cpp"
 
 #include "samples/pc/Application.cpp"
 #include "samples/pc/EmuLcd.cpp"

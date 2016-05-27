@@ -5,18 +5,17 @@
  *      Author: Artem.Smirnov
  */
 
-#ifndef SRC_WIN32_TEST_X11_H_
-#define SRC_WIN32_TEST_X11_H_
+#ifndef SAMPLES_PC_LINUX_X11_H_
+#define SAMPLES_PC_LINUX_X11_H_
 
-#include "gui/common.h"
+#include "samples/pc/SimBase.h"
 
 #include <X11/Xlib.h>
 #undef None
-#include <unistd.h>
 
 using namespace zi0m;
 
-struct RenderData
+struct RenderData final
 {
     explicit RenderData() : exit(false) {}
 
@@ -28,27 +27,20 @@ struct RenderData
     bool exit;
 };
 
-class x11 final
+class x11 final : public SimBase
 {
     public:
         explicit x11();
         virtual ~x11();
 
     public:
-        void exec();
+        void exec() override;
 
     private:
         void createWindow();
-        inline void clearMessage()
-        {
-            msg = {EventType::None, 0};
-        }
 
     public:
         RenderData param;
-
-    private:
-        Message msg = {EventType::None, 0};
 };
 
-#endif /* SRC_WIN32_TEST_X11_H_ */
+#endif /* SAMPLES_PC_LINUX_X11_H_ */

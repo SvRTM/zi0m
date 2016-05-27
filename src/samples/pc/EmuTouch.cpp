@@ -9,7 +9,7 @@
 
 const TypeTag EmuTouch::typeId = TypeTag::TOUCH_DEVICE;
 
-void EmuTouch::setMessage(Message msg)
+void EmuTouch::setMessage(const Message msg)
 {
     this->msg = msg;
 }
@@ -19,7 +19,7 @@ bool EmuTouch::isPressed()
     return EventType::TouchStart == msg.touchEvent || EventType::TouchEnd == msg.touchEvent;
 }
 
-Message EmuTouch::getMessage() const
+const Message EmuTouch::getMessage() const
 {
     return msg;
 }

@@ -9,7 +9,7 @@ class CheckBox : public AbstractButtonASize
 {
     public:
         explicit CheckBox(Point pos, Widget *const parent);
-        virtual ~CheckBox() {}
+        virtual ~CheckBox() = default;
 
         enum class State
         {

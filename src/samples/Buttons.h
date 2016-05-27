@@ -12,11 +12,11 @@
 
 using namespace zi0m;
 
-class Buttons: public AbstractBody
+class Buttons final : public AbstractBody
 {
     public:
         Buttons(Point pos, Size size, Widget *m_parent);
-        virtual ~Buttons() {}
+        virtual ~Buttons() = default;
 
     private:
         void setFontWidgtes(std::pair<const IFont *, std::u16string> data) override;

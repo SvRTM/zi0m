@@ -24,6 +24,9 @@ class Widget : public virtual Additional
         explicit Widget(Point pos, Size size, Widget *const parent = nullptr,
                         const Rect &border = zeroBorder);
         virtual ~Widget();
+    private:
+        Widget(const Widget &) = delete;
+        Widget &operator=(const Widget &) = delete;
 
     public:
         void eventPaint(MonitorDevice *const pMonitorDevice);
@@ -85,9 +88,11 @@ class Widget : public virtual Additional
         virtual void event(const EventType type, const Point &pos) = 0;
         EventType eventType() const;
 
-        Widget *const findWidget(const Point &pos) const;
+        Widget *findWidget(const Point &pos) const;
 
         std::vector<Widget *> childs() const;
+
+        void refreshAll();
 
     protected:
         virtual const Rect &Border() const = 0;

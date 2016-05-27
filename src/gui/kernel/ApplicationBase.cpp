@@ -15,6 +15,7 @@ ApplicationBase::ApplicationBase(Widget *const mainWidget)
     : pMainWidget(mainWidget),
       pEventCtrl(new EventCtrl())
 {
+    devices.reserve(1);
 }
 
 ApplicationBase::~ApplicationBase()
@@ -43,18 +44,21 @@ const std::vector<InputDevice *> ApplicationBase::getDevices() const
 
 void ApplicationBase::quantum()
 {
-    Message msg;
     for (InputDevice *device : devices)
     {
-        msg = device->getMessage();
+        const Message msg = device->getMessage();
         if (EventType::None != msg.touchEvent)
+        {
+            pEventCtrl->process(msg, pMainWidget);
             break;
+        }
     }
-
-    if (EventType::None != msg.touchEvent)
-        pEventCtrl->process(msg, pMainWidget);
 
     pMainWidget->eventPaint(pMonitorDevice);
 }
 
+void ApplicationBase::refreshAll()
+{
+    pMainWidget->refreshAll();
+}
 }

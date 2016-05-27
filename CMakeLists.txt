@@ -7,19 +7,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
-#######################
-# Single Compilation Unit
+###########################
+# Single Compilation Unit #
 set(SCU OFF)
-#######################
+###########################
 
 if (NOT DEFINED COLOR_DEPTH)
-    set(COLOR_DEPTH RGB565)     # or RGB888
+    set(COLOR_DEPTH RGB565)
+    #set(COLOR_DEPTH RGB888)
 endif ()
 
 if (WIN32)
     set(PLATFORM "WIN32")
 
-    set(libraries gdi32)
+    set(libraries gdi32 stdc++)
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(PLATFORM "LINUX")
 
@@ -29,34 +30,34 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
        #set(libraries ${libraries} ${X11_LIBRARIES})
        set(libraries ${libraries} X11)
     else ()
-       message(" *****************************************************************************")
-       message(" *** X11 DEVELOPMENT LIBRARIES NOT FOUND                       ***")
-       message(" *** Make sure libx11 is installed if you want GUI support.         ***")
-       message(" *****************************************************************************")
+       message(" **************************************************************")
+       message(" *** X11 DEVELOPMENT LIBRARIES NOT FOUND                    ***")
+       message(" *** Make sure libx11 is installed if you want GUI support. ***")
+       message(" **************************************************************")
        message(FATAL_ERROR "X11 DEVELOPMENT LIBRARIES NOT FOUND")
     endif ()
 else ()
     message(FATAL_ERROR "Unknown OS")
 endif ()
 
-if (MSVC)
-        add_definitions(/W4)
-elseif (CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(-Wall -pedantic)
+if (CMAKE_COMPILER_IS_GNUCXX)
+    add_definitions(-fno-rtti -Wall -pedantic -Wextra)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -march=native -mtune=native")
 
     if (CMAKE_BUILD_TYPE MATCHES Release)
         set(CMAKE_EXE_LINKER_FLAGS "-s")
     endif ()
+elseif (MSVC)
+    message(FATAL_ERROR "MSVC is not supported")
 else ()
-        message("Unknown compiler")
+    message(FATAL_ERROR "Unknown compiler")
 endif ()
 
 configure_file(src/config.h.in ${PROJECT_BINARY_DIR}/config.h)
 include_directories("${PROJECT_BINARY_DIR}")
 
 set(HEADERS)
-set(SOURCES )
+set(SOURCES)
 
 include_directories("src")
 add_subdirectory(src)

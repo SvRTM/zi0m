@@ -20,7 +20,10 @@ class MainWindow final : public Widget
 {
     public:
         explicit MainWindow();
-        virtual ~MainWindow() {}
+        virtual ~MainWindow() = default;
+    private:
+        MainWindow(const MainWindow &) = delete;
+        MainWindow &operator=(const MainWindow &) = delete;
 
     private:
         void paint(MonitorDevice *const pMonitorDevice) override;
@@ -42,7 +45,10 @@ class MainWindow final : public Widget
         {
             public:
                 Header(Widget *m_parent);
-                virtual ~Header() {}
+                virtual ~Header() = default;
+            private:
+                Header(const Header &) = delete;
+                Header &operator=(const Header &) = delete;
 
             private:
                 void paint(MonitorDevice *const pMonitorDevice) override;
@@ -64,7 +70,10 @@ class MainWindow final : public Widget
         {
             public:
                 Body(Widget *m_parent);
-                virtual ~Body() {}
+                virtual ~Body() = default;
+            private:
+                Body(const Body &) = delete;
+                Body &operator=(const Body &) = delete;
 
             private:
                 void paint(MonitorDevice *const pMonitorDevice) override;

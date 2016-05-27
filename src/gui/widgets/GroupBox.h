@@ -10,7 +10,7 @@ class GroupBox : public AbstractTextWidget
 {
     public:
         explicit GroupBox(Point pos, Size size, Widget *const parent);
-        virtual ~GroupBox() {}
+        virtual ~GroupBox() = default;
 
     public:
         inline bool isCheckable() const

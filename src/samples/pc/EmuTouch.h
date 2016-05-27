@@ -16,7 +16,10 @@ class EmuTouch final : public InputDevice
 {
     public:
         EmuTouch() = default;
-        virtual ~EmuTouch() {}
+        virtual ~EmuTouch() = default;
+    private:
+        EmuTouch(const EmuTouch &) = delete;
+        EmuTouch &operator=(const EmuTouch &) = delete;
 
     public:
         inline TypeTag typeID() const
@@ -24,9 +27,9 @@ class EmuTouch final : public InputDevice
             return typeId;
         }
 
-        void setMessage(Message msg);
+        void setMessage(const Message msg);
         bool isPressed();
-        Message getMessage() const override;
+        const Message getMessage() const override;
 
     private:
         static const TypeTag typeId;

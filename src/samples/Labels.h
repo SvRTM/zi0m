@@ -15,11 +15,14 @@
 
 using namespace zi0m;
 
-class Labels: public AbstractBody
+class Labels final : public AbstractBody
 {
     public:
         Labels(Point pos, Size size, Widget *m_parent);
-        virtual ~Labels() {}
+        virtual ~Labels() = default;
+    private:
+        Labels(const Labels &) = delete;
+        Labels &operator=(const Labels &) = delete;
 
     private:
         void setFontWidgtes(std::pair<const IFont *, std::u16string> data) override;
@@ -27,7 +30,7 @@ class Labels: public AbstractBody
 
     private:
         bool isEnabledLabels;
-        Label *pLblFontName;
+        Label *pLblFontName = nullptr;
 };
 
 #endif /* LABELS_H_ */

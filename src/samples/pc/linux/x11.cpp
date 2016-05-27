@@ -8,53 +8,14 @@
 #include "x11.h"
 #include "samples/pc/Application.h"
 
-#include <stdio.h>
 #include <cstring>
-
-#include <signal.h>
-#include <errno.h>
-
-void  Panic(const char *msg)
-{
-#if __unix || __unix__
-    signal(SIGILL, SIG_DFL);
-    signal(SIGSEGV, SIG_DFL);
-    signal(SIGBUS, SIG_DFL);
-    signal(SIGFPE, SIG_DFL);
-#endif
-
-#ifdef PLATFORM_WIN32
-#   ifdef __NOASSEMBLY__
-#       if defined(PLATFORM_WINCE) || defined(WIN64)
-    DebugBreak();
-#       endif
-#   else
-#       if defined(_DEBUG) && defined(CPU_X86)
-#           ifdef COMPILER_MSC
-    _asm int 3
-#           endif
-#           ifdef COMPILER_GCC
-    asm("int $3");
-#           endif
-#       endif
-#   endif
-#else
-#endif
-#ifdef _DEBUG
-    __BREAK__;
-#endif
-    //abort();
-}
+#include <unistd.h>
 
 
 x11::x11()
 {
     if (!(param.dsp = XOpenDisplay(nullptr)))
-    {
-        printf("No X11 display, errno = %d, %s", errno, strerror(errno));
-        fflush(stdout);
-        Panic("X11 error !");
-    }
+        Panic("No X11 display, errno = %d, %s", errno, strerror(errno));
 
     createWindow();
 }
@@ -74,7 +35,7 @@ void x11::createWindow()
 
     long bgcolor = WhitePixel(param.dsp, screen);
 
-    int depth =  DefaultDepth(param.dsp, screen);
+    int depth = DefaultDepth(param.dsp, screen);
     Visual *visual = DefaultVisual(param.dsp, screen);
     XSetWindowAttributes attributes;
     attributes.background_pixel = bgcolor;
@@ -114,15 +75,17 @@ void x11::exec()
             switch (event.type)
             {
                 case Expose:
+                    app.refreshAll();
+
                     /* Unless this is the last contiguous expose, don't draw the window */
                     if (event.xexpose.count == 0)
-                        printf("Expose!\n");
+                        std::cout << "Expose!" << std::endl;
                     break;
                 case ConfigureNotify:
                     /* Window has been resized; change width and height
                      * to send to place_text and place_graphics in
                      * next Expose */
-                    printf("Window moved or resized!\n");
+                    std::cout << "Window moved or resized!" << std::endl;
                     break;
 
                 case MotionNotify:
@@ -131,7 +94,7 @@ void x11::exec()
                     {
                         int pointx = event.xmotion.x;
                         int pointy = event.xmotion.y;
-                        printf("  Touch move    : [%d, %d]\n", pointx, pointy);
+                        std::cout << "  Touch move    : [" << pointx << ',' << pointy << ']' << std::endl;
 
                         msg.touchEvent = EventType::TouchStart;
                         msg.pt = Point(pointx, pointy);
@@ -144,7 +107,7 @@ void x11::exec()
 
                     int pointx = event.xbutton.x;
                     int pointy = event.xbutton.y;
-                    printf("Touch start     : [%d, %d]\n", pointx, pointy);
+                    std::cout << "Touch start     : [" << pointx << ',' << pointy << ']' << std::endl;
 
                     msg.touchEvent = EventType::TouchStart;
                     msg.pt = Point(pointx, pointy);
@@ -156,27 +119,28 @@ void x11::exec()
 
                     int pointx = event.xbutton.x;
                     int pointy = event.xbutton.y;
-                    printf("Touch end       : [%d, %d]\n\n", pointx, pointy);
+                    std::cout << "Touch end       : [" << pointx << ',' << pointy << ']' << std::endl <<
+                              std::endl;
 
                     msg.touchEvent = EventType::TouchEnd;
                     msg.pt = Point(pointx, pointy);
                     break;
                 }
                 case KeyPress:
-                    printf("KeyPress: %d\n", event.type);
+                    std::cout << "KeyPress: " << event.type << std::endl;
                     break;
                 case ClientMessage:
                     // TODO Should check here for other client message types -
                     // however as the only protocol registered above is WM_DELETE_WINDOW
                     // it is safe for this small example.
-                    printf("WM_DELETE_WINDOW!\n");
+                    std::cout << "WM_DELETE_WINDOW!" << std::endl;
                     param.exit = true;
                     break;
                 case DestroyNotify:
-                    printf("Window killed!\n");
+                    std::cout << "Window killed!" << std::endl;
                     break;
                 default:
-                    fprintf(stderr, "Unexpected event: %d\n", event.type);
+                    std::cerr << "Unexpected event: " << event.type << std::endl;
             }
         }
 

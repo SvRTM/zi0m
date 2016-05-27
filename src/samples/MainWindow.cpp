@@ -28,7 +28,7 @@ void MainWindow::setupUi()
     addWidget(new Body(this));
 }
 
-void MainWindow::event(const EventType type, const Point &pos)
+void MainWindow::event(const EventType type, const Point &)
 {
     this->type = type;
 }
@@ -46,15 +46,15 @@ MainWindow::Header::Header(Widget *parent) :
 #elif  RGB565
     Additional({0xA6B5U}),
 #endif
-           Widget({0, 0}, {320, 30}, parent)
+           Widget({0, 0}, {320, 30}, parent),
+           fonts({std::make_pair(&FONT(Terminus_11pt_Regular), u"Terminus_11pt_Regular")
+                  , std::make_pair(&FONT(Terminus_24pt_Regular), u"Terminus_24pt_Regular")
+                  , std::make_pair(&FONT(Tinos_AA_11pt_Regular), u"Tinos_AA_11pt_Regular")
+                  , std::make_pair(&FONT(PT_Serif_AA_14pt_Regular), u"PT_Serif_AA_14pt_Regular")
+                 })
 {
     // FIXME: replace (320/240) on MAX_WIDTH / MAX_HEIGHT
 
-    fonts = {std::make_pair(&FONT(Terminus_11pt_Regular), u"Terminus_11pt_Regular")
-             , std::make_pair(&FONT(Terminus_24pt_Regular), u"Terminus_24pt_Regular")
-             , std::make_pair(&FONT(Tinos_AA_11pt_Regular), u"Tinos_AA_11pt_Regular")
-             , std::make_pair(&FONT(PT_Serif_AA_14pt_Regular), u"PT_Serif_AA_14pt_Regular")
-            };
 
     const IFont &font = FONT(PT_Serif_AA_14pt_Regular);
     Button *btn = new Button({10, 2}, {80, 25}, this);
@@ -97,7 +97,7 @@ MainWindow::Header::Header(Widget *parent) :
     });
 }
 
-void MainWindow::Header::event(const EventType type, const Point &pos)
+void MainWindow::Header::event(const EventType type, const Point &)
 {
     this->type = type;
 }
@@ -129,7 +129,7 @@ MainWindow::Body::Body(Widget *parent)
     static_cast<MainWindow *>(parent)->bodys = {pGrBoxs, pButtons, pLabels};
 }
 
-void MainWindow::Body::event(const EventType type, const Point &pos)
+void MainWindow::Body::event(const EventType type, const Point &)
 {
     this->type = type;
 }

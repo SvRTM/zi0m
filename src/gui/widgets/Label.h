@@ -18,7 +18,7 @@ class Label: public AbstractTextWidget
     public:
         explicit Label(Point pos, Size size, Widget *const parent, Alignment
                        align = Alignment(Alignment::VCenter | Alignment::Left));
-        virtual ~Label() {}
+        virtual ~Label() = default;
 
     private:
         void p_setSize() override;

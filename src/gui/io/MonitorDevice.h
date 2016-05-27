@@ -18,8 +18,8 @@ namespace zi0m
 class MonitorDevice
 {
     public:
-        MonitorDevice() {}
-        virtual ~MonitorDevice() {}
+        MonitorDevice() = default;
+        virtual ~MonitorDevice() = default;
 
     public:
         virtual void drawPoint(int16_t x, int16_t y, const u_color color) = 0;
@@ -37,8 +37,8 @@ class MonitorDevice
         virtual void fillCircle(int16_t x, int16_t y, uint16_t radius, const u_color color) = 0;
 
 
-        virtual const uint16_t getWidth() const = 0;
-        virtual const uint16_t getHight() const = 0;
+        virtual uint16_t getWidth() const = 0;
+        virtual uint16_t getHight() const = 0;
 
 #ifdef RGB888
         inline u_color alphaBlending(const u_color foreground, const u_color background) const

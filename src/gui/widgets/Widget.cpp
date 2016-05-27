@@ -18,6 +18,8 @@ Widget::Widget(Point pos, Size size, Widget *const parent, const Rect &border)
                 int16_t(parent ? parent->absoluteClientPos.y + parent->Border().y + m_pos.y : m_pos.y + border.y)
 })
 {
+    widgets.reserve(0);
+
     typeId = TypeTag(typeId | TypeTag::WIDGET);
 
     absoluteClientPos = {int16_t(m_parent ? m_parent->absoluteClientPos.x + m_parent->Border().x + m_pos.x : m_pos.x + border.x),
@@ -89,6 +91,10 @@ void Widget::updateAllPosition()
     refresh();
 }
 
+void Widget::refreshAll()
+{
+    refreshChilds();
+}
 void Widget::refreshChilds()
 {
     refresh();
@@ -127,7 +133,7 @@ void Widget::addWidget(Widget *const w)
     widgets.push_back(w);
 }
 
-Widget *const Widget::findWidget(const Point &pos) const
+Widget *Widget::findWidget(const Point &pos) const
 {
     for (Widget *const w : widgets)
     {

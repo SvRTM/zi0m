@@ -15,12 +15,12 @@ namespace zi0m
 class InputDevice
 {
     public:
-        InputDevice() {}
-        virtual ~InputDevice() {}
+        InputDevice() = default;
+        virtual ~InputDevice() = default;
 
     public:
         virtual TypeTag typeID() const = 0;
-        virtual Message getMessage() const = 0;
+        virtual const Message getMessage() const = 0;
 };
 }
 #endif /* IO_INPUTDEVICE_H_ */

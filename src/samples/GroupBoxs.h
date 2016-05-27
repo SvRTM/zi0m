@@ -5,11 +5,11 @@
 
 using namespace zi0m;
 
-class GroupBoxs: public AbstractBody
+class GroupBoxs final : public AbstractBody
 {
     public:
         GroupBoxs(Point pos, Size size, Widget *m_parent);
-        virtual ~GroupBoxs() {}
+        virtual ~GroupBoxs() = default;
 
     private:
         void setFontWidgtes(std::pair<const IFont *, std::u16string> data) override;

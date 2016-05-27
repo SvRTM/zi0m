@@ -23,12 +23,17 @@ class ApplicationBase
     public:
         explicit ApplicationBase(Widget *const mainWidget);
         virtual ~ApplicationBase();
+    private:
+        ApplicationBase(const ApplicationBase &) = delete;
+        ApplicationBase &operator=(const ApplicationBase &) = delete;
 
+    public:
         void init(MonitorDevice *const pMonitorDevice);
 
         void addDevice(InputDevice *const device);
         const std::vector<InputDevice *> getDevices() const;
         void quantum();
+        void refreshAll();
 
     private:
         Widget *const pMainWidget;
@@ -38,4 +43,5 @@ class ApplicationBase
         MonitorDevice *pMonitorDevice = nullptr;
 };
 }
+
 #endif /* APPLICATIONBASE_H_ */

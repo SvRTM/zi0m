@@ -17,7 +17,7 @@ class Singleton final
 template<typename T>
 const T &Singleton<T>::instance()
 {
-    static const T inst ;
+    static const T inst;
     return inst;
 }
 

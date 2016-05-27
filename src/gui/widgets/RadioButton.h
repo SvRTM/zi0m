@@ -9,7 +9,7 @@ class RadioButton : public AbstractButtonASize
 {
     public:
         explicit RadioButton(Point pos, Widget *const parent);
-        virtual ~RadioButton() {}
+        virtual ~RadioButton() = default;
 
     public:
         inline bool isChecked() const

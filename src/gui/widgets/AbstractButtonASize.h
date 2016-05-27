@@ -9,7 +9,7 @@ class AbstractButtonASize : public AbstractButton
 {
     public:
         explicit AbstractButtonASize(Point pos, const Rect &border, Widget *const parent);
-        virtual ~AbstractButtonASize() {}
+        virtual ~AbstractButtonASize() = default;
 
     public:
         void setAutoSize(bool autoSize);
