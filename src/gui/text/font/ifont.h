@@ -1,3 +1,10 @@
+/*
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
+ */
+
 #ifndef IFONT_H_
 #define IFONT_H_
 

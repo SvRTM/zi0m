@@ -1,8 +1,8 @@
 /*
- * x11.h
- *
- *  Created on: 11 марта 2016 г.
- *      Author: Artem.Smirnov
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
  */
 
 #ifndef SAMPLES_PC_LINUX_X11_H_

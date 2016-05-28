@@ -1,8 +1,8 @@
 /*
- * EmuTouch.cpp
- *
- *  Created on: 27 янв. 2016 г.
- *      Author: Artem.Smirnov
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
  */
 
 #include "EmuTouch.h"

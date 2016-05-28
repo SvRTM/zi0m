@@ -1,12 +1,12 @@
 /*
- * Application.h
- *
- *  Created on: 27 янв. 2016 г.
- *      Author: Artem.Smirnov
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
  */
 
-#ifndef WIN32_TEST_APPLICATION_H_
-#define WIN32_TEST_APPLICATION_H_
+#ifndef SAMPLES_PC_APPLICATION_H_
+#define SAMPLES_PC_APPLICATION_H_
 
 #include "gui/kernel/ApplicationBase.h"
 #include "samples/MainWindow.h"
@@ -42,4 +42,4 @@ class Application final : public ApplicationBase
 #endif
 };
 
-#endif /* WIN32_TEST_APPLICATION_H_ */
+#endif /* SAMPLES_PC_APPLICATION_H_ */

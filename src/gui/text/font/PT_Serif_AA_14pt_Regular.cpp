@@ -1,3 +1,10 @@
+/*
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
+ */
+
 #include "PT_Serif_AA_14pt_Regular.h"
 
 constexpr IFont::CHAR_INFO PT_Serif_AA_14pt_Regular::descriptors[174];

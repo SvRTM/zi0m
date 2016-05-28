@@ -1,5 +1,12 @@
-#ifndef SIMBASE_H
-#define SIMBASE_H
+/*
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
+ */
+
+#ifndef SAMPLES_PC_SIMBASE_H
+#define SAMPLES_PC_SIMBASE_H
 
 #include "gui/common.h"
 
@@ -62,4 +69,4 @@ class SimBase
         zi0m::Message msg = {zi0m::EventType::None, 0};
 };
 
-#endif // SIMBASE_H
+#endif // SAMPLES_PC_SIMBASE_H

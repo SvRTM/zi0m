@@ -1,8 +1,8 @@
 /*
- * Widget.h
- *
- *  Created on: 25 янв. 2016 г.
- *      Author: Artem.Smirnov
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
  */
 
 #ifndef WIDGETS_WIDGET_H_

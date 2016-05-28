@@ -1,12 +1,12 @@
 /*
- * EmuTouch.h
- *
- *  Created on: 27 янв. 2016 г.
- *      Author: Artem.Smirnov
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
  */
 
-#ifndef WIN32_TEST_EMUTOUCH_H_
-#define WIN32_TEST_EMUTOUCH_H_
+#ifndef SAMPLES_PC_EMUTOUCH_H_
+#define SAMPLES_PC_EMUTOUCH_H_
 
 #include "gui/io/InputDevice.h"
 
@@ -37,4 +37,4 @@ class EmuTouch final : public InputDevice
         Message msg;
 };
 
-#endif /* WIN32_TEST_EMUTOUCH_H_ */
+#endif /* SAMPLES_PC_EMUTOUCH_H_ */

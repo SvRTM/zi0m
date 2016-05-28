@@ -1,12 +1,12 @@
 /*
- * AnotherWindow.h
- *
- *  Created on: 14 февр. 2016 г.
- *      Author: Artem.Smirnov
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
  */
 
-#ifndef LABELS_H_
-#define LABELS_H_
+#ifndef SAMPLES_LABELS_H_
+#define SAMPLES_LABELS_H_
 
 #include "gui/widgets/Label.h"
 #include "gui/text/font/ifont.h"
@@ -33,4 +33,4 @@ class Labels final : public AbstractBody
         Label *pLblFontName = nullptr;
 };
 
-#endif /* LABELS_H_ */
+#endif /* SAMPLES_LABELS_H_ */

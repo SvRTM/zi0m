@@ -1,12 +1,12 @@
 /*
- * AnotherWindow.h
- *
- *  Created on: 14 февр. 2016 г.
- *      Author: Artem.Smirnov
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
  */
 
-#ifndef BUTTONS_H_
-#define BUTTONS_H_
+#ifndef SAMPLES_BUTTONS_H_
+#define SAMPLES_BUTTONS_H_
 
 #include "AbstractBody.h"
 
@@ -23,4 +23,4 @@ class Buttons final : public AbstractBody
         void setupUi();
 };
 
-#endif /* BUTTONS_H_ */
+#endif /* SAMPLES_BUTTONS_H_ */

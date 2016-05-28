@@ -1,12 +1,12 @@
 /*
- * EmuLcd.h
- *
- *  Created on: 31 янв. 2016 г.
- *      Author: Artem.Smirnov
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
  */
 
-#ifndef X11_TEST_EMULCD_H_
-#define X11_TEST_EMULCD_H_
+#ifndef SAMPLES_PC_EMULCD_H_
+#define SAMPLES_PC_EMULCD_H_
 
 #include "gui/io/MonitorDevice.h"
 
@@ -86,4 +86,4 @@ class EmuLcd: public MonitorDevice
 #endif
 };
 
-#endif /* X11_TEST_EMULCD_H_ */
+#endif /* SAMPLES_PC_EMULCD_H_ */

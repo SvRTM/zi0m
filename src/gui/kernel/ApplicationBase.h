@@ -1,8 +1,8 @@
 /*
- * ApplicationBase.h
- *
- *  Created on: 8 февр. 2016 г.
- *      Author: Artem.Smirnov
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
  */
 
 #ifndef APPLICATIONBASE_H_

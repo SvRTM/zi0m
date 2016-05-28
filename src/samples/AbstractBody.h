@@ -1,5 +1,12 @@
-#ifndef COMMON_H
-#define COMMON_H
+/*
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
+ */
+
+#ifndef SAMPLES_ABSTRACTBODY_H
+#define SAMPLES_ABSTRACTBODY_H
 
 #include "gui/widgets/Widget.h"
 #include "gui/widgets/AbstractTextWidget.h"
@@ -38,4 +45,4 @@ class AbstractBody : public Widget
         }
 };
 
-#endif // COMMON_H
+#endif // SAMPLES_ABSTRACTBODY_H

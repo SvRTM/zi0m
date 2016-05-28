@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
+ */
 
 #include "gui/io/InputDevice.cpp"
 #include "gui/io/MonitorDevice.cpp"
@@ -41,4 +47,3 @@
 #include "samples/GroupBoxs.cpp"
 #include "samples/Labels.cpp"
 #include "samples/MainWindow.cpp"
-

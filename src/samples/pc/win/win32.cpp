@@ -1,13 +1,9 @@
-/****************************************************************************
- *                                                                          *
- * File    : win32.cpp                                                      *
- *                                                                          *
- * Purpose : Generic Win32 application.                                     *
- *                                                                          *
- * History : Date      Reason                                               *
- *           00/00/00  Created                                              *
- *                                                                          *
- ****************************************************************************/
+/*
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
+ */
 
 #include "win32.h"
 #include <iostream>

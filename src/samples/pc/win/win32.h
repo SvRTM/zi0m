@@ -1,3 +1,10 @@
+/*
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
+ */
+
 #ifndef SAMPLES_PC_WIN_WIN32_H_
 #define SAMPLES_PC_WIN_WIN32_H_
 

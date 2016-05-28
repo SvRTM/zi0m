@@ -1,5 +1,12 @@
-#ifndef GROUPBOXS_H
-#define GROUPBOXS_H
+/*
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
+ */
+
+#ifndef SAMPLES_GROUPBOXS_H
+#define SAMPLES_GROUPBOXS_H
 
 #include "AbstractBody.h"
 
@@ -16,4 +23,4 @@ class GroupBoxs final : public AbstractBody
         void setupUi();
 };
 
-#endif // GROUPBOXS_H
+#endif // SAMPLES_GROUPBOXS_H

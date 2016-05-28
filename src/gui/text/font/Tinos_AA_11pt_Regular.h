@@ -1,3 +1,10 @@
+/*
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
+ */
+
 #ifndef TINOS_AA_11PT_REGULAR_H_
 #define TINOS_AA_11PT_REGULAR_H_
 

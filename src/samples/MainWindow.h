@@ -1,12 +1,12 @@
 /*
- * MainWindow.h
- *
- *  Created on: 3 февр. 2016 г.
- *      Author: Artem.Smirnov
+ * Copyright © 2016 Artem Smirnov
+ * All right reserved.
+ * Author: Artem Smirnov <msvrtm@gmail.com>
+ * License: http://www.gnu.org/licenses/gpl.txt
  */
 
-#ifndef MAINWINDOW_H_
-#define MAINWINDOW_H_
+#ifndef SAMPLES_MAINWINDOW_H_
+#define SAMPLES_MAINWINDOW_H_
 
 #include "gui/widgets/Widget.h"
 
@@ -86,4 +86,4 @@ class MainWindow final : public Widget
         };
 };
 
-#endif /* MAINWINDOW_H_ */
+#endif /* SAMPLES_MAINWINDOW_H_ */
